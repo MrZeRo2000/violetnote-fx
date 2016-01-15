@@ -1,4 +1,11 @@
+create project:
 mvn archetype:generate -DarchetypeGroupId=com.zenjava -DarchetypeArtifactId=javafx-basic-archetype
 
-violetnote
+run app from maven:
+mvn jfx:run
 
+run app from java:
+java -jar violetnote-jfx.jar 
+
+build skipping tests:
+mvn jfx:jar -DskipTests
