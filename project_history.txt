@@ -1,0 +1,3 @@
+mvn archetype:generate -DarchetypeGroupId=com.zenjava -DarchetypeArtifactId=javafx-basic-archetype
+
+violetnote
