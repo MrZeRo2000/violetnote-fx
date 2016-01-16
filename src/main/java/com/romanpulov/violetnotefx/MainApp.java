@@ -1,4 +1,4 @@
-package com.romanpulov.violetnote;
+package com.romanpulov.violetnotefx;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

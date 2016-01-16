@@ -32,7 +32,7 @@
                 <version>8.1.5</version>
                 <configuration>
 
-                    <mainClass>com.romanpulov.violetnote.MainApp</mainClass>
+                    <mainClass>com.romanpulov.violetnotefx.MainApp</mainClass>
 
                     <!-- only required if signing the jar file -->
                     <keyStoreAlias>example-user</keyStoreAlias>

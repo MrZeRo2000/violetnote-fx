@@ -1,4 +1,4 @@
-package com.romanpulov.violetnote;
+package com.romanpulov.violetnotefx;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
