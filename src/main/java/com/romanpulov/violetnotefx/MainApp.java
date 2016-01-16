@@ -19,6 +19,9 @@ public class MainApp extends Application {
 
     public void start(Stage stage) throws Exception {
 
+        Model1 model = new Model1();
+        model.method1();
+
         log.info("Starting Hello JavaFX and Maven demonstration application");
 
         String fxmlFile = "/fxml/hello.fxml";
