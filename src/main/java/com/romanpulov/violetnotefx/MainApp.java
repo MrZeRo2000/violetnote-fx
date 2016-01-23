@@ -1,13 +1,15 @@
 package com.romanpulov.violetnotefx;
 
+import com.romanpulov.violetnotefx.masterpass.MasterPassView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.romanpulov.violetnotecore.model.Model1;
+import com.romanpulov.violetnotecore.Model.Model1;
 
 public class MainApp extends Application {
 
@@ -19,8 +21,16 @@ public class MainApp extends Application {
 
     public void start(Stage stage) throws Exception {
 
-        Model1 model = new Model1();
-        model.method1();
+        MasterPassView masterPassView = new MasterPassView();
+        Stage masterPassStage = new Stage();
+        masterPassStage.setTitle("Master Password");
+        Scene masterPassScene = new Scene(masterPassView.getView());
+        masterPassStage.setScene(masterPassScene);
+        masterPassStage.setResizable(false);
+        masterPassStage.initModality(Modality.APPLICATION_MODAL);
+        log.debug("Show and wait");
+        masterPassStage.showAndWait();
+        log.debug("After wait");
 
         log.info("Starting Hello JavaFX and Maven demonstration application");
 
@@ -36,5 +46,8 @@ public class MainApp extends Application {
         stage.setTitle("Hello JavaFX and Maven");
         stage.setScene(scene);
         stage.show();
+
+
+
     }
 }
