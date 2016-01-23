@@ -7,5 +7,5 @@ import javafx.beans.property.StringProperty;
  * Created by rpulov on 23.01.2016.
  */
 public class MasterPassModel {
-    StringProperty password = new SimpleStringProperty(this, "password", null);
+    StringProperty password = new SimpleStringProperty();
 }

@@ -18,10 +18,10 @@ import java.util.ResourceBundle;
 public class MasterPassPresenter implements Initializable{
     private static final Logger log = LoggerFactory.getLogger(MasterPassPresenter.class);
 
+    private MasterPassModel masterPassModel = new MasterPassModel();
+
     @FXML
     PasswordField passwordField;
-
-    public StringProperty passwordProperty = new SimpleStringProperty();
 
     @FXML
     private Button okButton;
@@ -30,22 +30,15 @@ public class MasterPassPresenter implements Initializable{
     private ResourceBundle resources;
 
     @FXML
-    private void initialize() {
-        log.debug("initializing presenter in initialize() method");
-        log.debug("resources=" + resources);
-    }
-
-    @FXML
     private void okButtonClick() {
         log.debug("Ok button clicked");
-        log.debug("password=" + passwordProperty.get());
+        log.debug("password=" + masterPassModel.password.get());
     }
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.debug("initializing presenter in initialize() with URL and resources method");
         log.debug("pass=" + passwordField.getText());
-        passwordProperty.bindBidirectional(passwordField.textProperty());
+        masterPassModel.password.bindBidirectional(passwordField.textProperty());
     }
 }
