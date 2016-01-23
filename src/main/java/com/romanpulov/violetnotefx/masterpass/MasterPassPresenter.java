@@ -1,7 +1,6 @@
 package com.romanpulov.violetnotefx.masterpass;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -9,6 +8,9 @@ import javafx.scene.control.PasswordField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,6 +41,18 @@ public class MasterPassPresenter implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         log.debug("initializing presenter in initialize() with URL and resources method");
         log.debug("pass=" + passwordField.getText());
-        masterPassModel.password.bindBidirectional(passwordField.textProperty());
+        //masterPassModel.password.bindBidirectional(passwordField.textProperty());
+        try {
+            Field modelField = masterPassModel.getClass().getDeclaredField("password");
+            Field presenterField = this.getClass().getDeclaredField("passwordField");
+
+
+            //Method bindMethod = masterPassModel.password.getClass().getDeclaredMethod("bindBidirectional", pc.newInstance().getClass());
+            //bindMethod.invoke(masterPassModel.password, passwordField.textProperty());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
