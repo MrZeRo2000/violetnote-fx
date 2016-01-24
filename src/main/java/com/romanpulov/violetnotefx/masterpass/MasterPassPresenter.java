@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx.masterpass;
 
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -20,10 +21,16 @@ import java.util.ResourceBundle;
 public class MasterPassPresenter implements Initializable{
     private static final Logger log = LoggerFactory.getLogger(MasterPassPresenter.class);
 
-    private MasterPassModel masterPassModel = new MasterPassModel();
+    private MasterPassModel masterPassModel;
+    {
+        masterPassModel = new MasterPassModel();
+        masterPassModel.password.setValue("Initvalue");
+    }
 
     @FXML
     PasswordField passwordField;
+
+    StringProperty passwordTextProperty;
 
     @FXML
     private Button okButton;
@@ -47,8 +54,32 @@ public class MasterPassPresenter implements Initializable{
             Field presenterField = this.getClass().getDeclaredField("passwordField");
 
 
-            //Method bindMethod = masterPassModel.password.getClass().getDeclaredMethod("bindBidirectional", pc.newInstance().getClass());
-            //bindMethod.invoke(masterPassModel.password, passwordField.textProperty());
+            Field passwordFieldField = this.getClass().getDeclaredField("passwordField");
+            Object passwordFieldValue = passwordFieldField.get(this);
+            log.debug("found password field value:"+ passwordFieldValue.getClass().toString());
+
+            Method textPropertyMethod = null;
+            Class<?> currentClass = passwordFieldValue.getClass();
+            while ((textPropertyMethod == null) && (currentClass != null)) {
+                try {
+                    log.debug("looking for textproperty method in " + currentClass.toString());
+                    textPropertyMethod = currentClass.getDeclaredMethod("textProperty", null);
+                } catch (NoSuchMethodException e) {
+                    log.debug(" not found ...");
+                    currentClass = currentClass.getSuperclass();
+                }
+            }
+
+            if (textPropertyMethod != null)
+                log.debug("found textproperty method");
+
+            Object textPropertyInvoke = textPropertyMethod.invoke(passwordFieldValue);
+            log.debug("textPropertyInvoke returned " + textPropertyInvoke.toString());
+
+            ((Property<String>)textPropertyInvoke).setValue(masterPassModel.password.getValue());
+            Bindings.bindBidirectional(masterPassModel.password, (Property<String>)textPropertyInvoke);
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
