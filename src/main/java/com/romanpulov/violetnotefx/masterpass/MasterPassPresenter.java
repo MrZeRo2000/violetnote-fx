@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
+import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,6 +43,8 @@ public class MasterPassPresenter implements Initializable{
     private void okButtonClick() {
         log.debug("Ok button clicked");
         log.debug("password=" + masterPassModel.password.get());
+        Stage stage = (Stage)okButton.getScene().getWindow();
+        stage.close();
     }
 
     @Override
