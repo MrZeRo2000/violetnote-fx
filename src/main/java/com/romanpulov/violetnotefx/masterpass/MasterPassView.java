@@ -1,7 +1,9 @@
 package com.romanpulov.violetnotefx.masterpass;
 
+import com.romanpulov.violetnotefx.annotation.Model;
 import com.romanpulov.violetnotefx.annotation.ModelOperation;
 import com.romanpulov.violetnotefx.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.injection.Injector;
 import com.romanpulov.violetnotefx.injection.Invoker;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -24,68 +27,31 @@ public class MasterPassView {
         loader.setControllerFactory((Class<?> p) ->  {
                 log.debug("In setControllerFactory: p = " + p.toString());
                 try {
-                    Object result = p.newInstance();
-                    String modelClassName = p.getName().replace("Presenter", "Model");
-                    Class<?> modelClazz;
-                    Object modelClassInstance;
-                    try {
-                        modelClazz = Class.forName(modelClassName);
-                        modelClassInstance = modelClazz.newInstance();
-                        if (modelClassInstance != null)
-                            log.debug("Model class instance created");
-                    } catch (ClassNotFoundException e) {
-                        log.debug("class name " + modelClassName + " not found");
-                        return null;
+                    //presenter
+                    Object controller = p.newInstance();
+
+                    //inject model support
+                    Field modelField = Injector.getFieldWithAnnotation(controller.getClass(), Model.class);
+                    if (modelField != null) {
+                        // instantiate model
+                        Class<?> modelClazz = modelField.getType();
+                        Object modelClassInstance = modelClazz.newInstance();
+
+                        //inject model
+                        Injector.injectFieldWithAnnotation(controller.getClass(), Model.class, controller, modelClassInstance);
+
+                        //modelOperation - allow to load
+                        Invoker.invokeModelOperationMethod(modelClazz, modelClassInstance, ModelOperationType.LOAD);
                     }
-                    log.debug("class name = " + p.getName());
-
-                    //postConstruct
-                    /*
-                    Method[] declaredMethods = modelClazz.getDeclaredMethods();
-                    for (final Method method : declaredMethods) {
-                        if (method.isAnnotationPresent(PostConstruct.class)) {
-                            try {
-                                boolean oldAccessible = method.isAccessible();
-                                method.setAccessible(true);
-                                method.invoke(modelClassInstance);
-                                method.setAccessible(oldAccessible);
-                            } catch (InvocationTargetException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    */
-
-                    //modelOperation
-                    Invoker.invokeModelOperationMethod(modelClazz, modelClassInstance, ModelOperationType.LOAD);
-
-                    /*
-                    declaredMethods = modelClazz.getDeclaredMethods();
-                    for (final Method method : declaredMethods) {
-                        if (method.isAnnotationPresent(ModelOperation.class)) {
-                            try {
-                                ModelOperation modelOperation = method.getAnnotation(ModelOperation.class);
-                                System.out.println("operation type = " + modelOperation.operationType());
-                                boolean oldAccessible = method.isAccessible();
-                                method.setAccessible(true);
-                                method.invoke(modelClassInstance);
-                                method.setAccessible(oldAccessible);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                    */
-
-                    return result;
+                    return controller;
                 } catch(IllegalAccessException | InstantiationException e) {
+                    e.printStackTrace();
                     return null;
                 }
             }
         );
 
         try {
-            //return (Parent) loader.load(getClass().getResourceAsStream("/fxml/masterpass.fxml"));
             Parent view = loader.load();
             return view ;
         } catch (IOException e) {

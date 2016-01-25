@@ -1,5 +1,7 @@
 package com.romanpulov.violetnotefx.masterpass;
 
+import com.romanpulov.violetnotefx.annotation.Model;
+import com.romanpulov.violetnotefx.annotation.ModelOperation;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
@@ -22,11 +24,13 @@ import java.util.ResourceBundle;
 public class MasterPassPresenter implements Initializable{
     private static final Logger log = LoggerFactory.getLogger(MasterPassPresenter.class);
 
+    /*
     private MasterPassModel masterPassModel;
     {
         masterPassModel = new MasterPassModel();
         masterPassModel.password.setValue("Initvalue");
     }
+    */
 
     @FXML
     PasswordField passwordField;
@@ -46,6 +50,9 @@ public class MasterPassPresenter implements Initializable{
         Stage stage = (Stage)okButton.getScene().getWindow();
         stage.close();
     }
+
+    @Model
+    private MasterPassModel masterPassModel;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
