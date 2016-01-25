@@ -23,4 +23,8 @@ public class MasterPassModel {
         System.out.println("In Model OperationType = load");
     }
 
+    @ModelOperation(operationType = ModelOperationType.UNLOAD)
+    private void modelUnload() {
+        System.out.println("In Model OperationType = unload");
+    }
 }

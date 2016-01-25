@@ -12,15 +12,29 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.*;
 
 /**
  * Created by rpulov on 23.01.2016.
  */
 public class MasterPassView {
     private static final Logger log = LoggerFactory.getLogger(MasterPassView.class);
+
+    private static class ModelOperationInvocationHandler implements InvocationHandler {
+
+        private final Object object;
+
+        public ModelOperationInvocationHandler(Object object) {
+            this.object = object;
+        }
+
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+            log.debug("something is invoked");
+            Method invokeMethod = object.getClass().getMethod(method.getName(), method.getParameterTypes());
+            return invokeMethod.invoke(object, args);
+        }
+    }
 
     public Parent getView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/masterpass.fxml"));
@@ -33,9 +47,12 @@ public class MasterPassView {
                     //inject model support
                     Field modelField = Injector.getFieldWithAnnotation(controller.getClass(), Model.class);
                     if (modelField != null) {
+
                         // instantiate model
                         Class<?> modelClazz = modelField.getType();
                         Object modelClassInstance = modelClazz.newInstance();
+                        
+                        //Object modelClassInstance = Proxy.newProxyInstance(modelClazz.getClassLoader(), modelClazz.getInterfaces(), new ModelOperationInvocationHandler(modelClazz.newInstance()));
 
                         //inject model
                         Injector.injectFieldWithAnnotation(controller.getClass(), Model.class, controller, modelClassInstance);
