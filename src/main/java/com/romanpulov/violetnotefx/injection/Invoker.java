@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx.injection;
 
+import com.romanpulov.violetnotefx.annotation.Model;
 import com.romanpulov.violetnotefx.annotation.ModelOperation;
 import com.romanpulov.violetnotefx.annotation.ModelOperationType;
 
@@ -33,4 +34,21 @@ public class Invoker {
             }
         }
     }
+
+    public static void invokeModelOperation(Object instance, ModelOperationType operationType) {
+        Field modelField = Injector.getFieldWithAnnotation(instance.getClass(), Model.class);
+        if (modelField != null) {
+            boolean oldAccessible = modelField.isAccessible();
+            try {
+                modelField.setAccessible(true);
+                Object modelInstance = modelField.get(instance);
+                invokeModelOperationMethod(modelInstance.getClass(), modelInstance, operationType);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } finally {
+                modelField.setAccessible(oldAccessible);
+            }
+        }
+    }
+
 }

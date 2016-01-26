@@ -3,6 +3,7 @@ package com.romanpulov.violetnotefx.masterpass;
 import com.romanpulov.violetnotefx.annotation.Model;
 import com.romanpulov.violetnotefx.annotation.ModelOperation;
 import com.romanpulov.violetnotefx.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.injection.Binder;
 import com.romanpulov.violetnotefx.injection.Injector;
 import com.romanpulov.violetnotefx.injection.Invoker;
 import javafx.fxml.FXMLLoader;
@@ -51,14 +52,14 @@ public class MasterPassView {
                         // instantiate model
                         Class<?> modelClazz = modelField.getType();
                         Object modelClassInstance = modelClazz.newInstance();
-                        
-                        //Object modelClassInstance = Proxy.newProxyInstance(modelClazz.getClassLoader(), modelClazz.getInterfaces(), new ModelOperationInvocationHandler(modelClazz.newInstance()));
+
+//                        Object modelProxyClassInstance = Proxy.newProxyInstance(modelClazz.getClassLoader(), modelClazz.getInterfaces(), new ModelOperationInvocationHandler(modelClazz.newInstance()));
 
                         //inject model
                         Injector.injectFieldWithAnnotation(controller.getClass(), Model.class, controller, modelClassInstance);
 
                         //modelOperation - allow to load
-                        Invoker.invokeModelOperationMethod(modelClazz, modelClassInstance, ModelOperationType.LOAD);
+                        Invoker.invokeModelOperationMethod(modelClassInstance.getClass(), modelClassInstance, ModelOperationType.LOAD);
                     }
                     return controller;
                 } catch(IllegalAccessException | InstantiationException e) {
@@ -70,8 +71,10 @@ public class MasterPassView {
 
         try {
             Parent view = loader.load();
-            return view ;
+            Binder.bindPresenterProperties(loader.getController());
+            return view;
         } catch (IOException e) {
+            e.printStackTrace();
             return null;
         }
     }

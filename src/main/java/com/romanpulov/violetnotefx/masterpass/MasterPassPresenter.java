@@ -1,7 +1,10 @@
 package com.romanpulov.violetnotefx.masterpass;
 
+import com.romanpulov.violetnotefx.annotation.BoundProperty;
 import com.romanpulov.violetnotefx.annotation.Model;
 import com.romanpulov.violetnotefx.annotation.ModelOperation;
+import com.romanpulov.violetnotefx.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.injection.Invoker;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.fxml.FXML;
@@ -21,7 +24,7 @@ import java.util.ResourceBundle;
 /**
  * Created by rpulov on 23.01.2016.
  */
-public class MasterPassPresenter implements Initializable{
+public class MasterPassPresenter implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(MasterPassPresenter.class);
 
     /*
@@ -35,7 +38,8 @@ public class MasterPassPresenter implements Initializable{
     @FXML
     PasswordField passwordField;
 
-    StringProperty passwordTextProperty;
+    @BoundProperty
+    StringProperty passwordField_textProperty;
 
     @FXML
     private Button okButton;
@@ -47,6 +51,9 @@ public class MasterPassPresenter implements Initializable{
     private void okButtonClick() {
         log.debug("Ok button clicked");
         log.debug("password=" + masterPassModel.password.get());
+
+        Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
+
         Stage stage = (Stage)okButton.getScene().getWindow();
         stage.close();
     }
@@ -58,11 +65,10 @@ public class MasterPassPresenter implements Initializable{
     public void initialize(URL location, ResourceBundle resources) {
         log.debug("initializing presenter in initialize() with URL and resources method");
         log.debug("pass=" + passwordField.getText());
-        //masterPassModel.password.bindBidirectional(passwordField.textProperty());
+        /*
         try {
             Field modelField = masterPassModel.getClass().getDeclaredField("password");
             Field presenterField = this.getClass().getDeclaredField("passwordField");
-
 
             Field passwordFieldField = this.getClass().getDeclaredField("passwordField");
             Object passwordFieldValue = passwordFieldField.get(this);
@@ -88,12 +94,10 @@ public class MasterPassPresenter implements Initializable{
 
             ((Property<String>)textPropertyInvoke).setValue(masterPassModel.password.getValue());
             Bindings.bindBidirectional(masterPassModel.password, (Property<String>)textPropertyInvoke);
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+        */
 
     }
 }

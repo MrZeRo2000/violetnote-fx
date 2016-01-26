@@ -13,11 +13,6 @@ import javax.annotation.PostConstruct;
 public class MasterPassModel {
     StringProperty password = new SimpleStringProperty();
 
-    @PostConstruct
-    private void postConstruct() {
-        System.out.println("In Model PostConstruct");
-    }
-
     @ModelOperation(operationType = ModelOperationType.LOAD)
     private void modelLoad() {
         System.out.println("In Model OperationType = load");

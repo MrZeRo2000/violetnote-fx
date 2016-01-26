@@ -2,6 +2,8 @@ package com.romanpulov.violetnotefx.injection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by rpulov on 25.01.2016.
@@ -14,6 +16,16 @@ public class Injector {
                 return field;
         }
         return null;
+    }
+
+    public static List<Field> getFieldsWithAnnotation (Class<?> clazz, Class<? extends Annotation> annotation) {
+        List<Field> fields = new ArrayList<>();
+        Field[] declaredFields = clazz.getDeclaredFields();
+        for (Field field : declaredFields) {
+            if (field.isAnnotationPresent(annotation))
+                fields.add(field);
+        }
+        return fields;
     }
 
     public static void injectFieldWithAnnotation(Class<?> clazz, Class<? extends Annotation> annotation, Object instance, Object injection) {
