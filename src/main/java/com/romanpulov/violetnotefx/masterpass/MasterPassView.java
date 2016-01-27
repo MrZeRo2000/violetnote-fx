@@ -1,7 +1,6 @@
 package com.romanpulov.violetnotefx.masterpass;
 
 import com.romanpulov.violetnotefx.annotation.Model;
-import com.romanpulov.violetnotefx.annotation.ModelOperation;
 import com.romanpulov.violetnotefx.annotation.ModelOperationType;
 import com.romanpulov.violetnotefx.injection.Binder;
 import com.romanpulov.violetnotefx.injection.Injector;
@@ -11,7 +10,6 @@ import javafx.scene.Parent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.lang.reflect.*;
 
@@ -20,6 +18,8 @@ import java.lang.reflect.*;
  */
 public class MasterPassView {
     private static final Logger log = LoggerFactory.getLogger(MasterPassView.class);
+
+    private Object modelInstance;
 
     private static class ModelOperationInvocationHandler implements InvocationHandler {
 
@@ -51,15 +51,15 @@ public class MasterPassView {
 
                         // instantiate model
                         Class<?> modelClazz = modelField.getType();
-                        Object modelClassInstance = modelClazz.newInstance();
+                        modelInstance = modelClazz.newInstance();
 
 //                        Object modelProxyClassInstance = Proxy.newProxyInstance(modelClazz.getClassLoader(), modelClazz.getInterfaces(), new ModelOperationInvocationHandler(modelClazz.newInstance()));
 
                         //inject model
-                        Injector.injectFieldWithAnnotation(controller.getClass(), Model.class, controller, modelClassInstance);
+                        Injector.injectFieldWithAnnotation(controller.getClass(), Model.class, controller, modelInstance);
 
                         //modelOperation - allow to load
-                        Invoker.invokeModelOperationMethod(modelClassInstance.getClass(), modelClassInstance, ModelOperationType.LOAD);
+                        Invoker.invokeModelOperationMethod(modelInstance.getClass(), modelInstance, ModelOperationType.LOAD);
                     }
                     return controller;
                 } catch(IllegalAccessException | InstantiationException e) {
@@ -71,7 +71,8 @@ public class MasterPassView {
 
         try {
             Parent view = loader.load();
-            Binder.bindPresenterProperties(loader.getController());
+            if (modelInstance != null)
+                Binder.bindFXMLProperties(loader.getController(), modelInstance);
             return view;
         } catch (IOException e) {
             e.printStackTrace();

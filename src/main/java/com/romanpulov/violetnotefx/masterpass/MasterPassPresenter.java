@@ -38,9 +38,6 @@ public class MasterPassPresenter implements Initializable {
     @FXML
     PasswordField passwordField;
 
-    @BoundProperty
-    StringProperty passwordField_textProperty;
-
     @FXML
     private Button okButton;
 
@@ -50,8 +47,6 @@ public class MasterPassPresenter implements Initializable {
     @FXML
     private void okButtonClick() {
         log.debug("Ok button clicked");
-        log.debug("password=" + masterPassModel.password.get());
-
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
 
         Stage stage = (Stage)okButton.getScene().getWindow();
