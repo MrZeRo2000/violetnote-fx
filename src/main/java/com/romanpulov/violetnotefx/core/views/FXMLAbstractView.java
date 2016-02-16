@@ -1,8 +1,6 @@
 package com.romanpulov.violetnotefx.core.views;
 
-import com.romanpulov.violetnotefx.core.DataProvider;
 import com.romanpulov.violetnotefx.core.annotation.Model;
-import com.romanpulov.violetnotefx.core.annotation.Data;
 import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
 import com.romanpulov.violetnotefx.core.injection.Binder;
 import com.romanpulov.violetnotefx.core.injection.Injector;
@@ -26,7 +24,6 @@ public class FXMLAbstractView {
     private static final Logger log = LoggerFactory.getLogger(FXMLAbstractView.class);
 
     private Object modelInstance;
-    private DataProvider dataProvider;
 
     public String getConventionalResourceName() {
         String conventionalCore = this.getClass().getSimpleName().toLowerCase();
@@ -35,10 +32,6 @@ public class FXMLAbstractView {
             conventionalCore = conventionalCore.substring(0, endingIndex);
         }
         return DEFAULT_RESOURCE_PREFIX + conventionalCore + DEFAULT_RESOURCE_EXTENSION;
-    }
-
-    public void setDataProvider(DataProvider dataProvider) {
-        this.dataProvider = dataProvider;
     }
 
     public Object getModelInstance() {
@@ -63,11 +56,6 @@ public class FXMLAbstractView {
 
                         //inject model
                         Injector.injectFieldWithAnnotation(controller.getClass(), Model.class, controller, modelInstance);
-
-                        //inject data provider
-                        if (dataProvider != null) {
-                            Injector.injectFieldWithAnnotation(controller.getClass(), Data.class, controller, dataProvider);
-                        }
 
                         //modelOperation - allow to load
                         Invoker.invokeModelOperationMethod(modelInstance.getClass(), modelInstance, ModelOperationType.LOAD);

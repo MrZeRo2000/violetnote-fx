@@ -1,7 +1,5 @@
 package com.romanpulov.violetnotefx.masterpass;
 
-import com.romanpulov.violetnotefx.core.DataProvider;
-import com.romanpulov.violetnotefx.core.annotation.Data;
 import com.romanpulov.violetnotefx.core.annotation.Model;
 import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
 import com.romanpulov.violetnotefx.core.injection.Invoker;
@@ -37,8 +35,7 @@ public class MasterPassPresenter implements Initializable {
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
         masterPassModel.modelResult.set(1);
 
-        Stage stage = (Stage)okButton.getScene().getWindow();
-        stage.close();
+        closeStage();
     }
 
     @FXML
@@ -47,7 +44,11 @@ public class MasterPassPresenter implements Initializable {
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
         masterPassModel.modelResult.set(0);
 
-        Stage stage = (Stage)okButton.getScene().getWindow();
+        closeStage();
+    }
+
+    private void closeStage() {
+        Stage stage = (Stage)passwordField.getScene().getWindow();
         stage.close();
     }
 
