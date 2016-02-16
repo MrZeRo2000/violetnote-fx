@@ -7,6 +7,8 @@ import com.romanpulov.violetnotefx.masterpass.MasterPassView;
 import com.sun.xml.internal.org.jvnet.staxex.NamespaceContextEx;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -50,16 +52,10 @@ public class MainApp extends Application {
             Scene categoryNotesScene = new Scene(categoryNotesView.getView());
             categoryNotesStage.setScene(categoryNotesScene);
 
-            VBox root = (VBox) categoryNotesScene.getRoot();
+            /*
+            final VBox root = (VBox) categoryNotesScene.getRoot();
             SplitPane pane = (SplitPane)root.getChildren().get(1);
-            SplitPane.setResizableWithParent(pane, Boolean.TRUE);
-
-            root.setPrefWidth(1000);
-            pane.setPrefWidth(1000);
-
-            pane.
-
-
+            */
 
             categoryNotesStage.show();
             /*
