@@ -1,11 +1,17 @@
 package com.romanpulov.violetnotefx;
 
+import com.romanpulov.violetnotefx.categorynotes.CategoryNotesView;
+import com.romanpulov.violetnotefx.core.injection.Binder;
 import com.romanpulov.violetnotefx.masterpass.MasterPassModel;
 import com.romanpulov.violetnotefx.masterpass.MasterPassView;
+import com.sun.xml.internal.org.jvnet.staxex.NamespaceContextEx;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -38,6 +44,26 @@ public class MainApp extends Application {
         if (model.modelResult.getValue() == 1) {
             log.info("the password is " + model.passwordField_textProperty.getValue());
 
+
+            CategoryNotesView categoryNotesView = new CategoryNotesView();
+            Stage categoryNotesStage = new Stage();
+            Scene categoryNotesScene = new Scene(categoryNotesView.getView());
+            categoryNotesStage.setScene(categoryNotesScene);
+
+            VBox root = (VBox) categoryNotesScene.getRoot();
+            SplitPane pane = (SplitPane)root.getChildren().get(1);
+            SplitPane.setResizableWithParent(pane, Boolean.TRUE);
+
+            root.setPrefWidth(1000);
+            pane.setPrefWidth(1000);
+
+            pane.
+
+
+
+            categoryNotesStage.show();
+            /*
+
             log.info("Starting Hello JavaFX and Maven demonstration application");
 
             String fxmlFile = "/fxml/hello.fxml";
@@ -52,6 +78,7 @@ public class MainApp extends Application {
             stage.setTitle("Hello JavaFX and Maven");
             stage.setScene(scene);
             stage.show();
+            */
         }
     }
 }
