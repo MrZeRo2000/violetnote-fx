@@ -17,6 +17,7 @@
                 AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="14.0" defaultButton="true"
                 onAction="#okButtonClick"/>
         <Button fx:id="cancelButton" layoutX="74.0" layoutY="81.0" mnemonicParsing="false" prefWidth="52.0"
-                text="Cancel" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="74.0" cancelButton="false"/>
+                text="Cancel" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="74.0" cancelButton="false"
+                onAction="#cancelButtonClick"/>
     </children>
 </AnchorPane>

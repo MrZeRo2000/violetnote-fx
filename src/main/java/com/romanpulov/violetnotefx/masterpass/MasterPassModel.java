@@ -12,17 +12,17 @@ import javafx.beans.property.StringProperty;
 public class MasterPassModel {
 
     @BoundProperty
-    StringProperty passwordField_textProperty = new SimpleStringProperty();
+    StringProperty passwordField1_textProperty = new SimpleStringProperty();
 
     @ModelOperation(operationType = ModelOperationType.LOAD)
     private void modelLoad() {
-        System.out.println("In Model OperationType = load");
-        passwordField_textProperty.setValue("initialvalue");
+//        System.out.println("In Model OperationType = load");
+//        passwordField_textProperty.setValue("initialvalue");
     }
 
     @ModelOperation(operationType = ModelOperationType.UNLOAD)
     private void modelUnload() {
-        System.out.println("In Model OperationType = unload");
-        System.out.println("PasswordField=" + passwordField_textProperty.getValue());
+//        System.out.println("In Model OperationType = unload");
+//        System.out.println("PasswordField=" + passwordField_textProperty.getValue());
     }
 }
