@@ -1,12 +1,8 @@
 package com.romanpulov.violetnotefx.masterpass;
 
-import com.romanpulov.violetnotefx.annotation.BoundProperty;
-import com.romanpulov.violetnotefx.annotation.Model;
-import com.romanpulov.violetnotefx.annotation.ModelOperation;
-import com.romanpulov.violetnotefx.annotation.ModelOperationType;
-import com.romanpulov.violetnotefx.injection.Invoker;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.*;
+import com.romanpulov.violetnotefx.core.annotation.Model;
+import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.core.injection.Invoker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -15,9 +11,6 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -26,14 +19,6 @@ import java.util.ResourceBundle;
  */
 public class MasterPassPresenter implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(MasterPassPresenter.class);
-
-    /*
-    private MasterPassModel masterPassModel;
-    {
-        masterPassModel = new MasterPassModel();
-        masterPassModel.password.setValue("Initvalue");
-    }
-    */
 
     @FXML
     PasswordField passwordField;

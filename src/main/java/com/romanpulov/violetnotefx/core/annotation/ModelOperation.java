@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.annotation;
+package com.romanpulov.violetnotefx.core.annotation;
 
 /**
  * Created by rpulov on 25.01.2016.

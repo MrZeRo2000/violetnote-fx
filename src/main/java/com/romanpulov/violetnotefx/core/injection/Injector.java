@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.injection;
+package com.romanpulov.violetnotefx.core.injection;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

@@ -1,12 +1,10 @@
 package com.romanpulov.violetnotefx.masterpass;
 
-import com.romanpulov.violetnotefx.annotation.BoundProperty;
-import com.romanpulov.violetnotefx.annotation.ModelOperation;
-import com.romanpulov.violetnotefx.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.core.annotation.BoundProperty;
+import com.romanpulov.violetnotefx.core.annotation.ModelOperation;
+import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
-import javax.annotation.PostConstruct;
 
 /**
  * Created by rpulov on 23.01.2016.

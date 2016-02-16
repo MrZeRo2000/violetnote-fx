@@ -1,6 +1,8 @@
 package com.romanpulov.violetnotefx;
 
 import static org.junit.Assert.*;
+
+import com.romanpulov.violetnotefx.masterpass.MasterPassView;
 import org.junit.Test;
 
 public class Test1 {
@@ -8,5 +10,15 @@ public class Test1 {
     @Test
     public void method1() {
         assertEquals(1, 1);
+    }
+
+    @Test
+    public void conventionalView() {
+        class TestView extends MasterPassView {
+
+        }
+
+        TestView tv = new TestView();
+        assertEquals(tv.getConventionalResourceName(), "/fxml/test.fxml");
     }
 }

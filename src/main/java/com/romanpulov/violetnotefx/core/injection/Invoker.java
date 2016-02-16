@@ -1,12 +1,10 @@
-package com.romanpulov.violetnotefx.injection;
+package com.romanpulov.violetnotefx.core.injection;
 
-import com.romanpulov.violetnotefx.annotation.Model;
-import com.romanpulov.violetnotefx.annotation.ModelOperation;
-import com.romanpulov.violetnotefx.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.core.annotation.Model;
+import com.romanpulov.violetnotefx.core.annotation.ModelOperation;
+import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
 
 
-import java.io.IOException;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
