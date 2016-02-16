@@ -1,6 +1,7 @@
 package com.romanpulov.violetnotefx;
 
 import com.romanpulov.violetnotefx.core.DataProvider;
+import com.romanpulov.violetnotefx.masterpass.MasterPassModel;
 import com.romanpulov.violetnotefx.masterpass.MasterPassView;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -25,16 +26,14 @@ public class MainApp extends Application {
     }
 
     public void start(Stage stage) throws Exception {
-        DataProvider masterPassDataProvider = new DataProvider();
-        masterPassDataProvider.setValue("Password", "myinitialpassword");
-        masterPassDataProvider.setValue("SceneResult", null);
 
         MasterPassView masterPassView = new MasterPassView();
-        masterPassView.setDataProvider(masterPassDataProvider);
 
         Stage masterPassStage = new Stage();
         masterPassStage.setTitle("Master Password");
         Scene masterPassScene = new Scene(masterPassView.getView());
+        MasterPassModel model = (MasterPassModel) masterPassView.getModelInstance();
+
         masterPassStage.setScene(masterPassScene);
         masterPassStage.setResizable(false);
         masterPassStage.initModality(Modality.APPLICATION_MODAL);
@@ -42,8 +41,8 @@ public class MainApp extends Application {
         masterPassStage.showAndWait();
         log.debug("After wait");
 
-        if (((String)masterPassDataProvider.getValue("SceneResult")).equals("Ok")) {
-            log.info("The password is " + (String)masterPassDataProvider.getValue("Password"));
+        if (model.modelResult.getValue() == 1) {
+            log.info("the password is " + model.passwordField_textProperty.getValue());
 
             log.info("Starting Hello JavaFX and Maven demonstration application");
 

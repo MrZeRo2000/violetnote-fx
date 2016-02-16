@@ -34,9 +34,8 @@ public class MasterPassPresenter implements Initializable {
     @FXML
     private void okButtonClick() {
         log.debug("Ok button clicked");
-        dataProvider.setValue("Password", passwordField.getText());
-        dataProvider.setValue("SceneResult", "Ok");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
+        masterPassModel.modelResult.set(1);
 
         Stage stage = (Stage)okButton.getScene().getWindow();
         stage.close();
@@ -45,8 +44,8 @@ public class MasterPassPresenter implements Initializable {
     @FXML
     private void cancelButtonClick() {
         log.debug("Cancel button clicked");
-        dataProvider.setValue("SceneResult", "Cancel");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
+        masterPassModel.modelResult.set(0);
 
         Stage stage = (Stage)okButton.getScene().getWindow();
         stage.close();
@@ -55,13 +54,9 @@ public class MasterPassPresenter implements Initializable {
     @Model
     private MasterPassModel masterPassModel;
 
-    @Data
-    private DataProvider dataProvider;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        passwordField.textProperty().setValue((String)dataProvider.getValue("Password"));
         log.debug("initializing presenter in initialize() with URL and resources method");
-        log.debug("from dataProvider InitialPassword:" + (String)dataProvider.getValue("Password"));
+
     }
 }

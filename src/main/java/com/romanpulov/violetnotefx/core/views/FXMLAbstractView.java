@@ -41,6 +41,10 @@ public class FXMLAbstractView {
         this.dataProvider = dataProvider;
     }
 
+    public Object getModelInstance() {
+        return modelInstance;
+    }
+
     public Parent getView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(getConventionalResourceName()));
         loader.setControllerFactory((Class<?> p) ->  {

@@ -3,6 +3,8 @@ package com.romanpulov.violetnotefx.masterpass;
 import com.romanpulov.violetnotefx.core.annotation.BoundProperty;
 import com.romanpulov.violetnotefx.core.annotation.ModelOperation;
 import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -12,7 +14,9 @@ import javafx.beans.property.StringProperty;
 public class MasterPassModel {
 
     @BoundProperty
-    StringProperty passwordField1_textProperty = new SimpleStringProperty();
+    public StringProperty passwordField_textProperty = new SimpleStringProperty();
+
+    public IntegerProperty modelResult = new SimpleIntegerProperty();
 
     @ModelOperation(operationType = ModelOperationType.LOAD)
     private void modelLoad() {
