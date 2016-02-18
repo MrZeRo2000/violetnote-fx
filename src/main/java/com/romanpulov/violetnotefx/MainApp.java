@@ -27,8 +27,19 @@ public class MainApp extends Application {
         launch(args);
     }
 
+    public void showCategoryNotes() {
+        CategoryNotesView categoryNotesView = new CategoryNotesView();
+        Stage categoryNotesStage = new Stage();
+        Scene categoryNotesScene = new Scene(categoryNotesView.getView());
+        categoryNotesStage.setScene(categoryNotesScene);
+        categoryNotesStage.show();
+    }
+
     public void start(Stage stage) throws Exception {
 
+        showCategoryNotes();
+
+        /*
         MasterPassView masterPassView = new MasterPassView();
 
         Stage masterPassStage = new Stage();
@@ -51,30 +62,8 @@ public class MainApp extends Application {
             Stage categoryNotesStage = new Stage();
             Scene categoryNotesScene = new Scene(categoryNotesView.getView());
             categoryNotesStage.setScene(categoryNotesScene);
-
-            /*
-            final VBox root = (VBox) categoryNotesScene.getRoot();
-            SplitPane pane = (SplitPane)root.getChildren().get(1);
-            */
-
             categoryNotesStage.show();
-            /*
-
-            log.info("Starting Hello JavaFX and Maven demonstration application");
-
-            String fxmlFile = "/fxml/hello.fxml";
-            log.debug("Loading FXML for main view from: {}", fxmlFile);
-            FXMLLoader loader = new FXMLLoader();
-            Parent rootNode = (Parent) loader.load(getClass().getResourceAsStream(fxmlFile));
-
-            log.debug("Showing JFX scene");
-            Scene scene = new Scene(rootNode, 400, 200);
-            scene.getStylesheets().add("/styles/styles.css");
-
-            stage.setTitle("Hello JavaFX and Maven");
-            stage.setScene(scene);
-            stage.show();
-            */
         }
+        */
     }
 }
