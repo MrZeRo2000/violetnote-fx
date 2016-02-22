@@ -4,7 +4,6 @@ import com.romanpulov.violetnotefx.categorynotes.CategoryNotesView;
 import com.romanpulov.violetnotefx.core.injection.Binder;
 import com.romanpulov.violetnotefx.masterpass.MasterPassModel;
 import com.romanpulov.violetnotefx.masterpass.MasterPassView;
-import com.sun.xml.internal.org.jvnet.staxex.NamespaceContextEx;
 import javafx.application.Application;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
@@ -36,6 +35,10 @@ public class MainApp extends Application {
     }
 
     public void start(Stage stage) throws Exception {
+
+        // prepare pins data
+        Document.getInstance().importPins("data\\\\pins_example.csv");
+
 
         showCategoryNotes();
 
