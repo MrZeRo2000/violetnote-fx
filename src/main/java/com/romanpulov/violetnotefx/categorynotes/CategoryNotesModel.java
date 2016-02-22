@@ -34,7 +34,7 @@ public class CategoryNotesModel {
         }
 
         public String getSystem() {
-            return system.getValue();
+            return system.get();
         }
     }
 
