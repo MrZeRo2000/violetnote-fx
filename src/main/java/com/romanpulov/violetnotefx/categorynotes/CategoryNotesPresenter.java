@@ -1,10 +1,8 @@
 package com.romanpulov.violetnotefx.categorynotes;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
-import com.romanpulov.violetnotecore.Model.PassNote;
 import com.romanpulov.violetnotefx.Document;
 import com.romanpulov.violetnotefx.core.annotation.Model;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -24,10 +21,10 @@ public class CategoryNotesPresenter implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(CategoryNotesPresenter.class);
 
     @FXML
-    private TreeView<String> categoryTreeView;
+    private TreeView<CategoryNotesModel.PassCategoryFX> categoryTreeView;
 
     @FXML
-    private TableView<CategoryNotesModel.PassNote> notesTableView;
+    private TableView<CategoryNotesModel.PassNoteFX> notesTableView;
 
     @FXML
     private Button categoryAddButton;
@@ -42,19 +39,16 @@ public class CategoryNotesPresenter implements Initializable {
     private CategoryNotesModel categoryNotesModel;
 
     private void loadTreeView() {
-        TreeItem<String> root = new TreeItem<String>("Root Node");
+        TreeItem<CategoryNotesModel.PassCategoryFX> root = new TreeItem<>();
         categoryTreeView.setRoot(root);
         categoryTreeView.setShowRoot(false);
-        for (PassCategory passCategory : Document.getInstance().getPassData().getPassCategoryList()) {
-            TreeItem<String> newItem = new TreeItem<>(passCategory.getCategoryName());
-            root.getChildren().add(newItem);
-        }
-
+        categoryNotesModel.getCategoryData().stream().forEach((passCategoryFX -> {
+            root.getChildren().add(new TreeItem<>(passCategoryFX));
+        }));
     }
 
     private void loadTable(String categoryName) {
-        //PassCategory passCategory = Document.getInstance().getPassData().
-        notesTableView.setItems(categoryNotesModel.getTableViewData(categoryName));
+        notesTableView.setItems(categoryNotesModel.getPassNoteData(categoryName));
     }
 
     @Override
@@ -66,10 +60,10 @@ public class CategoryNotesPresenter implements Initializable {
         categoryEditButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
 
         //selection change
-        categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
+        categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<CategoryNotesModel.PassCategoryFX>>() {
             @Override
-            public void changed(ObservableValue<? extends TreeItem<String>> observable, TreeItem<String> oldValue, TreeItem<String> newValue) {
-                loadTable(newValue.getValue());
+            public void changed(ObservableValue<? extends TreeItem<CategoryNotesModel.PassCategoryFX>> observable, TreeItem<CategoryNotesModel.PassCategoryFX> oldValue, TreeItem<CategoryNotesModel.PassCategoryFX> newValue) {
+                loadTable(newValue.getValue().getCategoryName());
             }
         });
     }

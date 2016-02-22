@@ -31,9 +31,21 @@
                                     <PropertyValueFactory property = "system" />
                                 </cellValueFactory>
                               </TableColumn>
-                              <TableColumn prefWidth="100.0" text="User" />
-                              <TableColumn prefWidth="100.0" text="Password" />
-                              <TableColumn prefWidth="103.0" text="Notes" />
+                              <TableColumn prefWidth="100.0" text="User">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property = "user" />
+                                  </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="100.0" text="Password">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property = "password" />
+                                  </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="103.0" text="Notes">
+                                  <cellValueFactory>
+                                      <PropertyValueFactory property = "info" />
+                                  </cellValueFactory>
+                              </TableColumn>
                           </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
