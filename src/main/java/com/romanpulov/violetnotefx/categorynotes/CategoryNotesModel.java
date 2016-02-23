@@ -69,8 +69,7 @@ public class CategoryNotesModel {
     }
 
     public ObservableList<PassNoteFX> getPassNoteData(PassCategoryFX category) {
-        FilteredList<PassNoteFX> filteredPassNoteData = new FilteredList<PassNoteFX>(passNoteData, p->{return p.category.get().equals(category);});
-        return filteredPassNoteData;
+        return new FilteredList<PassNoteFX>(passNoteData, p->{return p.category.get().equals(category);});
     }
 
     public static class PassCategoryFX {
@@ -108,7 +107,7 @@ public class CategoryNotesModel {
         private final SimpleStringProperty info;
 
         public PassNoteFX(PassCategoryFX category, String system, String user, String password, String comments, String custom, String info) {
-            this.category = new SimpleObjectProperty(category);
+            this.category = new SimpleObjectProperty<PassCategoryFX>(category);
             this.system = new SimpleStringProperty(system);
             this.user = new SimpleStringProperty(user);
             this.password = new SimpleStringProperty(password);
