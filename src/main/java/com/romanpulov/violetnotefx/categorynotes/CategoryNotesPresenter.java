@@ -2,9 +2,11 @@ package com.romanpulov.violetnotefx.categorynotes;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotefx.Document;
+import com.romanpulov.violetnotefx.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.core.annotation.Model;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -67,4 +69,14 @@ public class CategoryNotesPresenter implements Initializable {
             }
         });
     }
+
+    @FXML
+    private void categoryAddButtonClick(ActionEvent event) {
+        log.debug("add clicked");
+        CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
+        data.categoryName = "Init stuff";
+        CategoryNameStage.showStage(data);
+        log.debug("Input category name =" + data.categoryName);
+    }
+
 }

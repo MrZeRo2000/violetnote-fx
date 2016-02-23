@@ -6,15 +6,19 @@ import com.romanpulov.violetnotefx.core.injection.Invoker;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.URL;
+import java.util.ResourceBundle;
+
 /**
  * Created by rpulov on 22.02.2016.
  */
-public class CategoryNamePresenter {
+public class CategoryNamePresenter implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(CategoryNamePresenter.class);
 
     @FXML
@@ -47,4 +51,8 @@ public class CategoryNamePresenter {
     }
 
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        categoryNameField.textProperty().bindBidirectional(categoryNameModel.categoryName);
+    }
 }

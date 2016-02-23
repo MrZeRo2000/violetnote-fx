@@ -15,7 +15,7 @@
                       <TreeView fx:id="categoryTreeView" prefHeight="398.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
                   <ToolBar layoutX="0.0" layoutY="0.0" prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <Button fx:id="categoryAddButton" mnemonicParsing="false" text="Add" />
+                      <Button fx:id="categoryAddButton" mnemonicParsing="false" text="Add" onAction="#categoryAddButtonClick" />
                         <Button fx:id="categoryDeleteButton" mnemonicParsing="false" text="Delete" />
                         <Button fx:id="categoryEditButton" mnemonicParsing="false" text="Edit" />
                     </items>

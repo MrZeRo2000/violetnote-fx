@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx;
 
+import com.romanpulov.violetnotefx.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.categorynotes.CategoryNotesView;
 import com.romanpulov.violetnotefx.core.injection.Binder;
 import com.romanpulov.violetnotefx.masterpass.MasterPassModel;
@@ -36,9 +37,11 @@ public class MainApp extends Application {
 
     public void start(Stage stage) throws Exception {
 
-        // prepare pins data
-        Document.getInstance().importPins("data\\\\pins_example.csv");
+        //CategoryNameStage.showStage();
 
+        // prepare pins data
+
+        Document.getInstance().importPins("data\\\\pins_example.csv");
 
         showCategoryNotes();
 
