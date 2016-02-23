@@ -47,8 +47,8 @@ public class CategoryNotesPresenter implements Initializable {
         }));
     }
 
-    private void loadTable(String categoryName) {
-        notesTableView.setItems(categoryNotesModel.getPassNoteData(categoryName));
+    private void loadTable(CategoryNotesModel.PassCategoryFX category) {
+        notesTableView.setItems(categoryNotesModel.getPassNoteData(category));
     }
 
     @Override
@@ -63,7 +63,7 @@ public class CategoryNotesPresenter implements Initializable {
         categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<CategoryNotesModel.PassCategoryFX>>() {
             @Override
             public void changed(ObservableValue<? extends TreeItem<CategoryNotesModel.PassCategoryFX>> observable, TreeItem<CategoryNotesModel.PassCategoryFX> oldValue, TreeItem<CategoryNotesModel.PassCategoryFX> newValue) {
-                loadTable(newValue.getValue().getCategoryName());
+                loadTable(newValue.getValue());
             }
         });
     }
