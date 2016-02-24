@@ -15,6 +15,11 @@ public class CategoryNameStage {
     public static class CategoryNameData {
         public int modelResult;
         public String categoryName;
+
+        @Override
+        public String toString() {
+            return "{ModelResult=" + modelResult + ", CategoryName=" + categoryName + "}";
+        }
     }
 
     public static void showStage(CategoryNameData categoryNameData) {

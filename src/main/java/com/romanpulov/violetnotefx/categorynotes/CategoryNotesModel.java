@@ -37,6 +37,15 @@ public class CategoryNotesModel {
         return null;
     }
 
+    public PassCategoryFX findChildPassCategoryName(PassCategoryFX parentPassCategory, String categoryName) {
+        for (PassCategoryFX p : passCategoryData) {
+            if ((p.getParentCategory() == parentPassCategory) && (p.getCategoryName().equals(categoryName))) {
+                return p;
+            }
+        }
+        return null;
+    }
+
     private void readDocument() {
         passCategoryData = FXCollections.observableArrayList();
 
@@ -88,6 +97,9 @@ public class CategoryNotesModel {
 
         public String getCategoryName() {
             return categoryName.get();
+        }
+        public PassCategoryFX getParentCategory() {
+            return parentCategory.get();
         }
 
         @Override

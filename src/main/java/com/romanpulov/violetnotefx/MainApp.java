@@ -43,7 +43,9 @@ public class MainApp extends Application {
 
         Document.getInstance().importPins("data\\\\pins_example.csv");
 
-        showCategoryNotes();
+        new AlertDialogs.ErrorAlertBuilder().setHeaderText("Header Text").buildAlert().showAndWait();
+
+        //showCategoryNotes();
 
         /*
         MasterPassView masterPassView = new MasterPassView();

@@ -76,7 +76,18 @@ public class CategoryNotesPresenter implements Initializable {
         CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
         data.categoryName = "Init stuff";
         CategoryNameStage.showStage(data);
-        log.debug("Input category name =" + data.categoryName);
+        log.debug("Input category data = " + data);
+
+        if (categoryNotesModel.findChildPassCategoryName(null, data.categoryName) == null) {
+            log.debug("can process add");
+            categoryNotesModel.getCategoryData().add(new CategoryNotesModel.PassCategoryFX(null, data.categoryName));
+            loadTreeView();
+        } else {
+
+        }
+
+            log.debug("category exists");
+
     }
 
 }
