@@ -1,6 +1,7 @@
 package com.romanpulov.violetnotefx.categorynotes;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
+import com.romanpulov.violetnotefx.AlertDialogs;
 import com.romanpulov.violetnotefx.Document;
 import com.romanpulov.violetnotefx.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.core.annotation.Model;
@@ -57,7 +58,7 @@ public class CategoryNotesPresenter implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         loadTreeView();
 
-        //disable rules for tool buttons
+        //simple disable rules for tool buttons
         categoryDeleteButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
         categoryEditButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
 
@@ -72,22 +73,16 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void categoryAddButtonClick(ActionEvent event) {
-        log.debug("add clicked");
         CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
-        data.categoryName = "Init stuff";
         CategoryNameStage.showStage(data);
-        log.debug("Input category data = " + data);
 
         if (categoryNotesModel.findChildPassCategoryName(null, data.categoryName) == null) {
             log.debug("can process add");
             categoryNotesModel.getCategoryData().add(new CategoryNotesModel.PassCategoryFX(null, data.categoryName));
             loadTreeView();
         } else {
-
+            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + data.categoryName + " already exists").buildAlert().showAndWait();
         }
-
-            log.debug("category exists");
-
     }
 
 }

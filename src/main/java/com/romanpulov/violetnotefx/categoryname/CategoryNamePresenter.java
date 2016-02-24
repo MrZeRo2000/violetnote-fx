@@ -3,10 +3,12 @@ package com.romanpulov.violetnotefx.categoryname;
 import com.romanpulov.violetnotefx.core.annotation.Model;
 import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
 import com.romanpulov.violetnotefx.core.injection.Invoker;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -23,6 +25,9 @@ public class CategoryNamePresenter implements Initializable {
 
     @FXML
     private TextField categoryNameField;
+
+    @FXML
+    private Button okButton;
 
     @Model
     private CategoryNameModel categoryNameModel;
@@ -54,5 +59,6 @@ public class CategoryNamePresenter implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         categoryNameField.textProperty().bindBidirectional(categoryNameModel.categoryName);
+        okButton.disableProperty().bind(Bindings.isEmpty(categoryNameField.textProperty()));
     }
 }
