@@ -15,7 +15,7 @@ public class AlertDialogs {
 
         protected abstract void setDefaults();
 
-        protected AlertBuilder(Alert.AlertType alertType) {
+        public AlertBuilder(Alert.AlertType alertType) {
             this.alertType = alertType;
         }
 
@@ -36,6 +36,7 @@ public class AlertDialogs {
 
         public Alert buildAlert() {
             Alert alert = new Alert(this.alertType);
+            setDefaults();
             alert.setTitle(this.title);
             alert.setHeaderText(this.headerText);
             alert.setContentText(this.contentText);
@@ -70,7 +71,7 @@ public class AlertDialogs {
     public static class WarningAlertBuilder extends AlertBuilder {
 
         public WarningAlertBuilder() {
-            super(Alert.AlertType.ERROR);
+            super(Alert.AlertType.WARNING);
         }
 
         @Override
