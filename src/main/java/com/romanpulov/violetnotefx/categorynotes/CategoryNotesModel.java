@@ -46,6 +46,26 @@ public class CategoryNotesModel {
         return null;
     }
 
+    public boolean hasCategoryNotes(PassCategoryFX passCategoryFX) {
+        if (passCategoryFX == null)
+            return false;
+        else {
+            for (PassNoteFX n : passNoteData) {
+                if (n.getCategory().equals(passCategoryFX))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public boolean isLeafCategory(PassCategoryFX passCategoryFX) {
+        for (PassCategoryFX p : passCategoryData) {
+            if (p.getParentCategory().equals(passCategoryFX))
+                return false;
+        }
+        return true;
+    }
+
     private void readDocument() {
         passCategoryData = FXCollections.observableArrayList();
 
@@ -130,6 +150,10 @@ public class CategoryNotesModel {
 
         public String getCategoryName() {
             return category.get().getCategoryName();
+        }
+
+        public PassCategoryFX getCategory() {
+            return category.get();
         }
 
         public String getSystem() {

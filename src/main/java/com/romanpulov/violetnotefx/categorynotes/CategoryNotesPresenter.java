@@ -66,7 +66,10 @@ public class CategoryNotesPresenter implements Initializable {
         categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<CategoryNotesModel.PassCategoryFX>>() {
             @Override
             public void changed(ObservableValue<? extends TreeItem<CategoryNotesModel.PassCategoryFX>> observable, TreeItem<CategoryNotesModel.PassCategoryFX> oldValue, TreeItem<CategoryNotesModel.PassCategoryFX> newValue) {
-                loadTable(newValue.getValue());
+                if (newValue != null)
+                    loadTable(newValue.getValue());
+                else
+                    loadTable(null);
             }
         });
     }
@@ -85,4 +88,16 @@ public class CategoryNotesPresenter implements Initializable {
         }
     }
 
+    @FXML
+    private void categoryDeleteButtonClick(ActionEvent event) {
+        TreeItem<CategoryNotesModel.PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
+        if (notesTableView.getItems().size() > 0) {
+            new AlertDialogs.ErrorAlertBuilder().setContentText("Unable to delete category containing items").buildAlert().showAndWait();
+        }
+        if (!(selectedItem.isLeaf())) {
+            new AlertDialogs.ErrorAlertBuilder().setContentText("Node contains underlying nodes and cannot be deleted").buildAlert().showAndWait();
+        }
+        categoryNotesModel.getCategoryData().remove(selectedItem.getValue());
+        loadTreeView();
+    }
 }
