@@ -118,6 +118,11 @@ public class CategoryNotesModel {
         public String getCategoryName() {
             return categoryName.get();
         }
+
+        public void setCategoryName(String value) {
+            categoryName.setValue(value);
+        }
+
         public PassCategoryFX getParentCategory() {
             return parentCategory.get();
         }

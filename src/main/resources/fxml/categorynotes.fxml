@@ -17,7 +17,7 @@
                     <items>
                       <Button fx:id="categoryAddButton" mnemonicParsing="false" text="Add" onAction="#categoryAddButtonClick" />
                         <Button fx:id="categoryDeleteButton" mnemonicParsing="false" text="Delete" onAction = "#categoryDeleteButtonClick" />
-                        <Button fx:id="categoryEditButton" mnemonicParsing="false" text="Edit" />
+                        <Button fx:id="categoryEditButton" mnemonicParsing="false" text="Edit" onAction="#categoryEditButtonClick" />
                     </items>
                   </ToolBar>
                   </children>

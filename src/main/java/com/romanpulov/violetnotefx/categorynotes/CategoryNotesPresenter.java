@@ -46,7 +46,7 @@ public class CategoryNotesPresenter implements Initializable {
         categoryTreeView.setRoot(root);
         categoryTreeView.setShowRoot(false);
         categoryNotesModel.getCategoryData().stream().forEach((passCategoryFX -> {
-            root.getChildren().add(new TreeItem<>(passCategoryFX));
+            root.getChildren().add(new TreeItem<CategoryNotesModel.PassCategoryFX>(passCategoryFX));
         }));
     }
 
@@ -78,6 +78,8 @@ public class CategoryNotesPresenter implements Initializable {
     private void categoryAddButtonClick(ActionEvent event) {
         CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
         CategoryNameStage.showStage(data);
+        if (data.modelResult == 0)
+            return;
 
         if (categoryNotesModel.findChildPassCategoryName(null, data.categoryName) == null) {
             log.debug("can process add");
@@ -99,5 +101,25 @@ public class CategoryNotesPresenter implements Initializable {
         }
         categoryNotesModel.getCategoryData().remove(selectedItem.getValue());
         loadTreeView();
+    }
+
+    @FXML
+    private void categoryEditButtonClick(ActionEvent event) {
+        CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
+        TreeItem<CategoryNotesModel.PassCategoryFX> selectedTreeItem = categoryTreeView.getSelectionModel().getSelectedItem();
+        CategoryNotesModel.PassCategoryFX selectedCategory = selectedTreeItem.getValue();
+        data.categoryName = selectedCategory.getCategoryName();
+        CategoryNameStage.showStage(data);
+        if (data.modelResult == 0)
+            return;
+
+        if (categoryNotesModel.findChildPassCategoryName(selectedCategory.getParentCategory(), data.categoryName) != null) {
+            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + data.categoryName + " already exists").buildAlert().showAndWait();
+        } else {
+            selectedCategory.setCategoryName(data.categoryName);
+            // invalidate tree view
+            selectedTreeItem.setValue(null);
+            selectedTreeItem.setValue(selectedCategory);
+        }
     }
 }
