@@ -11,7 +11,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by 4540 on 22.02.2016.
@@ -99,6 +102,42 @@ public class CategoryNotesModel {
             if (passCategoryFX != null)
                 passNoteData.add(new PassNoteFX(passCategoryFX, passNote.getSystem(), passNote.getUser(), passNote.getPassword(), passNote.getComments(), passNote.getCustom(), passNote.getInfo()));
         });
+    }
+
+    private PassCategory addCategoryData(Map<PassCategoryFX, PassCategory> categoryData, PassCategoryFX categoryFX) {
+        PassCategory category = categoryData.get(categoryFX);
+        if (category == null) {
+            // create new category if not exists
+            category = new PassCategory(categoryFX.getCategoryName());
+            // create and set parent category
+            PassCategoryFX parentCategoryFX = categoryFX.getParentCategory();
+            if (parentCategoryFX != null) {
+                PassCategory parentPassCategory = addCategoryData(categoryData, parentCategoryFX);
+                category.setParentCategory(parentPassCategory);
+            }
+        }
+        return category;
+    }
+
+    public PassData saveNoteData() {
+        PassData data = new PassData();
+        List<PassCategory> passCategoryList = new ArrayList<>();
+        List<PassNote> passNoteList = new ArrayList<>();
+        data.setPassCategoryList(passCategoryList);
+        data.setPassNoteList(passNoteList);
+
+        Map<PassCategoryFX, PassCategory> categoryData = new HashMap<>();
+        passCategoryData.stream().forEach((p) -> {
+            addCategoryData(categoryData, p);
+        });
+
+        passNoteData.stream().forEach((p) -> {
+            PassCategory category = categoryData.get(p.getCategory());
+            PassNote note = new PassNote(category, p.getSystem(), p.getUser(), p.getPassword(), p.getComments(), p.getComments(), p.getInfo());
+            passNoteList.add(note);
+        });
+
+        return data;
     }
 
     private void readDocument() {
@@ -190,6 +229,14 @@ public class CategoryNotesModel {
 
         public String getPassword() {
             return new String(new char[password.get().length()]).replace("\0", "*");
+        }
+
+        public String getComments() {
+            return comments.get();
+        }
+
+        public String getCustom() {
+            return custom.get();
         }
 
         public String getInfo() {
