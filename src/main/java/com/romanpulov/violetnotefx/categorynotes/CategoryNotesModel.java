@@ -1,6 +1,7 @@
 package com.romanpulov.violetnotefx.categorynotes;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
+import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Model.PassNote;
 import com.romanpulov.violetnotefx.Document;
 import javafx.beans.property.ObjectProperty;
@@ -10,6 +11,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
+import java.util.List;
+
 /**
  * Created by 4540 on 22.02.2016.
  */
@@ -17,6 +20,14 @@ public class CategoryNotesModel {
 
     private ObservableList<PassNoteFX> passNoteData;
     private ObservableList<PassCategoryFX> passCategoryData;
+
+    public ObservableList<PassCategoryFX> getPassCategoryData() {
+        return passCategoryData;
+    }
+
+    public ObservableList<PassNoteFX> getPassNoteData() {
+        return passNoteData;
+    }
 
     private PassCategoryFX addPassCategoryFX(PassCategory passCategory) {
         PassCategory parentPassCategory = passCategory.getParentCategory();
@@ -66,10 +77,9 @@ public class CategoryNotesModel {
         return true;
     }
 
-    private void readDocument() {
+    public void loadCategoryData(List<PassCategory> passCategoryList) {
         passCategoryData = FXCollections.observableArrayList();
-
-        Document.getInstance().getPassData().getPassCategoryList().stream().forEach((passCategory -> {
+        passCategoryList.stream().forEach((passCategory -> {
             // find existing
             PassCategoryFX passCategoryFX = findSourcePassCategory(passCategory);
             // if not found then add
@@ -80,13 +90,22 @@ public class CategoryNotesModel {
                 }
             }
         }));
+    }
 
+    public void loadNoteData(List<PassNote> passNoteList) {
         passNoteData =  FXCollections.observableArrayList();
-        Document.getInstance().getPassData().getPassNoteList().stream().forEach((passNote)-> {
+        passNoteList.stream().forEach((passNote)-> {
             PassCategoryFX passCategoryFX = findSourcePassCategory(passNote.getPassCategory());
             if (passCategoryFX != null)
                 passNoteData.add(new PassNoteFX(passCategoryFX, passNote.getSystem(), passNote.getUser(), passNote.getPassword(), passNote.getComments(), passNote.getCustom(), passNote.getInfo()));
         });
+    }
+
+    private void readDocument() {
+        if (Document.getInstance().getPassData() != null) {
+            loadCategoryData(Document.getInstance().getPassData().getPassCategoryList());
+            loadNoteData(Document.getInstance().getPassData().getPassNoteList());
+        }
     }
 
     public CategoryNotesModel() {

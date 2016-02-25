@@ -17,10 +17,13 @@ public class Document {
     private static Document ourInstance = new Document();
     private static final Logger log = LoggerFactory.getLogger(Document.class);
 
-    private PassData passData = new PassData();
+    private PassData passData;
 
     public PassData getPassData() {
         return passData;
+    }
+    public void setPassData(PassData passData) {
+        this.passData = passData;
     }
 
     public void importPins(String fileName) {
@@ -28,10 +31,7 @@ public class Document {
         passData = null;
         try {
             passData = pinsReader.readStream(new FileInputStream(fileName));
-        } catch (DataReadWriteException e) {
-            log.info(e.getMessage());
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
+        } catch (DataReadWriteException | FileNotFoundException e) {
             log.info(e.getMessage());
             e.printStackTrace();
         }
