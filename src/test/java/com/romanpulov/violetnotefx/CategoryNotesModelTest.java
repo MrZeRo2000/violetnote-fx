@@ -103,6 +103,9 @@ public class CategoryNotesModelTest {
         CategoryNotesModel model = createSampleCategoryNotesModel();
         PassData passData = model.saveNoteData();
 
+        assertEquals(model.getPassCategoryData().size(), passData.getPassCategoryList().size());
+        assertEquals(model.getPassNoteData().size(), passData.getPassNoteList().size());
+
         System.out.println("SavePassData");
         System.out.println("Categories");
         passData.getPassCategoryList().stream().forEach((p) -> System.out.println(p));

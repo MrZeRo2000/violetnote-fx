@@ -123,6 +123,7 @@ public class CategoryNotesModel {
                 PassCategory parentPassCategory = addCategoryData(categoryData, parentCategoryFX);
                 category.setParentCategory(parentPassCategory);
             }
+            categoryData.put(categoryFX, category);
         }
         return category;
     }
@@ -137,6 +138,9 @@ public class CategoryNotesModel {
         Map<PassCategoryFX, PassCategory> categoryData = new HashMap<>();
         passCategoryData.stream().forEach((p) -> {
             addCategoryData(categoryData, p);
+        });
+        categoryData.entrySet().stream().forEach((p) -> {
+            passCategoryList.add(p.getValue());
         });
 
         passNoteData.stream().forEach((p) -> {
@@ -153,6 +157,10 @@ public class CategoryNotesModel {
             loadCategoryData(Document.getInstance().getPassData().getPassCategoryList());
             loadNoteData(Document.getInstance().getPassData().getPassNoteList());
         }
+    }
+
+    private void writeDocument() {
+        Document.getInstance().setPassData(saveNoteData());
     }
 
     public CategoryNotesModel() {
