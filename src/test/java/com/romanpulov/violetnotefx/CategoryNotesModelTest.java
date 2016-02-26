@@ -20,7 +20,7 @@ import static org.junit.Assert.assertEquals;
 public class CategoryNotesModelTest {
 
     @Test
-    public void method1() {
+    public void testMethod() {
         assertEquals(1, 1);
     }
 

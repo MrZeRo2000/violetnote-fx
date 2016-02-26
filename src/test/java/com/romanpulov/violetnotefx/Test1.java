@@ -8,7 +8,7 @@ import org.junit.Test;
 public class Test1 {
 
     @Test
-    public void method1() {
+    public void testMethod() {
         assertEquals(1, 1);
     }
 
