@@ -187,7 +187,7 @@ public class CategoryNotesModel {
 
         @Override
         public String toString(){
-            return categoryName.get();
+            return "{parentCategory = " + parentCategory.get() + ", categoryName = " + categoryName.get() + "}";
         }
     }
 
@@ -212,7 +212,7 @@ public class CategoryNotesModel {
         }
 
         public String getCategoryName() {
-            return category.get().getCategoryName();
+            return (category.get() == null) ? null : category.get().getCategoryName();
         }
 
         public PassCategoryFX getCategory() {
@@ -241,6 +241,12 @@ public class CategoryNotesModel {
 
         public String getInfo() {
             return info.get();
+        }
+
+        @Override
+        public String toString() {
+            return "{category = " + getCategory() + ", system = " + getSystem() + ", user = " + getUser() + ", password = " + getPassword() +
+                    ", comments = " + getComments() + ", custom = " + getCustom() + ", info = " + getInfo() + "}";
         }
 
     }

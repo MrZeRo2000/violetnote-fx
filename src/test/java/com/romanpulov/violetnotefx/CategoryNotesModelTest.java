@@ -60,7 +60,10 @@ public class CategoryNotesModelTest {
         assertEquals(passData.getPassCategoryList().size(), model.getPassCategoryData().size());
         assertEquals(passData.getPassNoteList().size(), model.getPassNoteData().size());
 
+        System.out.println("Categories");
         model.getPassCategoryData().stream().forEach((p) -> System.out.println(p));
+        System.out.println("Notes");
+        model.getPassNoteData().stream().forEach((p) -> System.out.println(p));
     }
 
 }
