@@ -28,8 +28,16 @@ public class CategoryNotesModel {
         return passCategoryData;
     }
 
+    public void setPassCategoryData(ObservableList<PassCategoryFX> passCategoryData) {
+        this.passCategoryData = passCategoryData;
+    }
+
     public ObservableList<PassNoteFX> getPassNoteData() {
         return passNoteData;
+    }
+
+    public void setPassNoteData(ObservableList<PassNoteFX> passNoteData) {
+        this.passNoteData = passNoteData;
     }
 
     private PassCategoryFX addPassCategoryFX(PassCategory passCategory) {
