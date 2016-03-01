@@ -5,6 +5,7 @@ import com.romanpulov.violetnotefx.AlertDialogs;
 import com.romanpulov.violetnotefx.Document;
 import com.romanpulov.violetnotefx.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.core.annotation.Model;
+import com.romanpulov.violetnotefx.note.NoteStage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -151,7 +152,9 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void noteAddButtonClick(ActionEvent event) {
-
+        CategoryNotesModel.PassCategoryFX categoryFX = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
+        CategoryNotesModel.PassNoteFX editNote = new CategoryNotesModel.PassNoteFX(categoryFX);
+        NoteStage.showStage(editNote);
     }
 
     @FXML
@@ -161,7 +164,8 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void noteEditButtonClick(ActionEvent event) {
-
+        CategoryNotesModel.PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
+        NoteStage.showStage(editNote);
     }
 
 }

@@ -221,6 +221,10 @@ public class CategoryNotesModel {
         private final SimpleStringProperty custom;
         private final SimpleStringProperty info;
 
+        public PassNoteFX(PassCategoryFX category) {
+            this(category, null, null, null, null, null, null);
+        }
+
         public PassNoteFX(PassCategoryFX category, String system, String user, String password, String comments, String custom, String info) {
             this.category = new SimpleObjectProperty<PassCategoryFX>(category);
             this.system = new SimpleStringProperty(system);
