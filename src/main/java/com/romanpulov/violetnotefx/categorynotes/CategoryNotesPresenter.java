@@ -72,6 +72,19 @@ public class CategoryNotesPresenter implements Initializable {
                     loadTable(null);
             }
         });
+
+        // cell factory
+        categoryTreeView.setCellFactory((tv) -> {
+            return new TreeCell<CategoryNotesModel.PassCategoryFX>() {
+                @Override
+                protected void updateItem(CategoryNotesModel.PassCategoryFX item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item != null) {
+                        setText(item.getDisplayValue());
+                    }
+                }
+            };
+        });
     }
 
     @FXML

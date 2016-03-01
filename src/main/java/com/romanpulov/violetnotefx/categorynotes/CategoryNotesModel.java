@@ -201,6 +201,10 @@ public class CategoryNotesModel {
             return parentCategory.get();
         }
 
+        public String getDisplayValue() {
+            return categoryName.get();
+        }
+
         @Override
         public String toString(){
             return "{parentCategory = " + parentCategory.get() + ", categoryName = " + categoryName.get() + "}";
