@@ -1,6 +1,6 @@
-package com.romanpulov.violetnotefx.note;
+package com.romanpulov.violetnotefx.presentation.note;
 
-import com.romanpulov.violetnotefx.categorynotes.CategoryNotesModel;
+import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -10,7 +10,7 @@ import javafx.stage.Stage;
  */
 public class NoteStage {
 
-    public static void showStage(CategoryNotesModel.PassNoteFX note) {
+    public static void showStage(PassNoteFX note) {
         NoteView view = new NoteView();
 
         Stage stage = new Stage();

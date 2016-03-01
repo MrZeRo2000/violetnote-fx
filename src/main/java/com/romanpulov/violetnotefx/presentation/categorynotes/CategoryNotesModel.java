@@ -1,12 +1,11 @@
-package com.romanpulov.violetnotefx.categorynotes;
+package com.romanpulov.violetnotefx.presentation.categorynotes;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Model.PassNote;
-import com.romanpulov.violetnotefx.Document;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
+import com.romanpulov.violetnotefx.model.Document;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
+import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -53,7 +52,7 @@ public class CategoryNotesModel {
 
     private PassCategoryFX findSourcePassCategory(PassCategory passCategory) {
         for (PassCategoryFX p : passCategoryData) {
-            if (p.sourcePassCategory.equals(passCategory))
+            if (p.getSourcePassCategory().equals(passCategory))
                 return p;
         }
         return null;
@@ -172,107 +171,7 @@ public class CategoryNotesModel {
     }
 
     public ObservableList<PassNoteFX> getPassNoteData(PassCategoryFX category) {
-        return new FilteredList<PassNoteFX>(passNoteData, p->{return p.category.get().equals(category);});
-    }
-
-    public static class PassCategoryFX {
-        private PassCategory sourcePassCategory;
-        private final SimpleObjectProperty<PassCategoryFX> parentCategory;
-        private final SimpleStringProperty categoryName;
-
-        public PassCategoryFX(PassCategoryFX parentCategory, String categoryName) {
-            this.parentCategory = new SimpleObjectProperty<>(parentCategory);
-            this.categoryName = new SimpleStringProperty(categoryName);
-        }
-
-        public void setSourcePassCategory(PassCategory passCategory) {
-            sourcePassCategory = passCategory;
-        }
-
-        public String getCategoryName() {
-            return categoryName.get();
-        }
-
-        public void setCategoryName(String value) {
-            categoryName.setValue(value);
-        }
-
-        public PassCategoryFX getParentCategory() {
-            return parentCategory.get();
-        }
-
-        public String getDisplayValue() {
-            return categoryName.get();
-        }
-
-        @Override
-        public String toString(){
-            return "{parentCategory = " + parentCategory.get() + ", categoryName = " + categoryName.get() + "}";
-        }
-    }
-
-    public static class PassNoteFX {
-        private final SimpleObjectProperty<PassCategoryFX> category;
-        //private final SimpleStringProperty categoryName;
-        private final SimpleStringProperty system;
-        private final SimpleStringProperty user;
-        private final SimpleStringProperty password;
-        private final SimpleStringProperty comments;
-        private final SimpleStringProperty custom;
-        private final SimpleStringProperty info;
-
-        public PassNoteFX(PassCategoryFX category) {
-            this(category, null, null, null, null, null, null);
-        }
-
-        public PassNoteFX(PassCategoryFX category, String system, String user, String password, String comments, String custom, String info) {
-            this.category = new SimpleObjectProperty<PassCategoryFX>(category);
-            this.system = new SimpleStringProperty(system);
-            this.user = new SimpleStringProperty(user);
-            this.password = new SimpleStringProperty(password);
-            this.comments = new SimpleStringProperty(comments);
-            this.custom = new SimpleStringProperty(custom);
-            this.info = new SimpleStringProperty(info);
-        }
-
-        public String getCategoryName() {
-            return (category.get() == null) ? null : category.get().getCategoryName();
-        }
-
-        public PassCategoryFX getCategory() {
-            return category.get();
-        }
-
-        public String getSystem() {
-            return system.get();
-        }
-
-        public String getUser() {
-            return user.get();
-        }
-
-        public String getPassword() {
-            return new String(new char[password.get().length()]).replace("\0", "*");
-        }
-
-        public String getComments() {
-            return comments.get();
-        }
-
-        public String getCustom() {
-            return custom.get();
-        }
-
-        public String getInfo() {
-            return info.get();
-        }
-
-        @Override
-        public String toString() {
-            return "{category = " + getCategory() + ", system = " + getSystem() + ", user = " + getUser() + ", password = " + getPassword() +
-                    ", comments = " + getComments() + ", custom = " + getCustom() + ", info = " + getInfo() + "}";
-        }
-
+        return new FilteredList<PassNoteFX>(passNoteData, p->{return p.getCategory().equals(category);});
     }
 
 

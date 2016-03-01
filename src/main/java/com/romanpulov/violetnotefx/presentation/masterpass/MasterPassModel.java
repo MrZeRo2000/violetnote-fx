@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.masterpass;
+package com.romanpulov.violetnotefx.presentation.masterpass;
 
 import com.romanpulov.violetnotefx.core.annotation.BoundProperty;
 import com.romanpulov.violetnotefx.core.annotation.ModelOperation;

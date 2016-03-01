@@ -1,6 +1,5 @@
-package com.romanpulov.violetnotefx;
+package com.romanpulov.violetnotefx.model;
 
-import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Processor.Exception.DataReadWriteException;
 import com.romanpulov.violetnotecore.Processor.PinsDataReader;

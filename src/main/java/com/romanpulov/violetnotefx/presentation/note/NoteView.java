@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.note;
+package com.romanpulov.violetnotefx.presentation.note;
 
 import com.romanpulov.violetnotefx.core.views.FXMLAbstractView;
 

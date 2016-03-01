@@ -1,20 +1,9 @@
 package com.romanpulov.violetnotefx;
 
-import com.romanpulov.violetnotefx.categoryname.CategoryNameStage;
-import com.romanpulov.violetnotefx.categorynotes.CategoryNotesView;
-import com.romanpulov.violetnotefx.core.injection.Binder;
-import com.romanpulov.violetnotefx.masterpass.MasterPassModel;
-import com.romanpulov.violetnotefx.masterpass.MasterPassView;
+import com.romanpulov.violetnotefx.model.Document;
+import com.romanpulov.violetnotefx.presentation.categorynotes.CategoryNotesView;
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

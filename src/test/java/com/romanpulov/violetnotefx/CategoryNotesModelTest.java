@@ -3,7 +3,9 @@ package com.romanpulov.violetnotefx;
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Model.PassNote;
-import com.romanpulov.violetnotefx.categorynotes.CategoryNotesModel;
+import com.romanpulov.violetnotefx.presentation.categorynotes.CategoryNotesModel;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
+import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.Test;
@@ -55,23 +57,23 @@ public class CategoryNotesModelTest {
         CategoryNotesModel model = new CategoryNotesModel();
 
         //category
-        ObservableList<CategoryNotesModel.PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
-        CategoryNotesModel.PassCategoryFX category1 = new CategoryNotesModel.PassCategoryFX(null, "Category 1");
-        CategoryNotesModel.PassCategoryFX category2 = new CategoryNotesModel.PassCategoryFX(null, "Category 2");
+        ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
+        PassCategoryFX category1 = new PassCategoryFX(null, "Category 1");
+        PassCategoryFX category2 = new PassCategoryFX(null, "Category 2");
         passCategoryData.addAll(Arrays.asList(category1, category2));
 
         //notes
-        ObservableList<CategoryNotesModel.PassNoteFX> passNoteData = FXCollections.observableArrayList();
+        ObservableList<PassNoteFX> passNoteData = FXCollections.observableArrayList();
         passNoteData.add(
-          new CategoryNotesModel.PassNoteFX(category1, "System 1", "User 1", "Password 1", null, null, null)
+          new PassNoteFX(category1, "System 1", "User 1", "Password 1", null, null, null)
         );
 
         passNoteData.add(
-                new CategoryNotesModel.PassNoteFX(category1, "System 1", "User 2", "Password 2", null, null, null)
+                new PassNoteFX(category1, "System 1", "User 2", "Password 2", null, null, null)
         );
 
         passNoteData.add(
-                new CategoryNotesModel.PassNoteFX(category2, "System 2", "User 6", "Password 4", null, null, null)
+                new PassNoteFX(category2, "System 2", "User 6", "Password 4", null, null, null)
         );
 
         model.setPassCategoryData(passCategoryData);

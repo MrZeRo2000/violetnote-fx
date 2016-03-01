@@ -1,9 +1,8 @@
-package com.romanpulov.violetnotefx.note;
+package com.romanpulov.violetnotefx.presentation.note;
 
 import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
 import com.romanpulov.violetnotefx.core.injection.Invoker;
 import javafx.fxml.FXML;
-import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

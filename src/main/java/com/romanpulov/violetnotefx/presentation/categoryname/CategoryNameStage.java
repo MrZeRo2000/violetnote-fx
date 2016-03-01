@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.categoryname;
+package com.romanpulov.violetnotefx.presentation.categoryname;
 
 import javafx.scene.Scene;
 import javafx.stage.Modality;

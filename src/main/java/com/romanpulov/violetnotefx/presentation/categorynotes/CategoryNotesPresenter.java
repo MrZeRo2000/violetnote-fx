@@ -1,11 +1,11 @@
-package com.romanpulov.violetnotefx.categorynotes;
+package com.romanpulov.violetnotefx.presentation.categorynotes;
 
-import com.romanpulov.violetnotecore.Model.PassCategory;
-import com.romanpulov.violetnotefx.AlertDialogs;
-import com.romanpulov.violetnotefx.Document;
-import com.romanpulov.violetnotefx.categoryname.CategoryNameStage;
+import com.romanpulov.violetnotefx.presentation.AlertDialogs;
+import com.romanpulov.violetnotefx.presentation.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.core.annotation.Model;
-import com.romanpulov.violetnotefx.note.NoteStage;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
+import com.romanpulov.violetnotefx.model.PassNoteFX;
+import com.romanpulov.violetnotefx.presentation.note.NoteStage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -26,10 +26,10 @@ public class CategoryNotesPresenter implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(CategoryNotesPresenter.class);
 
     @FXML
-    private TreeView<CategoryNotesModel.PassCategoryFX> categoryTreeView;
+    private TreeView<PassCategoryFX> categoryTreeView;
 
     @FXML
-    private TableView<CategoryNotesModel.PassNoteFX> notesTableView;
+    private TableView<PassNoteFX> notesTableView;
 
     @FXML
     private Button categoryAddButton;
@@ -53,15 +53,15 @@ public class CategoryNotesPresenter implements Initializable {
     private CategoryNotesModel categoryNotesModel;
 
     private void loadTreeView() {
-        TreeItem<CategoryNotesModel.PassCategoryFX> root = new TreeItem<>();
+        TreeItem<PassCategoryFX> root = new TreeItem<>();
         categoryTreeView.setRoot(root);
         categoryTreeView.setShowRoot(false);
         categoryNotesModel.getCategoryData().stream().forEach((passCategoryFX -> {
-            root.getChildren().add(new TreeItem<CategoryNotesModel.PassCategoryFX>(passCategoryFX));
+            root.getChildren().add(new TreeItem<PassCategoryFX>(passCategoryFX));
         }));
     }
 
-    private void loadTable(CategoryNotesModel.PassCategoryFX category) {
+    private void loadTable(PassCategoryFX category) {
         notesTableView.setItems(categoryNotesModel.getPassNoteData(category));
     }
 
@@ -78,9 +78,9 @@ public class CategoryNotesPresenter implements Initializable {
         noteEditButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
 
         //selection change
-        categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<CategoryNotesModel.PassCategoryFX>>() {
+        categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<PassCategoryFX>>() {
             @Override
-            public void changed(ObservableValue<? extends TreeItem<CategoryNotesModel.PassCategoryFX>> observable, TreeItem<CategoryNotesModel.PassCategoryFX> oldValue, TreeItem<CategoryNotesModel.PassCategoryFX> newValue) {
+            public void changed(ObservableValue<? extends TreeItem<PassCategoryFX>> observable, TreeItem<PassCategoryFX> oldValue, TreeItem<PassCategoryFX> newValue) {
                 if (newValue != null)
                     loadTable(newValue.getValue());
                 else
@@ -90,9 +90,9 @@ public class CategoryNotesPresenter implements Initializable {
 
         // cell factory
         categoryTreeView.setCellFactory((tv) -> {
-            return new TreeCell<CategoryNotesModel.PassCategoryFX>() {
+            return new TreeCell<PassCategoryFX>() {
                 @Override
-                protected void updateItem(CategoryNotesModel.PassCategoryFX item, boolean empty) {
+                protected void updateItem(PassCategoryFX item, boolean empty) {
                     super.updateItem(item, empty);
                     if (item != null) {
                         setText(item.getDisplayValue());
@@ -111,7 +111,7 @@ public class CategoryNotesPresenter implements Initializable {
 
         if (categoryNotesModel.findChildPassCategoryName(null, data.categoryName) == null) {
             log.debug("can process add");
-            categoryNotesModel.getCategoryData().add(new CategoryNotesModel.PassCategoryFX(null, data.categoryName));
+            categoryNotesModel.getCategoryData().add(new PassCategoryFX(null, data.categoryName));
             loadTreeView();
         } else {
             new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + data.categoryName + " already exists").buildAlert().showAndWait();
@@ -120,7 +120,7 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void categoryDeleteButtonClick(ActionEvent event) {
-        TreeItem<CategoryNotesModel.PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
+        TreeItem<PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
         if (notesTableView.getItems().size() > 0) {
             new AlertDialogs.ErrorAlertBuilder().setContentText("Unable to delete category containing items").buildAlert().showAndWait();
         }
@@ -134,8 +134,8 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private void categoryEditButtonClick(ActionEvent event) {
         CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
-        TreeItem<CategoryNotesModel.PassCategoryFX> selectedTreeItem = categoryTreeView.getSelectionModel().getSelectedItem();
-        CategoryNotesModel.PassCategoryFX selectedCategory = selectedTreeItem.getValue();
+        TreeItem<PassCategoryFX> selectedTreeItem = categoryTreeView.getSelectionModel().getSelectedItem();
+        PassCategoryFX selectedCategory = selectedTreeItem.getValue();
         data.categoryName = selectedCategory.getCategoryName();
         CategoryNameStage.showStage(data);
         if (data.modelResult == 0)
@@ -153,8 +153,8 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void noteAddButtonClick(ActionEvent event) {
-        CategoryNotesModel.PassCategoryFX categoryFX = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
-        CategoryNotesModel.PassNoteFX editNote = new CategoryNotesModel.PassNoteFX(categoryFX);
+        PassCategoryFX categoryFX = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
+        PassNoteFX editNote = new PassNoteFX(categoryFX);
         NoteStage.showStage(editNote);
     }
 
@@ -168,7 +168,7 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void noteEditButtonClick(ActionEvent event) {
-        CategoryNotesModel.PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
+        PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
         NoteStage.showStage(editNote);
     }
 
