@@ -79,4 +79,16 @@ public class AlertDialogs {
             this.title = "Warning";
         }
     }
+
+    public static class ConfirmationAlertBuilder extends AlertBuilder {
+
+        public ConfirmationAlertBuilder() {
+            super(Alert.AlertType.CONFIRMATION);
+        }
+
+        @Override
+        protected void setDefaults() {
+            this.title = "Confirmation";
+        }
+    }
 }

@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 /**
@@ -159,7 +160,10 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void noteDeleteButtonClick(ActionEvent event) {
-
+        Optional<ButtonType> result = new AlertDialogs.ConfirmationAlertBuilder().setContentText("Are you sure?").buildAlert().showAndWait();
+        if (result.get() == ButtonType.OK) {
+            categoryNotesModel.getPassNoteData().remove(notesTableView.getSelectionModel().getSelectedItem());
+        }
     }
 
     @FXML
