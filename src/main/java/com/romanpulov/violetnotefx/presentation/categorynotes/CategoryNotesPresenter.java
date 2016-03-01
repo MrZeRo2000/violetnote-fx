@@ -53,12 +53,17 @@ public class CategoryNotesPresenter implements Initializable {
     private CategoryNotesModel categoryNotesModel;
 
     private void loadTreeView() {
-        TreeItem<PassCategoryFX> root = new TreeItem<>();
-        categoryTreeView.setRoot(root);
+        TreeItem<PassCategoryFX> root = categoryTreeView.getRoot();
+        if (root == null) {
+            root = new TreeItem<PassCategoryFX>();
+            categoryTreeView.setRoot(root);
+        } else {
+            root.getChildren().clear();
+        }
         categoryTreeView.setShowRoot(false);
-        categoryNotesModel.getCategoryData().stream().forEach((passCategoryFX -> {
-            root.getChildren().add(new TreeItem<PassCategoryFX>(passCategoryFX));
-        }));
+        for (PassCategoryFX p : categoryNotesModel.getCategoryData()) {
+            root.getChildren().add(new TreeItem<>(p));
+        }
     }
 
     private void loadTable(PassCategoryFX category) {
@@ -89,17 +94,21 @@ public class CategoryNotesPresenter implements Initializable {
         });
 
         // cell factory
+
         categoryTreeView.setCellFactory((tv) -> {
             return new TreeCell<PassCategoryFX>() {
                 @Override
                 protected void updateItem(PassCategoryFX item, boolean empty) {
                     super.updateItem(item, empty);
-                    if (item != null) {
+                    if ((empty) || (item == null)) {
+                        setText(null);
+                    } else {
                         setText(item.getDisplayValue());
                     }
                 }
             };
         });
+
     }
 
     @FXML
@@ -123,12 +132,15 @@ public class CategoryNotesPresenter implements Initializable {
         TreeItem<PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
         if (notesTableView.getItems().size() > 0) {
             new AlertDialogs.ErrorAlertBuilder().setContentText("Unable to delete category containing items").buildAlert().showAndWait();
+            return;
         }
         if (!(selectedItem.isLeaf())) {
             new AlertDialogs.ErrorAlertBuilder().setContentText("Node contains underlying nodes and cannot be deleted").buildAlert().showAndWait();
+            return;
         }
         categoryNotesModel.getCategoryData().remove(selectedItem.getValue());
-        loadTreeView();
+        selectedItem.getParent().getChildren().remove(selectedItem);
+        //loadTreeView();
     }
 
     @FXML
