@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.cell.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.control.cell.PropertyValueFactory?>
-<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.romanpulov.violetnotefx.categorynotes.CategoryNotesPresenter">
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.romanpulov.violetnotefx.categorynotes.CategoryNotesPresenter">
     <children>
 <SplitPane dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
           <items>
@@ -15,35 +15,35 @@
                       <TreeView fx:id="categoryTreeView" prefHeight="398.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
                   <ToolBar layoutX="0.0" layoutY="0.0" prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <Button fx:id="categoryAddButton" mnemonicParsing="false" text="Add" onAction="#categoryAddButtonClick" />
-                        <Button fx:id="categoryDeleteButton" mnemonicParsing="false" text="Delete" onAction = "#categoryDeleteButtonClick" />
-                        <Button fx:id="categoryEditButton" mnemonicParsing="false" text="Edit" onAction="#categoryEditButtonClick" />
+                      <Button fx:id="categoryAddButton" mnemonicParsing="false" onAction="#categoryAddButtonClick" text="Add" />
+                        <Button fx:id="categoryDeleteButton" mnemonicParsing="false" onAction="#categoryDeleteButtonClick" text="Delete" />
+                        <Button fx:id="categoryEditButton" mnemonicParsing="false" onAction="#categoryEditButtonClick" text="Edit" />
                     </items>
                   </ToolBar>
                   </children>
               </AnchorPane>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="100.0">
                   <children>
-                      <TableView fx:id="notesTableView" prefHeight="398.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" >
+                      <TableView fx:id="notesTableView" prefHeight="398.0" prefWidth="400.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                           <columns>
                               <TableColumn prefWidth="125.0" text="System">
                                 <cellValueFactory>
-                                    <PropertyValueFactory property = "system" />
+                                    <PropertyValueFactory property="system" />
                                 </cellValueFactory>
                               </TableColumn>
                               <TableColumn prefWidth="100.0" text="User">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property = "user" />
+                                      <PropertyValueFactory property="user" />
                                   </cellValueFactory>
                               </TableColumn>
                               <TableColumn prefWidth="100.0" text="Password">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property = "password" />
+                                      <PropertyValueFactory property="password" />
                                   </cellValueFactory>
                               </TableColumn>
                               <TableColumn prefWidth="103.0" text="Notes">
                                   <cellValueFactory>
-                                      <PropertyValueFactory property = "info" />
+                                      <PropertyValueFactory property="info" />
                                   </cellValueFactory>
                               </TableColumn>
                           </columns>
@@ -51,6 +51,13 @@
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
                       </TableView>
+                  <ToolBar prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <items>
+                      <Button fx:id="noteAddButton" mnemonicParsing="false" onAction="#noteAddButtonClick" text="Add" />
+                        <Button fx:id="noteDeleteButton" mnemonicParsing="false" onAction="#noteDeleteButtonClick" text="Delete" />
+                        <Button fx:id="noteEditButton" mnemonicParsing="false" onAction="#noteEditButtonClick" text="Edit" />
+                    </items>
+                  </ToolBar>
                   </children>
               </AnchorPane>
           </items>

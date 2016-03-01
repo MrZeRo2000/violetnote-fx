@@ -38,6 +38,15 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private Button categoryEditButton;
 
+    @FXML
+    private Button noteAddButton;
+
+    @FXML
+    private Button noteDeleteButton;
+
+    @FXML
+    private Button noteEditButton;
+
     @Model
     private CategoryNotesModel categoryNotesModel;
 
@@ -61,6 +70,10 @@ public class CategoryNotesPresenter implements Initializable {
         //simple disable rules for tool buttons
         categoryDeleteButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
         categoryEditButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
+
+        noteAddButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
+        noteDeleteButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
+        noteEditButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
 
         //selection change
         categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<CategoryNotesModel.PassCategoryFX>>() {
@@ -135,4 +148,20 @@ public class CategoryNotesPresenter implements Initializable {
             selectedTreeItem.setValue(selectedCategory);
         }
     }
+
+    @FXML
+    private void noteAddButtonClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void noteDeleteButtonClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void noteEditButtonClick(ActionEvent event) {
+
+    }
+
 }
