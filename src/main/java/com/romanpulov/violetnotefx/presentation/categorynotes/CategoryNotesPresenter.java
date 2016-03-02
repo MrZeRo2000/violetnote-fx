@@ -171,6 +171,7 @@ public class CategoryNotesPresenter implements Initializable {
 
         NoteStage.NoteData data = new NoteStage.NoteData();
         data.passNoteFX = editNote;
+        data.passCategoryData = categoryNotesModel.getPassCategoryData();
         NoteStage.showStage(data);
     }
 
@@ -189,6 +190,7 @@ public class CategoryNotesPresenter implements Initializable {
 
         NoteStage.NoteData data = new NoteStage.NoteData();
         data.passNoteFX = PassNoteFX.newInstance(editNote);
+        data.passCategoryData = categoryNotesModel.getPassCategoryData();
         NoteStage.showStage(data);
     }
 

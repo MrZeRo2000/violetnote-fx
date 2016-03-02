@@ -6,6 +6,7 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -17,10 +18,10 @@ public class NoteModel {
 
     public ObjectProperty<PassNoteFX> passNoteFX;
 
-    private ObservableList<PassCategoryFX> passCategoryData;;
+    private ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();;
 
     public void setPassCategoryData(ObservableList<PassCategoryFX> passCategoryData) {
-        this.passCategoryData = passCategoryData;
+        this.passCategoryData.addAll(passCategoryData);
     }
 
     public ObservableList<PassCategoryFX> getPassCategoryData() {

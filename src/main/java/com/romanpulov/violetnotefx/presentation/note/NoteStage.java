@@ -15,6 +15,7 @@ public class NoteStage {
     public static class NoteData {
         public int modelResult;
         public PassNoteFX passNoteFX;
+        public ObservableList<PassCategoryFX> passCategoryData;
     }
 
     public static void showStage(NoteData noteData) {
@@ -24,6 +25,9 @@ public class NoteStage {
         stage.setTitle("Note");
         Scene noteScene = new Scene(view.getView());
         NoteModel model = (NoteModel) view.getModelInstance();
+
+        model.setPassCategoryData(noteData.passCategoryData);
+        model.setPassNoteFX(noteData.passNoteFX);
 
         stage.setScene(noteScene);
         stage.setResizable(false);
