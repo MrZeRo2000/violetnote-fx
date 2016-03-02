@@ -167,7 +167,7 @@ public class CategoryNotesPresenter implements Initializable {
     private void noteAddButtonClick(ActionEvent event) {
         PassCategoryFX categoryFX = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
         PassNoteFX editNote = new PassNoteFX(categoryFX);
-        NoteStage.showStage(editNote);
+        NoteStage.showStage(editNote, categoryNotesModel.getPassCategoryData());
     }
 
     @FXML
@@ -181,7 +181,7 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private void noteEditButtonClick(ActionEvent event) {
         PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
-        NoteStage.showStage(editNote);
+        NoteStage.showStage(editNote, categoryNotesModel.getPassCategoryData());
     }
 
 }

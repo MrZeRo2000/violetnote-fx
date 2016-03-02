@@ -41,6 +41,14 @@ public class PassCategoryFX {
         return categoryName.get();
     }
 
+    public String getPathDisplayValue() {
+        PassCategoryFX parent = getParentCategory();
+        if (parent != null)
+            return parent.getPathDisplayValue() + " > " + getCategoryName();
+        else
+            return getCategoryName();
+    }
+
     @Override
     public String toString() {
         return "{parentCategory = " + parentCategory.get() + ", categoryName = " + categoryName.get() + "}";
