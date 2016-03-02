@@ -12,24 +12,25 @@ import javafx.stage.Stage;
  */
 public class NoteStage {
 
-    public static void showStage(PassNoteFX note, ObservableList<PassCategoryFX> passCategoryData) {
+    public static class NoteData {
+        public int modelResult;
+        public PassNoteFX passNoteFX;
+    }
+
+    public static void showStage(NoteData noteData) {
         NoteView view = new NoteView();
 
         Stage stage = new Stage();
         stage.setTitle("Note");
         Scene noteScene = new Scene(view.getView());
         NoteModel model = (NoteModel) view.getModelInstance();
-        model.setPassCategoryData(passCategoryData);
-
-        //model.categoryName.setValue(categoryNameData.categoryName);
 
         stage.setScene(noteScene);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
-        //categoryNameData.modelResult = model.modelResult.getValue();
-       //categoryNameData.categoryName = model.categoryName.getValue();
+        noteData.modelResult = model.modelResult.getValue();
+        noteData.passNoteFX = model.passNoteFX.getValue();
     }
-
 }

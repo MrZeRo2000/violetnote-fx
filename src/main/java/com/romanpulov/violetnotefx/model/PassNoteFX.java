@@ -16,6 +16,12 @@ public class PassNoteFX {
     private final SimpleStringProperty custom;
     private final SimpleStringProperty info;
 
+    public static PassNoteFX newInstance(PassNoteFX passNoteFX) {
+        return new PassNoteFX(
+                passNoteFX.getCategory(), passNoteFX.getSystem(), passNoteFX.getUser(), passNoteFX.getPassword(),
+                passNoteFX.getComments(), passNoteFX.getCustom(), passNoteFX.getInfo());
+    }
+
     public PassNoteFX(PassCategoryFX category) {
         this(category, null, null, null, null, null, null);
     }

@@ -78,6 +78,8 @@ public class NotePresenter  implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         log.debug("initializing presenter in initialize() with URL and resources method");
 
+        categoryComboBox.setItems(noteModel.getPassCategoryData());
+
         categoryComboBox.setCellFactory((lp) -> {
             return new ListCell<PassCategoryFX>() {
                 @Override
