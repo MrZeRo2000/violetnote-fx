@@ -4,12 +4,10 @@ import com.romanpulov.violetnotefx.core.annotation.Model;
 import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
 import com.romanpulov.violetnotefx.core.injection.Invoker;
 import com.romanpulov.violetnotefx.model.PassCategoryFX;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.slf4j.Logger;
@@ -48,6 +46,12 @@ public class NotePresenter  implements Initializable {
 
     @FXML
     private TextArea infoTextArea;
+
+    @FXML
+    private Button okButton;
+
+    @FXML
+    private Button cancelButton;
 
     @FXML
     private void okButtonClick() {
@@ -110,8 +114,14 @@ public class NotePresenter  implements Initializable {
             }
         });
 
-        //categoryComboBox.valueProperty().bindBidirectional(noteModel.categoryComboBox_valueProperty);
-        //systemTextField.textProperty().bindBidirectional(noteModel.systemTextField_textProperty);
+        okButton.disableProperty().bind(
+                noteModel.categoryComboBox_valueProperty.isNull().or(
+                    noteModel.passwordTextField_textProperty.isNotEqualTo(noteModel.passwordRetypeTextField_textProperty).or(
+                        noteModel.userTextField_textProperty.isEmpty().or(
+                            noteModel.passwordTextField_textProperty.isEmpty()
+                        )
+                    )
+                )
+        );
     }
-
 }

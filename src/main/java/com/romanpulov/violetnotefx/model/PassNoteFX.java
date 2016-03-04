@@ -35,6 +35,7 @@ public class PassNoteFX {
         this.user = new SimpleStringProperty(user);
         this.password = new SimpleStringProperty(password);
         this.realPassword = new SimpleStringProperty(password);
+        this.password.bind(this.realPassword);
         this.comments = new SimpleStringProperty(comments);
         this.custom = new SimpleStringProperty(custom);
         this.info = new SimpleStringProperty(info);

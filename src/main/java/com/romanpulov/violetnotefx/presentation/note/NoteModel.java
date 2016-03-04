@@ -27,6 +27,9 @@ public class NoteModel {
     public StringProperty passwordTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
+    public StringProperty passwordRetypeTextField_textProperty = new SimpleStringProperty();
+
+    @BoundProperty
     public StringProperty userTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
