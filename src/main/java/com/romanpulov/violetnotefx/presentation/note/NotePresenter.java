@@ -11,6 +11,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,6 +94,18 @@ public class NotePresenter  implements Initializable {
                     }
                 }
             };
+        });
+
+        categoryComboBox.setConverter(new StringConverter<PassCategoryFX>() {
+            @Override
+            public String toString(PassCategoryFX object) {
+                return object.getPathDisplayValue();
+            }
+
+            @Override
+            public PassCategoryFX fromString(String string) {
+                return noteModel.getPassCategoryFXFromPathDisplayValue(string);
+            }
         });
     }
 

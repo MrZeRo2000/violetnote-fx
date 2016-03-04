@@ -9,6 +9,8 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.stream.Stream;
+
 /**
  * Created by rpulov on 01.03.2016.
  */
@@ -34,6 +36,15 @@ public class NoteModel {
 
     public PassNoteFX getPassNoteFX() {
         return passNoteFX.get();
+    }
+
+    public PassCategoryFX getPassCategoryFXFromPathDisplayValue(String pathDisplayValue) {
+        for (PassCategoryFX passCategoryFX : passCategoryData) {
+            if (passCategoryFX.getPathDisplayValue().equals(pathDisplayValue)) {
+                return passCategoryFX;
+            }
+        }
+        return null;
     }
 
 }
