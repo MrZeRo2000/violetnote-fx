@@ -1,5 +1,7 @@
 package com.romanpulov.violetnotefx.presentation.categorynotes;
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.When;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
@@ -9,11 +11,16 @@ import javafx.stage.Stage;
 public class CategoryNotesStage {
 
     public static void showStage() {
-        CategoryNotesView categoryNotesView = new CategoryNotesView();
-        Stage categoryNotesStage = new Stage();
-        categoryNotesStage.setTitle("VioletNoteFX");
+        CategoryNotesView view = new CategoryNotesView();
 
-        Scene categoryNotesScene = new Scene(categoryNotesView.getView());
+
+        Stage categoryNotesStage = new Stage();
+        //categoryNotesStage.setTitle("VioletNoteFX");
+        Scene categoryNotesScene = new Scene(view.getView());
+
+        CategoryNotesModel model = (CategoryNotesModel) view.getModelInstance();
+        categoryNotesStage.titleProperty().bind(Bindings.concat("VioletNoteFX").concat(new When(model.getInvalidatedData()).then(" * ").otherwise("")));
+
         categoryNotesStage.setScene(categoryNotesScene);
         categoryNotesStage.show();
     }

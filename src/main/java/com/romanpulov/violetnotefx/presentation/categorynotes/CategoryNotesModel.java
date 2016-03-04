@@ -6,6 +6,10 @@ import com.romanpulov.violetnotecore.Model.PassNote;
 import com.romanpulov.violetnotefx.model.Document;
 import com.romanpulov.violetnotefx.model.PassCategoryFX;
 import com.romanpulov.violetnotefx.model.PassNoteFX;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -22,6 +26,12 @@ public class CategoryNotesModel {
 
     private ObservableList<PassNoteFX> passNoteData;
     private ObservableList<PassCategoryFX> passCategoryData;
+
+    private BooleanProperty invalidatedData = new SimpleBooleanProperty(false);
+
+    public BooleanProperty getInvalidatedData() {
+        return invalidatedData;
+    }
 
     public ObservableList<PassCategoryFX> getPassCategoryData() {
         return passCategoryData;
@@ -100,6 +110,13 @@ public class CategoryNotesModel {
                 }
             }
         }));
+
+        passCategoryData.addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                invalidatedData.setValue(true);
+            }
+        });
     }
 
     public void loadNoteData(List<PassNote> passNoteList) {
