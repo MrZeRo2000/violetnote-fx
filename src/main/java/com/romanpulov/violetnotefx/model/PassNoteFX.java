@@ -2,6 +2,7 @@ package com.romanpulov.violetnotefx.model;
 
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * Created by rpulov on 01.03.2016.
@@ -46,6 +47,10 @@ public class PassNoteFX {
 
     public String getSystem() {
         return system.get();
+    }
+
+    public StringProperty getSystemProperty() {
+        return system;
     }
 
     public String getUser() {

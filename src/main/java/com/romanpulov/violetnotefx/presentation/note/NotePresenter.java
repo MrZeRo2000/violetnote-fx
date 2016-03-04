@@ -107,6 +107,8 @@ public class NotePresenter  implements Initializable {
                 return noteModel.getPassCategoryFXFromPathDisplayValue(string);
             }
         });
+
+        systemTextField.textProperty().bindBidirectional(noteModel.category);
     }
 
 }

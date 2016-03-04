@@ -2,10 +2,7 @@ package com.romanpulov.violetnotefx.presentation.note;
 
 import com.romanpulov.violetnotefx.model.PassCategoryFX;
 import com.romanpulov.violetnotefx.model.PassNoteFX;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -18,9 +15,10 @@ public class NoteModel {
 
     public IntegerProperty modelResult = new SimpleIntegerProperty();
 
-    public ObjectProperty<PassNoteFX> passNoteFX;
+    public ObjectProperty<PassNoteFX> passNoteFX = new SimpleObjectProperty<>();
+    private ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
 
-    private ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();;
+    public StringProperty category = new SimpleStringProperty();
 
     public void setPassCategoryData(ObservableList<PassCategoryFX> passCategoryData) {
         this.passCategoryData.addAll(passCategoryData);
@@ -31,7 +29,8 @@ public class NoteModel {
     }
 
     public void setPassNoteFX(PassNoteFX passNoteFX) {
-        this.passNoteFX = new SimpleObjectProperty<>(passNoteFX);
+        this.passNoteFX.setValue(passNoteFX);
+        category.bindBidirectional(passNoteFX.getSystemProperty());
     }
 
     public PassNoteFX getPassNoteFX() {
