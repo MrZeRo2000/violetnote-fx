@@ -13,15 +13,13 @@ public class CategoryNotesStage {
     public static void showStage() {
         CategoryNotesView view = new CategoryNotesView();
 
-
-        Stage categoryNotesStage = new Stage();
-        //categoryNotesStage.setTitle("VioletNoteFX");
+        Stage stage = new Stage();
         Scene categoryNotesScene = new Scene(view.getView());
 
         CategoryNotesModel model = (CategoryNotesModel) view.getModelInstance();
-        categoryNotesStage.titleProperty().bind(Bindings.concat("VioletNoteFX").concat(new When(model.getInvalidatedData()).then(" * ").otherwise("")));
+        stage.titleProperty().bind(Bindings.concat("VioletNoteFX").concat(new When(model.getInvalidatedData()).then(" * ").otherwise("")));
 
-        categoryNotesStage.setScene(categoryNotesScene);
-        categoryNotesStage.show();
+        stage.setScene(categoryNotesScene);
+        stage.show();
     }
 }
