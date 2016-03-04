@@ -114,9 +114,9 @@ public class CategoryNotesModel {
     private PassCategory addCategoryData(Map<PassCategoryFX, PassCategory> categoryData, PassCategoryFX categoryFX) {
         PassCategory category = categoryData.get(categoryFX);
         if (category == null) {
-            // create new system if not exists
+            // create new systemTextField_textProperty if not exists
             category = new PassCategory(categoryFX.getCategoryName());
-            // create and set parent system
+            // create and set parent systemTextField_textProperty
             PassCategoryFX parentCategoryFX = categoryFX.getParentCategory();
             if (parentCategoryFX != null) {
                 PassCategory parentPassCategory = addCategoryData(categoryData, parentCategoryFX);

@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx.presentation.note;
 
+import com.romanpulov.violetnotefx.core.annotation.BoundProperty;
 import com.romanpulov.violetnotefx.model.PassCategoryFX;
 import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.beans.property.*;
@@ -16,8 +17,11 @@ public class NoteModel {
     public ObjectProperty<PassNoteFX> passNoteFX = new SimpleObjectProperty<>();
     private ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
 
-    public ObjectProperty<PassCategoryFX> category = new SimpleObjectProperty<>();
-    public StringProperty system = new SimpleStringProperty();
+    @BoundProperty
+    public ObjectProperty<PassCategoryFX> categoryComboBox_valueProperty = new SimpleObjectProperty<>();
+
+    @BoundProperty
+    public StringProperty systemTextField_textProperty = new SimpleStringProperty();
 
     public void setPassCategoryData(ObservableList<PassCategoryFX> passCategoryData) {
         this.passCategoryData.addAll(passCategoryData);
@@ -29,8 +33,8 @@ public class NoteModel {
 
     public void setPassNoteFX(PassNoteFX passNoteFX) {
         this.passNoteFX.setValue(passNoteFX);
-        category.bindBidirectional(passNoteFX.getCategoryProperty());
-        system.bindBidirectional(passNoteFX.getSystemProperty());
+        categoryComboBox_valueProperty.bindBidirectional(passNoteFX.getCategoryProperty());
+        systemTextField_textProperty.bindBidirectional(passNoteFX.getSystemProperty());
     }
 
     public PassNoteFX getPassNoteFX() {

@@ -26,7 +26,7 @@ public class NoteModelTest {
     public NoteModel createSampleNoteModel() {
         NoteModel model = new NoteModel();
 
-        //system
+        //systemTextField_textProperty
         ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
         PassCategoryFX category1 = new PassCategoryFX(null, "Category 1");
         PassCategoryFX category2 = new PassCategoryFX(null, "Category 2");

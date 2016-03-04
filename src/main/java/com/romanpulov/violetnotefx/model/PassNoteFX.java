@@ -80,7 +80,7 @@ public class PassNoteFX {
 
     @Override
     public String toString() {
-        return "{system = " + getCategory() + ", system = " + getSystem() + ", user = " + getUser() + ", password = " + getPassword() +
+        return "{systemTextField_textProperty = " + getCategory() + ", systemTextField_textProperty = " + getSystem() + ", user = " + getUser() + ", password = " + getPassword() +
                 ", comments = " + getComments() + ", custom = " + getCustom() + ", info = " + getInfo() + "}";
     }
 
