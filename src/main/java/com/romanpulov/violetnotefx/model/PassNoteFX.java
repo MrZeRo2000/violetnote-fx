@@ -14,13 +14,14 @@ public class PassNoteFX {
     private final SimpleStringProperty system;
     private final SimpleStringProperty user;
     private final SimpleStringProperty password;
+    private final SimpleStringProperty realPassword;
     private final SimpleStringProperty comments;
     private final SimpleStringProperty custom;
     private final SimpleStringProperty info;
 
     public static PassNoteFX newInstance(PassNoteFX passNoteFX) {
         return new PassNoteFX(
-                passNoteFX.getCategory(), passNoteFX.getSystem(), passNoteFX.getUser(), passNoteFX.getPassword(),
+                passNoteFX.getCategory(), passNoteFX.getSystem(), passNoteFX.getUser(), passNoteFX.getRealPassword(),
                 passNoteFX.getComments(), passNoteFX.getCustom(), passNoteFX.getInfo());
     }
 
@@ -33,6 +34,7 @@ public class PassNoteFX {
         this.system = new SimpleStringProperty(system);
         this.user = new SimpleStringProperty(user);
         this.password = new SimpleStringProperty(password);
+        this.realPassword = new SimpleStringProperty(password);
         this.comments = new SimpleStringProperty(comments);
         this.custom = new SimpleStringProperty(custom);
         this.info = new SimpleStringProperty(info);
@@ -62,20 +64,48 @@ public class PassNoteFX {
         return user.get();
     }
 
+    public StringProperty getUserProperty() {
+        return user;
+    }
+
     public String getPassword() {
         return new String(new char[password.get().length()]).replace("\0", "*");
+    }
+
+    public StringProperty getPasswordProperty() {
+        return password;
+    }
+
+    public String getRealPassword() {
+        return realPassword.get();
+    }
+
+    public StringProperty getRealPasswordProperty() {
+        return realPassword;
     }
 
     public String getComments() {
         return comments.get();
     }
 
+    public StringProperty getCommentsProperty() {
+        return comments;
+    }
+
     public String getCustom() {
         return custom.get();
     }
 
+    public StringProperty getCustomProperty() {
+        return custom;
+    }
+
     public String getInfo() {
         return info.get();
+    }
+
+    public StringProperty getInfoProperty() {
+        return info;
     }
 
     @Override
@@ -83,5 +113,4 @@ public class PassNoteFX {
         return "{systemTextField_textProperty = " + getCategory() + ", systemTextField_textProperty = " + getSystem() + ", user = " + getUser() + ", password = " + getPassword() +
                 ", comments = " + getComments() + ", custom = " + getCustom() + ", info = " + getInfo() + "}";
     }
-
 }

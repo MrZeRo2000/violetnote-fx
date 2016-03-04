@@ -173,6 +173,9 @@ public class CategoryNotesPresenter implements Initializable {
         data.passNoteFX = editNote;
         data.passCategoryData = categoryNotesModel.getPassCategoryData();
         NoteStage.showStage(data);
+        if (data.modelResult == 1) {
+            categoryNotesModel.getPassNoteData().add(data.passNoteFX);
+        }
     }
 
     @FXML

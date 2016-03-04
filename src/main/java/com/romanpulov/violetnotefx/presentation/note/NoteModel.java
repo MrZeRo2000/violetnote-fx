@@ -23,6 +23,21 @@ public class NoteModel {
     @BoundProperty
     public StringProperty systemTextField_textProperty = new SimpleStringProperty();
 
+    @BoundProperty
+    public StringProperty passwordTextField_textProperty = new SimpleStringProperty();
+
+    @BoundProperty
+    public StringProperty userTextField_textProperty = new SimpleStringProperty();
+
+    @BoundProperty
+    public StringProperty commentsTextField_textProperty = new SimpleStringProperty();
+
+    @BoundProperty
+    public StringProperty customTextField_textProperty = new SimpleStringProperty();
+
+    @BoundProperty
+    public StringProperty infoTextArea_textProperty = new SimpleStringProperty();
+
     public void setPassCategoryData(ObservableList<PassCategoryFX> passCategoryData) {
         this.passCategoryData.addAll(passCategoryData);
     }
@@ -35,6 +50,11 @@ public class NoteModel {
         this.passNoteFX.setValue(passNoteFX);
         categoryComboBox_valueProperty.bindBidirectional(passNoteFX.getCategoryProperty());
         systemTextField_textProperty.bindBidirectional(passNoteFX.getSystemProperty());
+        userTextField_textProperty.bindBidirectional(passNoteFX.getUserProperty());
+        passwordTextField_textProperty.bindBidirectional(passNoteFX.getRealPasswordProperty());
+        commentsTextField_textProperty.bindBidirectional(passNoteFX.getCommentsProperty());
+        customTextField_textProperty.bindBidirectional(passNoteFX.getCustomProperty());
+        infoTextArea_textProperty.bindBidirectional(passNoteFX.getInfoProperty());
     }
 
     public PassNoteFX getPassNoteFX() {

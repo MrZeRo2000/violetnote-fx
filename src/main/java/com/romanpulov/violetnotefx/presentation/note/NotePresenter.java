@@ -53,6 +53,7 @@ public class NotePresenter  implements Initializable {
     private void okButtonClick() {
         log.debug("Ok button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
+        noteModel.modelResult.set(1);
         //categoryNameModel.modelResult.set(1);
 
         closeStage();
@@ -62,6 +63,7 @@ public class NotePresenter  implements Initializable {
     private void cancelButtonClick() {
         log.debug("Cancel button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
+        noteModel.modelResult.set(0);
         //categoryNameModel.modelResult.set(0);
 
         closeStage();
