@@ -66,11 +66,11 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-                <MenuItem mnemonicParsing="false" text="New" />
-              <MenuItem mnemonicParsing="false" text="Open" />
-                <MenuItem mnemonicParsing="false" text="Save" />
+                <MenuItem fx:id="fileNewMenuItem" mnemonicParsing="false" text="New" onAction="#fileNewMenuItemClick"/>
+              <MenuItem fx:id="fileOpenMenuItem" mnemonicParsing="false" text="Open" onAction="#fileOpenMenuItemClick"/>
+                <MenuItem fx:id="fileSaveMenuItem" mnemonicParsing="false" text="Save" onAction="#fileSaveMenuItemClick" />
                 <SeparatorMenuItem />
-                <MenuItem mnemonicParsing="false" text="Import" />
+                <MenuItem fx:id="fileImportMenuItem" mnemonicParsing="false" text="Import" onAction="#fileImportMenuItemClick"/>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

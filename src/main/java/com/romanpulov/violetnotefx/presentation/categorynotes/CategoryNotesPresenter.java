@@ -197,4 +197,23 @@ public class CategoryNotesPresenter implements Initializable {
         NoteStage.showStage(data);
     }
 
+    @FXML
+    private void fileNewMenuItemClick(ActionEvent event) {
+        log.debug("File New menu item click");
+    }
+
+    @FXML
+    private void fileOpenMenuItemClick(ActionEvent event) {
+        log.debug("File Open menu item click");
+    }
+
+    @FXML
+    private void fileSaveMenuItemClick(ActionEvent event) {
+        log.debug("File Save menu item click");
+    }
+
+    @FXML
+    private void fileImportMenuItemClick(ActionEvent event) {
+        log.debug("File Import menu item click");
+    }
 }
