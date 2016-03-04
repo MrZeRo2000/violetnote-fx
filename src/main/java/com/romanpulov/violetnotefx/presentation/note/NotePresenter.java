@@ -57,8 +57,6 @@ public class NotePresenter  implements Initializable {
         log.debug("Ok button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
         noteModel.modalResult = ButtonType.OK;
-        //categoryNameModel.modalResult.set(1);
-
         closeStage();
     }
 
@@ -67,8 +65,6 @@ public class NotePresenter  implements Initializable {
         log.debug("Cancel button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
         noteModel.modalResult = ButtonType.CANCEL;
-        //categoryNameModel.modalResult.set(0);
-
         closeStage();
     }
 
@@ -80,10 +76,7 @@ public class NotePresenter  implements Initializable {
         stage.close();
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        log.debug("initializing presenter in initialize() with URL and resources method");
-
+    private void setupComboBox() {
         categoryComboBox.setItems(noteModel.getPassCategoryData());
 
         categoryComboBox.setCellFactory((lp) -> {
@@ -112,15 +105,23 @@ public class NotePresenter  implements Initializable {
                 return noteModel.getPassCategoryFXFromPathDisplayValue(string);
             }
         });
+    }
 
+    private void bindProperties() {
         okButton.disableProperty().bind(
                 noteModel.categoryComboBox_valueProperty.isNull().or(
-                    noteModel.passwordTextField_textProperty.isNotEqualTo(noteModel.passwordRetypeTextField_textProperty).or(
-                        noteModel.userTextField_textProperty.isEmpty().or(
-                            noteModel.passwordTextField_textProperty.isEmpty()
+                        noteModel.passwordTextField_textProperty.isNotEqualTo(noteModel.passwordRetypeTextField_textProperty).or(
+                                noteModel.userTextField_textProperty.isEmpty().or(
+                                        noteModel.passwordTextField_textProperty.isEmpty()
+                                )
                         )
-                    )
                 )
         );
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        setupComboBox();
+        bindProperties();
     }
 }
