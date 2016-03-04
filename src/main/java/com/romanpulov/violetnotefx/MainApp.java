@@ -1,6 +1,7 @@
 package com.romanpulov.violetnotefx;
 
 import com.romanpulov.violetnotefx.model.Document;
+import com.romanpulov.violetnotefx.presentation.categorynotes.CategoryNotesStage;
 import com.romanpulov.violetnotefx.presentation.categorynotes.CategoryNotesView;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -16,51 +17,8 @@ public class MainApp extends Application {
         launch(args);
     }
 
-    public void showCategoryNotes() {
-        CategoryNotesView categoryNotesView = new CategoryNotesView();
-        Stage categoryNotesStage = new Stage();
-        Scene categoryNotesScene = new Scene(categoryNotesView.getView());
-        categoryNotesStage.setScene(categoryNotesScene);
-        categoryNotesStage.show();
-    }
-
     public void start(Stage stage) throws Exception {
-
-        //CategoryNameStage.showStage();
-
-        // prepare pins data
-
         Document.getInstance().importPins("data\\\\pins_example.csv");
-
-        //new AlertDialogs.ErrorAlertBuilder().setContentText("Content").buildAlert().showAndWait();
-
-        showCategoryNotes();
-
-        /*
-        MasterPassView masterPassView = new MasterPassView();
-
-        Stage masterPassStage = new Stage();
-        masterPassStage.setTitle("Master Password");
-        Scene masterPassScene = new Scene(masterPassView.getView());
-        MasterPassModel model = (MasterPassModel) masterPassView.getModelInstance();
-
-        masterPassStage.setScene(masterPassScene);
-        masterPassStage.setResizable(false);
-        masterPassStage.initModality(Modality.APPLICATION_MODAL);
-        log.debug("Show and wait");
-        masterPassStage.showAndWait();
-        log.debug("After wait");
-
-        if (model.modalResult.getValue() == 1) {
-            log.info("the password is " + model.passwordField_textProperty.getValue());
-
-
-            CategoryNotesView categoryNotesView = new CategoryNotesView();
-            Stage categoryNotesStage = new Stage();
-            Scene categoryNotesScene = new Scene(categoryNotesView.getView());
-            categoryNotesStage.setScene(categoryNotesScene);
-            categoryNotesStage.show();
-        }
-        */
+        CategoryNotesStage.showStage();
     }
 }
