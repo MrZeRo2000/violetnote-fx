@@ -29,7 +29,7 @@ public class CategoryNotesModelTest {
     public PassData createSamplePassData() {
         PassData data = new PassData();
 
-        // category
+        // system
         List<PassCategory> passCategoryList = new ArrayList<>();
         PassCategory category1 = new PassCategory("Category 1");
         PassCategory category2 = new PassCategory("Category 2");
@@ -56,7 +56,7 @@ public class CategoryNotesModelTest {
     public CategoryNotesModel createSampleCategoryNotesModel() {
         CategoryNotesModel model = new CategoryNotesModel();
 
-        //category
+        //system
         ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
         PassCategoryFX category1 = new PassCategoryFX(null, "Category 1");
         PassCategoryFX category2 = new PassCategoryFX(null, "Category 2");

@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx.model;
 
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -45,6 +46,10 @@ public class PassNoteFX {
         return category.get();
     }
 
+    public ObjectProperty<PassCategoryFX> getCategoryProperty() {
+        return category;
+    }
+
     public String getSystem() {
         return system.get();
     }
@@ -75,7 +80,7 @@ public class PassNoteFX {
 
     @Override
     public String toString() {
-        return "{category = " + getCategory() + ", system = " + getSystem() + ", user = " + getUser() + ", password = " + getPassword() +
+        return "{system = " + getCategory() + ", system = " + getSystem() + ", user = " + getUser() + ", password = " + getPassword() +
                 ", comments = " + getComments() + ", custom = " + getCustom() + ", info = " + getInfo() + "}";
     }
 

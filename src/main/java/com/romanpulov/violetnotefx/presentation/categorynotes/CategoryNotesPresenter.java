@@ -131,7 +131,7 @@ public class CategoryNotesPresenter implements Initializable {
     private void categoryDeleteButtonClick(ActionEvent event) {
         TreeItem<PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
         if (notesTableView.getItems().size() > 0) {
-            new AlertDialogs.ErrorAlertBuilder().setContentText("Unable to delete category containing items").buildAlert().showAndWait();
+            new AlertDialogs.ErrorAlertBuilder().setContentText("Unable to delete system containing items").buildAlert().showAndWait();
             return;
         }
         if (!(selectedItem.isLeaf())) {
@@ -165,7 +165,7 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void noteAddButtonClick(ActionEvent event) {
-        //create new note with category
+        //create new note with system
         PassCategoryFX categoryFX = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
         PassNoteFX editNote = new PassNoteFX(categoryFX);
 

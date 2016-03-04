@@ -108,7 +108,8 @@ public class NotePresenter  implements Initializable {
             }
         });
 
-        systemTextField.textProperty().bindBidirectional(noteModel.category);
+        categoryComboBox.valueProperty().bindBidirectional(noteModel.category);
+        systemTextField.textProperty().bindBidirectional(noteModel.system);
     }
 
 }

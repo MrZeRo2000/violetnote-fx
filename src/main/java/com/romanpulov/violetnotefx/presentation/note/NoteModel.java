@@ -6,8 +6,6 @@ import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.util.stream.Stream;
-
 /**
  * Created by rpulov on 01.03.2016.
  */
@@ -18,7 +16,8 @@ public class NoteModel {
     public ObjectProperty<PassNoteFX> passNoteFX = new SimpleObjectProperty<>();
     private ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
 
-    public StringProperty category = new SimpleStringProperty();
+    public ObjectProperty<PassCategoryFX> category = new SimpleObjectProperty<>();
+    public StringProperty system = new SimpleStringProperty();
 
     public void setPassCategoryData(ObservableList<PassCategoryFX> passCategoryData) {
         this.passCategoryData.addAll(passCategoryData);
@@ -30,7 +29,8 @@ public class NoteModel {
 
     public void setPassNoteFX(PassNoteFX passNoteFX) {
         this.passNoteFX.setValue(passNoteFX);
-        category.bindBidirectional(passNoteFX.getSystemProperty());
+        category.bindBidirectional(passNoteFX.getCategoryProperty());
+        system.bindBidirectional(passNoteFX.getSystemProperty());
     }
 
     public PassNoteFX getPassNoteFX() {
