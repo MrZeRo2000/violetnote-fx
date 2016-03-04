@@ -16,7 +16,7 @@ public class MasterPassModel {
     @BoundProperty
     public StringProperty passwordField_textProperty = new SimpleStringProperty();
 
-    public IntegerProperty modelResult = new SimpleIntegerProperty();
+    public IntegerProperty modalResult = new SimpleIntegerProperty();
 
     @ModelOperation(operationType = ModelOperationType.LOAD)
     private void modelLoad() {

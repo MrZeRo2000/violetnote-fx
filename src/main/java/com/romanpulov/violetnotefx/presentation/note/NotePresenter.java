@@ -4,7 +4,6 @@ import com.romanpulov.violetnotefx.core.annotation.Model;
 import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
 import com.romanpulov.violetnotefx.core.injection.Invoker;
 import com.romanpulov.violetnotefx.model.PassCategoryFX;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -57,8 +56,8 @@ public class NotePresenter  implements Initializable {
     private void okButtonClick() {
         log.debug("Ok button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
-        noteModel.modelResult.set(1);
-        //categoryNameModel.modelResult.set(1);
+        noteModel.modalResult = ButtonType.OK;
+        //categoryNameModel.modalResult.set(1);
 
         closeStage();
     }
@@ -67,8 +66,8 @@ public class NotePresenter  implements Initializable {
     private void cancelButtonClick() {
         log.debug("Cancel button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
-        noteModel.modelResult.set(0);
-        //categoryNameModel.modelResult.set(0);
+        noteModel.modalResult = ButtonType.CANCEL;
+        //categoryNameModel.modalResult.set(0);
 
         closeStage();
     }

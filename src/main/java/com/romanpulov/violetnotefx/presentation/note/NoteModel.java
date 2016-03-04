@@ -6,13 +6,14 @@ import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.ButtonType;
 
 /**
  * Created by rpulov on 01.03.2016.
  */
 public class NoteModel {
 
-    public IntegerProperty modelResult = new SimpleIntegerProperty();
+    public ButtonType modalResult = ButtonType.CANCEL;
 
     public ObjectProperty<PassNoteFX> passNoteFX = new SimpleObjectProperty<>();
     private ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();

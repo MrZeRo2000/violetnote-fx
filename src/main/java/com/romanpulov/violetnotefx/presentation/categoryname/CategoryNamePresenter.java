@@ -7,6 +7,7 @@ import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class CategoryNamePresenter implements Initializable {
     private void okButtonClick() {
         log.debug("Ok button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
-        categoryNameModel.modelResult.set(1);
+        categoryNameModel.modalResult = ButtonType.OK;
 
         closeStage();
     }
@@ -43,7 +44,7 @@ public class CategoryNamePresenter implements Initializable {
     private void cancelButtonClick() {
         log.debug("Cancel button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
-        categoryNameModel.modelResult.set(0);
+        categoryNameModel.modalResult = ButtonType.CANCEL;
 
         closeStage();
     }

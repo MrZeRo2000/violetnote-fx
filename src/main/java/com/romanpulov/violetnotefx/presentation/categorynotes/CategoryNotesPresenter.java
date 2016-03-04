@@ -115,7 +115,7 @@ public class CategoryNotesPresenter implements Initializable {
     private void categoryAddButtonClick(ActionEvent event) {
         CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
         CategoryNameStage.showStage(data);
-        if (data.modelResult == 0)
+        if (data.modalResult == ButtonType.CANCEL)
             return;
 
         if (categoryNotesModel.findChildPassCategoryName(null, data.categoryName) == null) {
@@ -150,7 +150,7 @@ public class CategoryNotesPresenter implements Initializable {
         PassCategoryFX selectedCategory = selectedTreeItem.getValue();
         data.categoryName = selectedCategory.getCategoryName();
         CategoryNameStage.showStage(data);
-        if (data.modelResult == 0)
+        if (data.modalResult == ButtonType.CANCEL)
             return;
 
         if (categoryNotesModel.findChildPassCategoryName(selectedCategory.getParentCategory(), data.categoryName) != null) {
@@ -173,7 +173,7 @@ public class CategoryNotesPresenter implements Initializable {
         data.passNoteFX = editNote;
         data.passCategoryData = categoryNotesModel.getPassCategoryData();
         NoteStage.showStage(data);
-        if (data.modelResult == 1) {
+        if (data.modalResult == ButtonType.OK) {
             categoryNotesModel.getPassNoteData().add(data.passNoteFX);
         }
     }

@@ -33,7 +33,7 @@ public class MasterPassPresenter implements Initializable {
     private void okButtonClick() {
         log.debug("Ok button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
-        masterPassModel.modelResult.set(1);
+        masterPassModel.modalResult.set(1);
 
         closeStage();
     }
@@ -42,7 +42,7 @@ public class MasterPassPresenter implements Initializable {
     private void cancelButtonClick() {
         log.debug("Cancel button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
-        masterPassModel.modelResult.set(0);
+        masterPassModel.modalResult.set(0);
 
         closeStage();
     }

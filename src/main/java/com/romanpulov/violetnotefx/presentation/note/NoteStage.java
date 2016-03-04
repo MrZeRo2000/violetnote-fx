@@ -4,6 +4,7 @@ import com.romanpulov.violetnotefx.model.PassCategoryFX;
 import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
 public class NoteStage {
 
     public static class NoteData {
-        public int modelResult;
+        public ButtonType modalResult;
         public PassNoteFX passNoteFX;
         public ObservableList<PassCategoryFX> passCategoryData;
     }
@@ -34,7 +35,7 @@ public class NoteStage {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
-        noteData.modelResult = model.modelResult.getValue();
+        noteData.modalResult = model.modalResult;
         noteData.passNoteFX = model.passNoteFX.getValue();
     }
 }

@@ -1,6 +1,7 @@
 package com.romanpulov.violetnotefx.presentation.categoryname;
 
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -13,12 +14,12 @@ public class CategoryNameStage {
     private static final Logger log = LoggerFactory.getLogger(CategoryNameStage.class);
 
     public static class CategoryNameData {
-        public int modelResult;
+        public ButtonType modalResult;
         public String categoryName;
 
         @Override
         public String toString() {
-            return "{ModelResult=" + modelResult + ", CategoryName=" + categoryName + "}";
+            return "{ModalResult=" + modalResult + ", CategoryName=" + categoryName + "}";
         }
     }
 
@@ -37,7 +38,7 @@ public class CategoryNameStage {
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
 
-        categoryNameData.modelResult = model.modelResult.getValue();
+        categoryNameData.modalResult = model.modalResult;
         categoryNameData.categoryName = model.categoryName.getValue();
     }
 }

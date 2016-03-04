@@ -51,7 +51,7 @@ public class MainApp extends Application {
         masterPassStage.showAndWait();
         log.debug("After wait");
 
-        if (model.modelResult.getValue() == 1) {
+        if (model.modalResult.getValue() == 1) {
             log.info("the password is " + model.passwordField_textProperty.getValue());
 
 
