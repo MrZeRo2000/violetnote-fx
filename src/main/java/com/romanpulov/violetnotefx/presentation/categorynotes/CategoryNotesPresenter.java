@@ -160,6 +160,7 @@ public class CategoryNotesPresenter implements Initializable {
             // invalidate tree view
             selectedTreeItem.setValue(null);
             selectedTreeItem.setValue(selectedCategory);
+            categoryNotesModel.getInvalidatedData().setValue(true);
         }
     }
 
