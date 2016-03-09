@@ -49,6 +49,13 @@ public class CategoryNotesModel {
         this.passNoteData = passNoteData;
     }
 
+    private InvalidationListener modelInvalidationListener = new InvalidationListener() {
+        @Override
+        public void invalidated(Observable observable) {
+            invalidatedData.setValue(true);
+        }
+    };
+
     private PassCategoryFX addPassCategoryFX(PassCategory passCategory) {
         PassCategory parentPassCategory = passCategory.getParentCategory();
         if (parentPassCategory == null) {
@@ -111,12 +118,7 @@ public class CategoryNotesModel {
             }
         }));
 
-        passCategoryData.addListener(new InvalidationListener() {
-            @Override
-            public void invalidated(Observable observable) {
-                invalidatedData.setValue(true);
-            }
-        });
+        passCategoryData.addListener(modelInvalidationListener);
     }
 
     public void loadNoteData(List<PassNote> passNoteList) {
@@ -126,6 +128,7 @@ public class CategoryNotesModel {
             if (passCategoryFX != null)
                 passNoteData.add(new PassNoteFX(passCategoryFX, passNote.getSystem(), passNote.getUser(), passNote.getPassword(), passNote.getComments(), passNote.getCustom(), passNote.getInfo()));
         });
+        passNoteData.addListener(modelInvalidationListener);
     }
 
     private PassCategory addCategoryData(Map<PassCategoryFX, PassCategory> categoryData, PassCategoryFX categoryFX) {
