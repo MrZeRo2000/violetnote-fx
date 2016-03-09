@@ -70,7 +70,7 @@ public class PassNoteFX {
     }
 
     public String getPassword() {
-        return new String(new char[password.get().length()]).replace("\0", "*");
+        return password.get() == null ? null : new String(new char[password.get().length()]).replace("\0", "*");
     }
 
     public StringProperty getPasswordProperty() {
