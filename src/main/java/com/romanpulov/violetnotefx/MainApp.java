@@ -18,7 +18,7 @@ public class MainApp extends Application {
     }
 
     public void start(Stage stage) throws Exception {
-        Document.getInstance().importPins("data\\\\pins_example.csv");
+        Document.getInstance().importPins("data\\\\pins_example1.csv");
         CategoryNotesStage.showStage();
     }
 }

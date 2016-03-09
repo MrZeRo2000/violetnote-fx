@@ -45,11 +45,6 @@
 
                     <mainClass>com.romanpulov.violetnotefx.MainApp</mainClass>
 
-                    <!-- only required if signing the jar file -->
-                    <keyStoreAlias>example-user</keyStoreAlias>
-                    <keyStorePassword>example-password</keyStorePassword>
-                    <allPermissions>true</allPermissions>
-
                 </configuration>
             </plugin>
 

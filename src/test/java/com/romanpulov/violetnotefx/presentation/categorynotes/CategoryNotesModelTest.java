@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx;
+package com.romanpulov.violetnotefx.presentation.categorynotes;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotecore.Model.PassData;

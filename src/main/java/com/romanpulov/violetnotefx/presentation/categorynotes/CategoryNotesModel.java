@@ -27,6 +27,18 @@ public class CategoryNotesModel {
     private ObservableList<PassNoteFX> passNoteData;
     private ObservableList<PassCategoryFX> passCategoryData;
 
+    private InvalidationListener modelInvalidationListener = new InvalidationListener() {
+        @Override
+        public void invalidated(Observable observable) {
+            invalidatedData.setValue(true);
+        }
+    };
+
+    {
+        setPassCategoryData(FXCollections.observableArrayList());
+        setPassNoteData(FXCollections.observableArrayList());
+    }
+
     private BooleanProperty invalidatedData = new SimpleBooleanProperty(false);
 
     public BooleanProperty getInvalidatedData() {
@@ -38,23 +50,24 @@ public class CategoryNotesModel {
     }
 
     public void setPassCategoryData(ObservableList<PassCategoryFX> passCategoryData) {
+        if (this.passCategoryData != null) {
+            this.passCategoryData.removeListener(modelInvalidationListener);
+        }
         this.passCategoryData = passCategoryData;
+        this.passCategoryData.addListener(modelInvalidationListener);
+    }
+
+    public void setPassNoteData(ObservableList<PassNoteFX> passNoteData) {
+        if (this.passNoteData != null) {
+            this.passNoteData.removeListener(modelInvalidationListener);
+        }
+        this.passNoteData = passNoteData;
+        this.passNoteData.addListener(modelInvalidationListener);
     }
 
     public ObservableList<PassNoteFX> getPassNoteData() {
         return passNoteData;
     }
-
-    public void setPassNoteData(ObservableList<PassNoteFX> passNoteData) {
-        this.passNoteData = passNoteData;
-    }
-
-    private InvalidationListener modelInvalidationListener = new InvalidationListener() {
-        @Override
-        public void invalidated(Observable observable) {
-            invalidatedData.setValue(true);
-        }
-    };
 
     private PassCategoryFX addPassCategoryFX(PassCategory passCategory) {
         PassCategory parentPassCategory = passCategory.getParentCategory();
@@ -105,7 +118,7 @@ public class CategoryNotesModel {
     }
 
     public void loadCategoryData(List<PassCategory> passCategoryList) {
-        passCategoryData = FXCollections.observableArrayList();
+        ObservableList<PassCategoryFX> newPassCategoryData = FXCollections.observableArrayList();
         passCategoryList.stream().forEach((passCategory -> {
             // find existing
             PassCategoryFX passCategoryFX = findSourcePassCategory(passCategory);
@@ -113,12 +126,12 @@ public class CategoryNotesModel {
             if (passCategoryFX == null) {
                 PassCategoryFX newPassCategoryFX = addPassCategoryFX(passCategory);
                 if (newPassCategoryFX != null){
-                    passCategoryData.add(newPassCategoryFX);
+                    newPassCategoryData.add(newPassCategoryFX);
                 }
             }
         }));
 
-        passCategoryData.addListener(modelInvalidationListener);
+        setPassCategoryData(newPassCategoryData);
     }
 
     public void loadNoteData(List<PassNote> passNoteList) {
