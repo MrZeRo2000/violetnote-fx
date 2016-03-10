@@ -3,6 +3,8 @@ package com.romanpulov.violetnotefx.Presentation.categorynotes;
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Model.PassNote;
+import com.romanpulov.violetnotecore.Processor.Exception.DataReadWriteException;
+import com.romanpulov.violetnotecore.Processor.PinsDataReader;
 import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
@@ -13,7 +15,11 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.stage.FileChooser;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +32,12 @@ public class CategoryNotesModel {
 
     private ObservableList<PassNoteFX> passNoteData;
     private ObservableList<PassCategoryFX> passCategoryData;
+
+    private BooleanProperty invalidatedData = new SimpleBooleanProperty(false);
+
+    public BooleanProperty getInvalidatedData() {
+        return invalidatedData;
+    }
 
     private InvalidationListener modelInvalidationListener = new InvalidationListener() {
         @Override
@@ -106,12 +118,6 @@ public class CategoryNotesModel {
 
             return data;
         }
-    }
-
-    private BooleanProperty invalidatedData = new SimpleBooleanProperty(false);
-
-    public BooleanProperty getInvalidatedData() {
-        return invalidatedData;
     }
 
     public ObservableList<PassCategoryFX> getPassCategoryData() {
@@ -232,5 +238,27 @@ public class CategoryNotesModel {
 
     public ObservableList<PassNoteFX> getPassNoteData(PassCategoryFX category) {
         return new FilteredList<PassNoteFX>(passNoteData, p -> p.getCategory().equals(category));
+    }
+
+    public boolean loadFile(File f) {
+        return true;
+    }
+
+    public boolean saveFile(File f) {
+        return true;
+    }
+
+    public boolean importPINSFile(File f) {
+        PassData passData;
+        PinsDataReader pinsReader = new PinsDataReader();
+        passData = null;
+        try {
+            passData = pinsReader.readStream(new FileInputStream(f));
+            readPassData(passData);
+            return true;
+        } catch (DataReadWriteException | FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

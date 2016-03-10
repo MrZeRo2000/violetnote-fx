@@ -18,12 +18,20 @@ public class Document {
     private final static String NEW_FILE_NAME = "New";
     private StringProperty fileName = new SimpleStringProperty();
 
+    public StringProperty getFileName() {
+        return fileName;
+    }
+
     {
         resetFileName();
     }
 
     public void resetFileName() {
         fileName.setValue(NEW_FILE_NAME);
+    }
+
+    public boolean isNewFile() {
+        return fileName.equals(NEW_FILE_NAME);
     }
 
     private static Document ourInstance = new Document();

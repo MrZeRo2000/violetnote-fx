@@ -1,6 +1,7 @@
 package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
 import com.romanpulov.violetnotefx.Core.dialogs.AlertDialogs;
+import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Presentation.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.Core.annotation.Model;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
@@ -12,9 +13,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -24,6 +28,9 @@ import java.util.ResourceBundle;
  */
 public class CategoryNotesPresenter implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(CategoryNotesPresenter.class);
+
+    @FXML
+    private AnchorPane rootContainer;
 
     @FXML
     private TreeView<PassCategoryFX> categoryTreeView;
@@ -48,6 +55,9 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private Button noteEditButton;
+
+    @FXML
+    private MenuItem fileSaveMenuItem;
 
     @Model
     private CategoryNotesModel categoryNotesModel;
@@ -81,6 +91,8 @@ public class CategoryNotesPresenter implements Initializable {
         noteAddButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
         noteDeleteButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
         noteEditButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
+
+        fileSaveMenuItem.disableProperty().bind(categoryNotesModel.getInvalidatedData().not());
 
         //selection change
         categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<PassCategoryFX>>() {
@@ -205,20 +217,72 @@ public class CategoryNotesPresenter implements Initializable {
     private void fileNewMenuItemClick(ActionEvent event) {
         log.debug("File New menu item click");
         categoryNotesModel.initData();
+        loadTreeView();
+        notesTableView.setItems(null);
+        Document.getInstance().resetFileName();
     }
 
     @FXML
     private void fileOpenMenuItemClick(ActionEvent event) {
         log.debug("File Open menu item click");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Violetnote file");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Violetnote files", "*.vnf"),
+                new FileChooser.ExtensionFilter("All files", "*.*")
+        );
+        File f = fileChooser.showOpenDialog(rootContainer.getScene().getWindow());
+        if (f != null) {
+            log.debug("Something chosen: " + f.getPath());
+        }
     }
 
     @FXML
     private void fileSaveMenuItemClick(ActionEvent event) {
+        if (Document.getInstance().isNewFile()) {
+            fileSaveAsMenuItemClick(event);
+        } else {
+            File f = new File(Document.getInstance().getFileName().getValue());
+            if (categoryNotesModel.loadFile(f)) {
+                categoryNotesModel.getInvalidatedData().setValue(false);
+                Document.getInstance().getFileName().setValue(f.getName());
+                loadTreeView();
+            }
+        }
+    }
+
+    @FXML
+    private void fileSaveAsMenuItemClick(ActionEvent event) {
         log.debug("File Save menu item click");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Violetnote file");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Violetnote files", "*.vnf")
+        );
+        File f = fileChooser.showSaveDialog(rootContainer.getScene().getWindow());
+        if (f != null) {
+            log.debug("Something chosen: " + f.getPath());
+            if (categoryNotesModel.saveFile(f)) {
+                categoryNotesModel.getInvalidatedData().setValue(false);
+            }
+        }
     }
 
     @FXML
     private void fileImportMenuItemClick(ActionEvent event) {
-        log.debug("File Import menu item click");
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Import from PINS");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV files", "*.csv"),
+                new FileChooser.ExtensionFilter("All files", "*.*")
+        );
+        File f = fileChooser.showOpenDialog(rootContainer.getScene().getWindow());
+        if (f != null) {
+            log.debug("Something chosen: " + f.getPath());
+            if (categoryNotesModel.importPINSFile(f)) {
+                categoryNotesModel.getInvalidatedData().setValue(true);
+                loadTreeView();
+            }
+        }
     }
 }
