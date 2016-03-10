@@ -39,7 +39,7 @@ public class CategoryNotesModel {
         setPassNoteData(FXCollections.observableArrayList());
     }
 
-    public class PassDataReader {
+    public final class PassDataReader {
         private PassData passData;
 
         public PassDataReader(PassData passData) {
@@ -83,7 +83,7 @@ public class CategoryNotesModel {
         }
     }
 
-    public class PassDataWriter {
+    public final class PassDataWriter {
         public PassData writePassData() {
             PassData data = new PassData();
             List<PassCategory> passCategoryList = new ArrayList<>();
@@ -159,6 +159,7 @@ public class CategoryNotesModel {
         return null;
     }
 
+    /*
     public boolean hasCategoryNotes(PassCategoryFX passCategoryFX) {
         if (passCategoryFX == null)
             return false;
@@ -178,6 +179,7 @@ public class CategoryNotesModel {
         }
         return true;
     }
+    */
 
     private PassCategory addCategoryData(Map<PassCategoryFX, PassCategory> categoryData, PassCategoryFX categoryFX) {
         PassCategory category = categoryData.get(categoryFX);
@@ -224,8 +226,6 @@ public class CategoryNotesModel {
     }
 
     public ObservableList<PassNoteFX> getPassNoteData(PassCategoryFX category) {
-        return new FilteredList<PassNoteFX>(passNoteData, p->{return p.getCategory().equals(category);});
+        return new FilteredList<PassNoteFX>(passNoteData, p -> p.getCategory().equals(category));
     }
-
-
 }
