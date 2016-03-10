@@ -1,6 +1,6 @@
 package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
-import com.romanpulov.violetnotefx.Presentation.AlertDialogs;
+import com.romanpulov.violetnotefx.Core.dialogs.AlertDialogs;
 import com.romanpulov.violetnotefx.Presentation.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.Core.annotation.Model;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;

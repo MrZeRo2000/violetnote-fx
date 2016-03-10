@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.Presentation;
+package com.romanpulov.violetnotefx.Core.dialogs;
 
 import javafx.scene.control.Alert;
 
