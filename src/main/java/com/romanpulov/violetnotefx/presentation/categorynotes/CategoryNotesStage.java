@@ -17,7 +17,8 @@ public class CategoryNotesStage {
         Scene categoryNotesScene = new Scene(view.getView());
 
         CategoryNotesModel model = (CategoryNotesModel) view.getModelInstance();
-        stage.titleProperty().bind(Bindings.concat("VioletNoteFX").concat(new When(model.getInvalidatedData()).then(" * ").otherwise("")));
+        stage.titleProperty().bind(Bindings.concat("VioletNoteFX").
+                concat(new When(model.getInvalidatedData()).then(" * ").otherwise("")));
 
         stage.setScene(categoryNotesScene);
         stage.show();

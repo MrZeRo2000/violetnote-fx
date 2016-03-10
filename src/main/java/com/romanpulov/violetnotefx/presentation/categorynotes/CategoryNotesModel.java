@@ -35,8 +35,7 @@ public class CategoryNotesModel {
     };
 
     {
-        setPassCategoryData(FXCollections.observableArrayList());
-        setPassNoteData(FXCollections.observableArrayList());
+        initData();
     }
 
     public final class PassDataReader {
@@ -117,6 +116,12 @@ public class CategoryNotesModel {
 
     public ObservableList<PassCategoryFX> getPassCategoryData() {
         return passCategoryData;
+    }
+
+    public void initData() {
+        setPassCategoryData(FXCollections.observableArrayList());
+        setPassNoteData(FXCollections.observableArrayList());
+        invalidatedData.setValue(false);
     }
 
     public void setPassCategoryData(ObservableList<PassCategoryFX> passCategoryData) {

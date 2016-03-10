@@ -204,6 +204,7 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private void fileNewMenuItemClick(ActionEvent event) {
         log.debug("File New menu item click");
+        categoryNotesModel.initData();
     }
 
     @FXML
