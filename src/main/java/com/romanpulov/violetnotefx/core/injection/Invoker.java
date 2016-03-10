@@ -1,8 +1,8 @@
-package com.romanpulov.violetnotefx.core.injection;
+package com.romanpulov.violetnotefx.Core.injection;
 
-import com.romanpulov.violetnotefx.core.annotation.Model;
-import com.romanpulov.violetnotefx.core.annotation.ModelOperation;
-import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.Core.annotation.Model;
+import com.romanpulov.violetnotefx.Core.annotation.ModelOperation;
+import com.romanpulov.violetnotefx.Core.annotation.ModelOperationType;
 
 
 import java.lang.reflect.Field;

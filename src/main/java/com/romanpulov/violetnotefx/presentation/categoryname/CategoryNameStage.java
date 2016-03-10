@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.presentation.categoryname;
+package com.romanpulov.violetnotefx.Presentation.categoryname;
 
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;

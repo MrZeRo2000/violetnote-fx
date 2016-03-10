@@ -1,7 +1,7 @@
-package com.romanpulov.violetnotefx.presentation.note;
+package com.romanpulov.violetnotefx.Presentation.note;
 
-import com.romanpulov.violetnotefx.model.PassCategoryFX;
-import com.romanpulov.violetnotefx.model.PassNoteFX;
+import com.romanpulov.violetnotefx.Model.PassCategoryFX;
+import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;

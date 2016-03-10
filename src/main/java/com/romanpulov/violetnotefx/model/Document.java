@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.model;
+package com.romanpulov.violetnotefx.Model;
 
 import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Processor.Exception.DataReadWriteException;

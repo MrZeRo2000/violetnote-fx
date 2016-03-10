@@ -1,11 +1,11 @@
-package com.romanpulov.violetnotefx.presentation.categorynotes;
+package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
-import com.romanpulov.violetnotefx.presentation.AlertDialogs;
-import com.romanpulov.violetnotefx.presentation.categoryname.CategoryNameStage;
-import com.romanpulov.violetnotefx.core.annotation.Model;
-import com.romanpulov.violetnotefx.model.PassCategoryFX;
-import com.romanpulov.violetnotefx.model.PassNoteFX;
-import com.romanpulov.violetnotefx.presentation.note.NoteStage;
+import com.romanpulov.violetnotefx.Presentation.AlertDialogs;
+import com.romanpulov.violetnotefx.Presentation.categoryname.CategoryNameStage;
+import com.romanpulov.violetnotefx.Core.annotation.Model;
+import com.romanpulov.violetnotefx.Model.PassCategoryFX;
+import com.romanpulov.violetnotefx.Model.PassNoteFX;
+import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;

@@ -1,11 +1,11 @@
-package com.romanpulov.violetnotefx.presentation.categorynotes;
+package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Model.PassNote;
-import com.romanpulov.violetnotefx.model.Document;
-import com.romanpulov.violetnotefx.model.PassCategoryFX;
-import com.romanpulov.violetnotefx.model.PassNoteFX;
+import com.romanpulov.violetnotefx.Model.Document;
+import com.romanpulov.violetnotefx.Model.PassCategoryFX;
+import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -37,6 +37,50 @@ public class CategoryNotesModel {
     {
         setPassCategoryData(FXCollections.observableArrayList());
         setPassNoteData(FXCollections.observableArrayList());
+    }
+
+    private class PassDataReader {
+        private PassData passData;
+
+        public PassDataReader(PassData passData) {
+            this.passData = passData;
+        }
+
+        private PassCategoryFX findSourcePassCategory(PassCategory passCategory) {
+            for (PassCategoryFX p : passCategoryData) {
+                if (p.getSourcePassCategory().equals(passCategory))
+                    return p;
+            }
+            return null;
+        }
+
+        private ObservableList<PassCategoryFX> readCategoryData() {
+            ObservableList<PassCategoryFX> newPassCategoryData = FXCollections.observableArrayList();
+            passData.getPassCategoryList().stream().forEach((passCategory -> {
+                // find existing
+                PassCategoryFX passCategoryFX = findSourcePassCategory(passCategory);
+                // if not found then add
+                if (passCategoryFX == null) {
+                    PassCategoryFX newPassCategoryFX = addPassCategoryFX(passCategory);
+                    if (newPassCategoryFX != null){
+                        newPassCategoryData.add(newPassCategoryFX);
+                    }
+                }
+            }));
+
+           return newPassCategoryData;
+        }
+
+        private ObservableList<PassNoteFX> readNoteData() {
+            ObservableList<PassNoteFX> newPassNoteData =  FXCollections.observableArrayList();
+            passData.getPassNoteList().stream().forEach((passNote)-> {
+                PassCategoryFX passCategoryFX = findSourcePassCategory(passNote.getPassCategory());
+                if (passCategoryFX != null)
+                    newPassNoteData.add(new PassNoteFX(passCategoryFX, passNote.getSystem(), passNote.getUser(), passNote.getPassword(), passNote.getComments(), passNote.getCustom(), passNote.getInfo()));
+            });
+
+            return newPassNoteData;
+        }
     }
 
     private BooleanProperty invalidatedData = new SimpleBooleanProperty(false);
@@ -135,13 +179,14 @@ public class CategoryNotesModel {
     }
 
     public void loadNoteData(List<PassNote> passNoteList) {
-        passNoteData =  FXCollections.observableArrayList();
+        ObservableList<PassNoteFX> newPassNoteData =  FXCollections.observableArrayList();
         passNoteList.stream().forEach((passNote)-> {
             PassCategoryFX passCategoryFX = findSourcePassCategory(passNote.getPassCategory());
             if (passCategoryFX != null)
-                passNoteData.add(new PassNoteFX(passCategoryFX, passNote.getSystem(), passNote.getUser(), passNote.getPassword(), passNote.getComments(), passNote.getCustom(), passNote.getInfo()));
+                newPassNoteData.add(new PassNoteFX(passCategoryFX, passNote.getSystem(), passNote.getUser(), passNote.getPassword(), passNote.getComments(), passNote.getCustom(), passNote.getInfo()));
         });
-        passNoteData.addListener(modelInvalidationListener);
+
+        setPassNoteData(newPassNoteData);
     }
 
     private PassCategory addCategoryData(Map<PassCategoryFX, PassCategory> categoryData, PassCategoryFX categoryFX) {
@@ -186,8 +231,12 @@ public class CategoryNotesModel {
 
     private void readDocument() {
         if (Document.getInstance().getPassData() != null) {
-            loadCategoryData(Document.getInstance().getPassData().getPassCategoryList());
-            loadNoteData(Document.getInstance().getPassData().getPassNoteList());
+            PassDataReader pdr = new PassDataReader(Document.getInstance().getPassData());
+            setPassCategoryData(pdr.readCategoryData());
+            setPassNoteData(pdr.readNoteData());
+
+            //loadCategoryData(Document.getInstance().getPassData().getPassCategoryList());
+            //loadNoteData(Document.getInstance().getPassData().getPassNoteList());
         }
     }
 

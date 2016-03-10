@@ -1,8 +1,8 @@
-package com.romanpulov.violetnotefx.presentation.masterpass;
+package com.romanpulov.violetnotefx.Presentation.masterpass;
 
-import com.romanpulov.violetnotefx.core.annotation.Model;
-import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
-import com.romanpulov.violetnotefx.core.injection.Invoker;
+import com.romanpulov.violetnotefx.Core.annotation.Model;
+import com.romanpulov.violetnotefx.Core.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.Core.injection.Invoker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;

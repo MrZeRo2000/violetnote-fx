@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.presentation.categorynotes;
+package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;

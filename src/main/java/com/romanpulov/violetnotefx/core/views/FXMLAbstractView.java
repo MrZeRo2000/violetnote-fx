@@ -1,10 +1,10 @@
-package com.romanpulov.violetnotefx.core.views;
+package com.romanpulov.violetnotefx.Core.views;
 
-import com.romanpulov.violetnotefx.core.annotation.Model;
-import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
-import com.romanpulov.violetnotefx.core.injection.Binder;
-import com.romanpulov.violetnotefx.core.injection.Injector;
-import com.romanpulov.violetnotefx.core.injection.Invoker;
+import com.romanpulov.violetnotefx.Core.annotation.Model;
+import com.romanpulov.violetnotefx.Core.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.Core.injection.Binder;
+import com.romanpulov.violetnotefx.Core.injection.Injector;
+import com.romanpulov.violetnotefx.Core.injection.Invoker;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import org.slf4j.Logger;
@@ -46,15 +46,15 @@ public class FXMLAbstractView {
                     //presenter
                     Object controller = p.newInstance();
 
-                    //inject model support
+                    //inject Model support
                     Field modelField = Injector.getFieldWithAnnotation(controller.getClass(), Model.class);
                     if (modelField != null) {
 
-                        // instantiate model
+                        // instantiate Model
                         Class<?> modelClazz = modelField.getType();
                         modelInstance = modelClazz.newInstance();
 
-                        //inject model
+                        //inject Model
                         Injector.injectFieldWithAnnotation(controller.getClass(), Model.class, controller, modelInstance);
 
                         //modelOperation - allow to load
