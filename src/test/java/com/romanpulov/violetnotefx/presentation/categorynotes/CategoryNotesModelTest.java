@@ -86,8 +86,7 @@ public class CategoryNotesModelTest {
         CategoryNotesModel model = new CategoryNotesModel();
         PassData passData = createSamplePassData();
 
-        model.loadCategoryData(passData.getPassCategoryList());
-        model.loadNoteData(passData.getPassNoteList());
+        model.readPassData(passData);
 
         assertEquals(passData.getPassCategoryList().size(), model.getPassCategoryData().size());
         assertEquals(passData.getPassNoteList().size(), model.getPassNoteData().size());
@@ -102,7 +101,7 @@ public class CategoryNotesModelTest {
     @Test
     public void testSavePassData() {
         CategoryNotesModel model = createSampleCategoryNotesModel();
-        PassData passData = model.saveNoteData();
+        PassData passData = model.writePassData();
 
         assertEquals(model.getPassCategoryData().size(), passData.getPassCategoryList().size());
         assertEquals(model.getPassNoteData().size(), passData.getPassNoteList().size());
