@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
+import com.romanpulov.violetnotecore.AESCrypt.AESCryptException;
 import com.romanpulov.violetnotecore.AESCrypt.AESCryptService;
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotecore.Model.PassData;
@@ -10,6 +11,7 @@ import com.romanpulov.violetnotecore.Processor.XMLPassDataReader;
 import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
+import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -19,10 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -211,16 +210,6 @@ public class CategoryNotesModel {
         return category;
     }
 
-    private void readDocument() {
-        if (Document.getInstance().getPassData() != null) {
-            readPassData(Document.getInstance().getPassData());
-        }
-    }
-
-    private void writeDocument() {
-        Document.getInstance().setPassData(writePassData());
-    }
-
     public void readPassData(PassData passData) {
         PassDataReader pdr = new PassDataReader(passData);
         setPassCategoryData(pdr.readCategoryData());
@@ -232,7 +221,7 @@ public class CategoryNotesModel {
     }
 
     public CategoryNotesModel() {
-        readDocument();
+
     }
 
     public ObservableList<PassCategoryFX> getCategoryData() {
@@ -243,18 +232,45 @@ public class CategoryNotesModel {
         return new FilteredList<PassNoteFX>(passNoteData, p -> p.getCategory().equals(category));
     }
 
-    public boolean loadFile(File f) {
-        return true;
+    public boolean loadFile(File f, String masterPass) {
+        if (f.exists())
+        {
+            InputStream input = null;
+
+            try {
+                input = AESCryptService.generateCryptInputStream(new FileInputStream(f.getPath()), masterPass);
+
+                PassData passData = (new XMLPassDataReader()).readStream(input);
+                readPassData(passData);
+
+                Document.getInstance().setFile(f.getPath(), masterPass);
+                invalidatedData.setValue(false);
+                return true;
+            } catch (AESCryptException | IOException | DataReadWriteException e) {
+                e.printStackTrace();
+                return false;
+            } finally {
+                if (input != null) {
+                    try {
+                        input.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        } else
+            return false;
     }
 
-    public boolean saveFile(File f) {
+    public boolean saveFile(File f, String masterPass) {
+        Document.getInstance().setFile(f.getPath(), masterPass);
+        invalidatedData.setValue(false);
         return true;
     }
 
     public boolean importPINSFile(File f) {
         PassData passData;
         PinsDataReader pinsReader = new PinsDataReader();
-        passData = null;
         try {
             passData = pinsReader.readStream(new FileInputStream(f));
             readPassData(passData);

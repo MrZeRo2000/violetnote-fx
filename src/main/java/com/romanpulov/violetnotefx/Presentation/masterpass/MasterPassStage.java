@@ -13,6 +13,14 @@ public class MasterPassStage {
         public ButtonType modalResult;
         public String masterPass;
 
+        public MasterPassData(String masterPass) {
+            this.masterPass = masterPass;
+        }
+
+        public MasterPassData() {
+
+        }
+
         @Override
         public String toString() {
             return "{ModalResult=" + modalResult + ", MasterPass=" + masterPass + "}";
@@ -34,5 +42,11 @@ public class MasterPassStage {
 
         data.modalResult = model.modalResult;
         data.masterPass = model.passwordField_textProperty.getValue();
+    }
+
+    public static String queryMasterPass(String pass) {
+        MasterPassData data = new MasterPassData(pass);
+        showStage(data);
+        return data.modalResult == ButtonType.OK ? data.masterPass : null;
     }
 }

@@ -6,6 +6,7 @@ import com.romanpulov.violetnotefx.Presentation.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.Core.annotation.Model;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
+import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -233,7 +234,10 @@ public class CategoryNotesPresenter implements Initializable {
         );
         File f = fileChooser.showOpenDialog(rootContainer.getScene().getWindow());
         if (f != null) {
-            log.debug("Something chosen: " + f.getPath());
+            String masterPass = MasterPassStage.queryMasterPass(null);
+            if ((masterPass != null) && (categoryNotesModel.loadFile(f, masterPass))) {
+                loadTreeView();
+            }
         }
     }
 
@@ -243,9 +247,12 @@ public class CategoryNotesPresenter implements Initializable {
             fileSaveAsMenuItemClick(event);
         } else {
             File f = new File(Document.getInstance().getFileName().getValue());
-            if (categoryNotesModel.loadFile(f)) {
-                categoryNotesModel.getInvalidatedData().setValue(false);
-                Document.getInstance().getFileName().setValue(f.getName());
+
+            String masterPass = Document.getInstance().getMasterPass();
+            if (masterPass == null)
+                masterPass = MasterPassStage.queryMasterPass(null);
+
+            if (categoryNotesModel.saveFile(f, masterPass)) {
                 loadTreeView();
             }
         }
@@ -262,9 +269,8 @@ public class CategoryNotesPresenter implements Initializable {
         File f = fileChooser.showSaveDialog(rootContainer.getScene().getWindow());
         if (f != null) {
             log.debug("Something chosen: " + f.getPath());
-            if (categoryNotesModel.saveFile(f)) {
-                categoryNotesModel.getInvalidatedData().setValue(false);
-            }
+            String masterPass = MasterPassStage.queryMasterPass(null);
+            categoryNotesModel.saveFile(f, masterPass);
         }
     }
 

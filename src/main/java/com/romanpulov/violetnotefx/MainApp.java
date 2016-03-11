@@ -17,11 +17,6 @@ public class MainApp extends Application {
     }
 
     public void start(Stage stage) throws Exception {
-        MasterPassStage.MasterPassData data = new MasterPassStage.MasterPassData();
-        MasterPassStage.showStage(data);
-        log.debug("data = " + data);
-
-        Document.getInstance().importPins("data\\\\pins_example.csv");
         CategoryNotesStage.showStage();
     }
 }

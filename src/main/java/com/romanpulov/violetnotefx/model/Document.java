@@ -22,11 +22,18 @@ public class Document {
         return fileName;
     }
 
+    private String masterPass;
+
+    public String getMasterPass() {
+        return masterPass;
+    }
+
     {
         resetFileName();
     }
 
     public void resetFileName() {
+        masterPass = null;
         fileName.setValue(NEW_FILE_NAME);
     }
 
@@ -34,28 +41,13 @@ public class Document {
         return fileName.equals(NEW_FILE_NAME);
     }
 
+    public void setFile(String fileName, String masterPass) {
+        this.fileName.setValue(fileName);
+        this.masterPass = masterPass;
+    }
+
     private static Document ourInstance = new Document();
     private static final Logger log = LoggerFactory.getLogger(Document.class);
-
-    private PassData passData;
-
-    public PassData getPassData() {
-        return passData;
-    }
-    public void setPassData(PassData passData) {
-        this.passData = passData;
-    }
-
-    public void importPins(String fileName) {
-        PinsDataReader pinsReader = new PinsDataReader();
-        passData = null;
-        try {
-            passData = pinsReader.readStream(new FileInputStream(fileName));
-        } catch (DataReadWriteException | FileNotFoundException e) {
-            log.info(e.getMessage());
-            e.printStackTrace();
-        }
-    }
 
     public static Document getInstance() {
         return ourInstance;
