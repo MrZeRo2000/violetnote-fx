@@ -2,6 +2,7 @@ package com.romanpulov.violetnotefx;
 
 import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Presentation.categorynotes.CategoryNotesStage;
+import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -16,6 +17,10 @@ public class MainApp extends Application {
     }
 
     public void start(Stage stage) throws Exception {
+        MasterPassStage.MasterPassData data = new MasterPassStage.MasterPassData();
+        MasterPassStage.showStage(data);
+        log.debug("data = " + data);
+
         Document.getInstance().importPins("data\\\\pins_example.csv");
         CategoryNotesStage.showStage();
     }

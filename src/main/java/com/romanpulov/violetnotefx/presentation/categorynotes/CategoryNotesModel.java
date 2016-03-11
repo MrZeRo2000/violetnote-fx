@@ -1,10 +1,12 @@
 package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
+import com.romanpulov.violetnotecore.AESCrypt.AESCryptService;
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Model.PassNote;
 import com.romanpulov.violetnotecore.Processor.Exception.DataReadWriteException;
 import com.romanpulov.violetnotecore.Processor.PinsDataReader;
+import com.romanpulov.violetnotecore.Processor.XMLPassDataReader;
 import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
@@ -20,6 +22,7 @@ import javafx.stage.FileChooser;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

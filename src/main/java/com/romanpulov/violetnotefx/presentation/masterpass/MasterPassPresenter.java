@@ -6,6 +6,7 @@ import com.romanpulov.violetnotefx.Core.injection.Invoker;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
@@ -33,7 +34,7 @@ public class MasterPassPresenter implements Initializable {
     private void okButtonClick() {
         log.debug("Ok button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
-        masterPassModel.modalResult.set(1);
+        masterPassModel.modalResult = ButtonType.OK;
 
         closeStage();
     }
@@ -42,7 +43,7 @@ public class MasterPassPresenter implements Initializable {
     private void cancelButtonClick() {
         log.debug("Cancel button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
-        masterPassModel.modalResult.set(0);
+        masterPassModel.modalResult = ButtonType.CANCEL;
 
         closeStage();
     }

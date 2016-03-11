@@ -28,12 +28,12 @@ public class CategoryNameStage {
 
         Stage stage = new Stage();
         stage.setTitle("Category");
-        Scene masterPassScene = new Scene(view.getView());
+        Scene scene = new Scene(view.getView());
         CategoryNameModel model = (CategoryNameModel) view.getModelInstance();
 
         model.categoryName.setValue(categoryNameData.categoryName);
 
-        stage.setScene(masterPassScene);
+        stage.setScene(scene);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.showAndWait();
