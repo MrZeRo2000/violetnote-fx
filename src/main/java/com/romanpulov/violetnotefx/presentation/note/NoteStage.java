@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx.Presentation.note;
 
+import com.romanpulov.violetnotefx.MainApp;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import javafx.collections.ObservableList;
@@ -33,6 +34,7 @@ public class NoteStage {
         stage.setScene(noteScene);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
+        MainApp.setupStageIcons(stage);
         stage.showAndWait();
 
         noteData.modalResult = model.modalResult;

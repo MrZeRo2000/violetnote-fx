@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx.Presentation.categoryname;
 
+import com.romanpulov.violetnotefx.MainApp;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
@@ -37,6 +38,7 @@ public class CategoryNameStage {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
+        MainApp.setupStageIcons(stage);
         stage.showAndWait();
 
         categoryNameData.modalResult = model.modalResult;

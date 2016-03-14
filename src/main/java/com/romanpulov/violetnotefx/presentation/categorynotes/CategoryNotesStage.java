@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
+import com.romanpulov.violetnotefx.MainApp;
 import com.romanpulov.violetnotefx.Model.Document;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;
@@ -59,10 +60,7 @@ public class CategoryNotesStage {
         }
 
         stage.setScene(categoryNotesScene);
-        stage.getIcons().addAll(
-                new Image("images/Icon_16_16.png"),
-                new Image("images/Icon_32_32.png")
-        );
+        MainApp.setupStageIcons(stage);
         stage.show();
     }
 }

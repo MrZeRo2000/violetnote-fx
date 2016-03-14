@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx.Presentation.masterpass;
 
+import com.romanpulov.violetnotefx.MainApp;
 import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
@@ -38,6 +39,7 @@ public class MasterPassStage {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.initModality(Modality.APPLICATION_MODAL);
+        MainApp.setupStageIcons(stage);
         stage.showAndWait();
 
         data.modalResult = model.modalResult;
