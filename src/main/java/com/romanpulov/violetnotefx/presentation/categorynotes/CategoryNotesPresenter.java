@@ -234,6 +234,12 @@ public class CategoryNotesPresenter implements Initializable {
         }
     }
 
+    public void loadPINS(File f) {
+        if (categoryNotesModel.importPINSFile(f)) {
+            loadTreeView();
+        }
+    }
+
     @FXML
     private void fileOpenMenuItemClick(ActionEvent event) {
         log.debug("File Open menu item click");
@@ -295,9 +301,7 @@ public class CategoryNotesPresenter implements Initializable {
         File f = fileChooser.showOpenDialog(rootContainer.getScene().getWindow());
         if (f != null) {
             log.debug("Something chosen: " + f.getPath());
-            if (categoryNotesModel.importPINSFile(f)) {
-                loadTreeView();
-            }
+            loadPINS(f);
         }
     }
 }

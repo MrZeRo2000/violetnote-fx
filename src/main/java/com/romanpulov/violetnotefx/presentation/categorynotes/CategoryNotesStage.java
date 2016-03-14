@@ -60,9 +60,7 @@ public class CategoryNotesStage {
 
         switch (data.getFileType()) {
             case FT_IMPORT:
-                if (model.importPINSFile(new File(data.loadFileName))) {
-                    controller.updateController();
-                }
+                controller.loadPINS(new File(data.loadFileName));
                 break;
             case FT_VNF:
                 controller.loadVNF(new File(data.loadFileName));
