@@ -274,6 +274,7 @@ public class CategoryNotesModel {
         try {
             passData = pinsReader.readStream(new FileInputStream(f));
             readPassData(passData);
+            invalidatedData.setValue(true);
             return true;
         } catch (DataReadWriteException | FileNotFoundException e) {
             e.printStackTrace();

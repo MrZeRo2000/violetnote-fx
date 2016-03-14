@@ -252,7 +252,7 @@ public class CategoryNotesPresenter implements Initializable {
             if (masterPass == null)
                 masterPass = MasterPassStage.queryMasterPass(null);
 
-            if (categoryNotesModel.saveFile(f, masterPass)) {
+            if ((masterPass != null) && (categoryNotesModel.saveFile(f, masterPass))) {
                 loadTreeView();
             }
         }
@@ -270,7 +270,9 @@ public class CategoryNotesPresenter implements Initializable {
         if (f != null) {
             log.debug("Something chosen: " + f.getPath());
             String masterPass = MasterPassStage.queryMasterPass(null);
-            categoryNotesModel.saveFile(f, masterPass);
+            if (masterPass != null) {
+                categoryNotesModel.saveFile(f, masterPass);
+            }
         }
     }
 
@@ -286,7 +288,6 @@ public class CategoryNotesPresenter implements Initializable {
         if (f != null) {
             log.debug("Something chosen: " + f.getPath());
             if (categoryNotesModel.importPINSFile(f)) {
-                categoryNotesModel.getInvalidatedData().setValue(true);
                 loadTreeView();
             }
         }
