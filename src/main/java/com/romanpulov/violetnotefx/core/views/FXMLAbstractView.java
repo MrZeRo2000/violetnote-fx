@@ -47,7 +47,7 @@ public class FXMLAbstractView {
         loader.setControllerFactory((Class<?> p) ->  {
                 log.debug("In setControllerFactory: p = " + p.toString());
                 try {
-                    //presenter
+                    //controller
                     Object controller = p.newInstance();
 
                     //inject Model support

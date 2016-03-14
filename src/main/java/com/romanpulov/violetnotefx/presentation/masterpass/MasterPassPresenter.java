@@ -58,7 +58,7 @@ public class MasterPassPresenter implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.debug("initializing presenter in initialize() with URL and resources method");
+        log.debug("initializing controller in initialize() with URL and resources method");
 
     }
 }

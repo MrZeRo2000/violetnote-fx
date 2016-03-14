@@ -131,7 +131,7 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private void categoryAddButtonClick(ActionEvent event) {
         CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
-        CategoryNameStage.showStage(data);
+        (new CategoryNameStage(data)).show();
         if (data.modalResult == ButtonType.CANCEL)
             return;
 
@@ -166,7 +166,7 @@ public class CategoryNotesPresenter implements Initializable {
         TreeItem<PassCategoryFX> selectedTreeItem = categoryTreeView.getSelectionModel().getSelectedItem();
         PassCategoryFX selectedCategory = selectedTreeItem.getValue();
         data.categoryName = selectedCategory.getCategoryName();
-        CategoryNameStage.showStage(data);
+        (new CategoryNameStage(data)).show();
         if (data.modalResult == ButtonType.CANCEL)
             return;
 
@@ -190,7 +190,7 @@ public class CategoryNotesPresenter implements Initializable {
         NoteStage.NoteData data = new NoteStage.NoteData();
         data.passNoteFX = editNote;
         data.passCategoryData = categoryNotesModel.getPassCategoryData();
-        NoteStage.showStage(data);
+        (new NoteStage(data)).show();
         if (data.modalResult == ButtonType.OK) {
             categoryNotesModel.getPassNoteData().add(data.passNoteFX);
         }
@@ -212,7 +212,7 @@ public class CategoryNotesPresenter implements Initializable {
         NoteStage.NoteData data = new NoteStage.NoteData();
         data.passNoteFX = PassNoteFX.newInstance(editNote);
         data.passCategoryData = categoryNotesModel.getPassCategoryData();
-        NoteStage.showStage(data);
+        (new NoteStage(data)).show();
         if (data.modalResult == ButtonType.OK) {
             categoryNotesModel.getPassNoteData().set(categoryNotesModel.getPassNoteData().indexOf(editNote), data.passNoteFX);
         }

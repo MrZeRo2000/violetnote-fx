@@ -1,15 +1,13 @@
 package com.romanpulov.violetnotefx.Presentation.masterpass;
 
-import com.romanpulov.violetnotefx.MainApp;
-import javafx.scene.Scene;
+import com.romanpulov.violetnotefx.Presentation.base.AppStage;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 /**
- * Created by 4540 on 11.03.2016.
+ * Created by rpulov on 14.03.2016.
  */
-public class MasterPassStage {
+public class MasterPassStage extends AppStage {
     public static class MasterPassData {
         public ButtonType modalResult;
         public String masterPass;
@@ -18,37 +16,42 @@ public class MasterPassStage {
             this.masterPass = masterPass;
         }
 
-        public MasterPassData() {
-
-        }
-
         @Override
         public String toString() {
             return "{ModalResult=" + modalResult + ", MasterPass=" + masterPass + "}";
         }
     }
 
-    public static void showStage(MasterPassData data) {
-        MasterPassView view = new MasterPassView();
+    private MasterPassData masterPassData;
+    private MasterPassModel masterPassModel;
 
-        Stage stage = new Stage();
+    public MasterPassStage(Object data) {
+        super(data);
+        masterPassData = (MasterPassData) data;
+    }
+
+    @Override
+    protected Modality getModality() {
+        return Modality.APPLICATION_MODAL;
+    }
+
+    @Override
+    protected void afterCreateStage() {
+        super.afterCreateStage();
         stage.setTitle("Master Password");
-        Scene scene = new Scene(view.getView());
-        MasterPassModel model = (MasterPassModel) view.getModelInstance();
+        masterPassModel = (MasterPassModel) model;
+    }
 
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        MainApp.setupStageIcons(stage);
-        stage.showAndWait();
-
-        data.modalResult = model.modalResult;
-        data.masterPass = model.passwordField_textProperty.getValue();
+    @Override
+    protected void afterShowScene() {
+        masterPassData.modalResult = masterPassModel.modalResult;
+        masterPassData.masterPass = masterPassModel.passwordField_textProperty.getValue();
     }
 
     public static String queryMasterPass(String pass) {
         MasterPassData data = new MasterPassData(pass);
-        showStage(data);
+        (new MasterPassStage(data)).show();
         return data.modalResult == ButtonType.OK ? data.masterPass : null;
     }
+
 }

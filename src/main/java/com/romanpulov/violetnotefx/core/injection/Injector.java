@@ -46,4 +46,14 @@ public class Injector {
             }
         }
     }
+
+    public static Object instantiateClass(String className) {
+        try {
+            Class<?> clazz = Class.forName(className);
+            return clazz.newInstance();
+        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

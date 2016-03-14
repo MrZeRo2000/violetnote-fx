@@ -1,20 +1,17 @@
 package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
-import com.romanpulov.violetnotefx.MainApp;
 import com.romanpulov.violetnotefx.Model.Document;
+import com.romanpulov.violetnotefx.Presentation.base.AppStage;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
+import javafx.stage.Modality;
 
 import java.io.File;
 
 /**
- * Created by 4540 on 04.03.2016.
+ * Created by rpulov on 14.03.2016.
  */
-public class CategoryNotesStage {
-
+public class CategoryNotesStage extends AppStage {
     public static class CategoryNotesData {
         private String loadFileName;
         private Document.FileType loadFileType = Document.FileType.FT_NONE;
@@ -38,29 +35,36 @@ public class CategoryNotesStage {
         }
     }
 
-    public static void showStage(CategoryNotesData data) {
-        CategoryNotesView view = new CategoryNotesView();
+    private CategoryNotesData categoryNotesData;
 
-        Stage stage = new Stage();
-        Scene categoryNotesScene = new Scene(view.getView());
+    public CategoryNotesStage(Object data) {
+        super(data);
+        categoryNotesData = (CategoryNotesData)data;
+    }
+
+    @Override
+    protected Modality getModality() {
+        return Modality.NONE;
+    }
+
+    @Override
+    protected void afterCreateStage() {
+        super.afterCreateStage();
 
         CategoryNotesModel model = (CategoryNotesModel) view.getModelInstance();
         CategoryNotesPresenter controller = (CategoryNotesPresenter) view.getControllerInstance();
+
         stage.titleProperty().bind(Bindings.concat("VioletNoteFX - ").
                 concat(Document.getInstance().getFileName()).
                 concat(new When(model.getInvalidatedData()).then(" * ").otherwise("")));
 
-        switch (data.getLoadFileType()) {
+        switch (categoryNotesData.getLoadFileType()) {
             case FT_IMPORT:
-                controller.loadPINS(new File(data.loadFileName));
+                controller.loadPINS(new File(categoryNotesData.loadFileName));
                 break;
             case FT_VNF:
-                controller.loadVNF(new File(data.loadFileName));
+                controller.loadVNF(new File(categoryNotesData.loadFileName));
                 break;
         }
-
-        stage.setScene(categoryNotesScene);
-        MainApp.setupStageIcons(stage);
-        stage.show();
     }
 }

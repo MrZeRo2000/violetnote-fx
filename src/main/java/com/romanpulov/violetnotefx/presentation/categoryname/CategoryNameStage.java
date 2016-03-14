@@ -1,20 +1,13 @@
 package com.romanpulov.violetnotefx.Presentation.categoryname;
 
-import com.romanpulov.violetnotefx.MainApp;
-import javafx.scene.Scene;
+import com.romanpulov.violetnotefx.Presentation.base.AppStage;
 import javafx.scene.control.ButtonType;
-import javafx.scene.image.Image;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Created by 4540 on 23.02.2016.
+ * Created by rpulov on 14.03.2016.
  */
-public class CategoryNameStage {
-    private static final Logger log = LoggerFactory.getLogger(CategoryNameStage.class);
-
+public class CategoryNameStage extends AppStage {
     public static class CategoryNameData {
         public ButtonType modalResult;
         public String categoryName;
@@ -25,23 +18,29 @@ public class CategoryNameStage {
         }
     }
 
-    public static void showStage(CategoryNameData categoryNameData) {
-        CategoryNameView view = new CategoryNameView();
+    private CategoryNameData categoryNameData;
+    private CategoryNameModel categoryNameModel;
 
-        Stage stage = new Stage();
-        stage.setTitle("Category");
-        Scene scene = new Scene(view.getView());
-        CategoryNameModel model = (CategoryNameModel) view.getModelInstance();
+    public CategoryNameStage(Object data) {
+        super(data);
+        categoryNameData = (CategoryNameData)data;
+    }
 
-        model.categoryName.setValue(categoryNameData.categoryName);
+    @Override
+    protected Modality getModality() {
+        return Modality.APPLICATION_MODAL;
+    }
 
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        MainApp.setupStageIcons(stage);
-        stage.showAndWait();
+    @Override
+    protected void afterCreateStage() {
+        super.afterCreateStage();
+        categoryNameModel = (CategoryNameModel)model;
+        categoryNameModel.categoryName.setValue(categoryNameData.categoryName);
+    }
 
-        categoryNameData.modalResult = model.modalResult;
-        categoryNameData.categoryName = model.categoryName.getValue();
+    @Override
+    protected void afterShowScene() {
+        categoryNameData.modalResult = categoryNameModel.modalResult;
+        categoryNameData.categoryName = categoryNameModel.categoryName.getValue();
     }
 }

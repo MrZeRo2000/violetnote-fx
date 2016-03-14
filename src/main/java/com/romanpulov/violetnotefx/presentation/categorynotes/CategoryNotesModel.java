@@ -11,7 +11,6 @@ import com.romanpulov.violetnotecore.Processor.XMLPassDataReader;
 import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
-import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
@@ -19,7 +18,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.stage.FileChooser;
 
 import java.io.*;
 import java.util.ArrayList;

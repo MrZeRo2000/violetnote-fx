@@ -1,43 +1,48 @@
 package com.romanpulov.violetnotefx.Presentation.note;
 
-import com.romanpulov.violetnotefx.MainApp;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
+import com.romanpulov.violetnotefx.Presentation.base.AppStage;
 import javafx.collections.ObservableList;
-import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 /**
- * Created by rpulov on 01.03.2016.
+ * Created by rpulov on 14.03.2016.
  */
-public class NoteStage {
-
+public class NoteStage extends AppStage {
     public static class NoteData {
         public ButtonType modalResult;
         public PassNoteFX passNoteFX;
         public ObservableList<PassCategoryFX> passCategoryData;
     }
 
-    public static void showStage(NoteData noteData) {
-        NoteView view = new NoteView();
+    private NoteModel noteModel;
+    private NoteData noteData;
 
-        Stage stage = new Stage();
-        stage.setTitle("Note");
-        Scene noteScene = new Scene(view.getView());
-        NoteModel model = (NoteModel) view.getModelInstance();
+    public NoteStage(Object data) {
+        super(data);
+        noteData = (NoteData) data;
+    }
 
-        model.setPassCategoryData(noteData.passCategoryData);
-        model.setPassNoteFX(noteData.passNoteFX);
+    @Override
+    protected Modality getModality() {
+        return Modality.APPLICATION_MODAL;
+    }
 
-        stage.setScene(noteScene);
-        stage.setResizable(false);
-        stage.initModality(Modality.APPLICATION_MODAL);
-        MainApp.setupStageIcons(stage);
-        stage.showAndWait();
+    @Override
+    protected void afterCreateStage() {
+        super.afterCreateStage();
+        noteModel = (NoteModel) view.getModelInstance();
 
-        noteData.modalResult = model.modalResult;
-        noteData.passNoteFX = model.passNoteFX.getValue();
+        noteModel.setPassCategoryData(noteData.passCategoryData);
+        noteModel.setPassNoteFX(noteData.passNoteFX);
+    }
+
+    @Override
+    protected void afterShowScene() {
+        super.afterShowScene();
+        noteData.modalResult = noteModel.modalResult;
+        noteData.passNoteFX = noteModel.passNoteFX.getValue();
     }
 }
