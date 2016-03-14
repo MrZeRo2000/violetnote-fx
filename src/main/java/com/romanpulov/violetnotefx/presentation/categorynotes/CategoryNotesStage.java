@@ -45,6 +45,7 @@ public class CategoryNotesStage {
         }
     }
 
+
     public static void showStage(CategoryNotesData data) {
         CategoryNotesView view = new CategoryNotesView();
 
@@ -52,13 +53,19 @@ public class CategoryNotesStage {
         Scene categoryNotesScene = new Scene(view.getView());
 
         CategoryNotesModel model = (CategoryNotesModel) view.getModelInstance();
+        CategoryNotesPresenter controller = (CategoryNotesPresenter) view.getControllerInstance();
         stage.titleProperty().bind(Bindings.concat("VioletNoteFX - ").
                 concat(Document.getInstance().getFileName()).
                 concat(new When(model.getInvalidatedData()).then(" * ").otherwise("")));
 
         switch (data.getFileType()) {
             case FT_IMPORT:
-                model.importPINSFile(new File(data.loadFileName));
+                if (model.importPINSFile(new File(data.loadFileName))) {
+                    controller.updateController();
+                }
+                break;
+            case FT_VNF:
+                controller.loadVNF(new File(data.loadFileName));
                 break;
         }
 

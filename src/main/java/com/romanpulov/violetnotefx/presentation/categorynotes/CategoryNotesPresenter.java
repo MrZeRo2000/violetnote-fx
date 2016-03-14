@@ -63,6 +63,10 @@ public class CategoryNotesPresenter implements Initializable {
     @Model
     private CategoryNotesModel categoryNotesModel;
 
+    public void updateController() {
+        loadTreeView();
+    }
+
     private void loadTreeView() {
         TreeItem<PassCategoryFX> root = categoryTreeView.getRoot();
         if (root == null) {
@@ -223,6 +227,13 @@ public class CategoryNotesPresenter implements Initializable {
         Document.getInstance().resetFileName();
     }
 
+    public void loadVNF(File f) {
+        String masterPass = MasterPassStage.queryMasterPass(null);
+        if ((masterPass != null) && (categoryNotesModel.loadFile(f, masterPass))) {
+            loadTreeView();
+        }
+    }
+
     @FXML
     private void fileOpenMenuItemClick(ActionEvent event) {
         log.debug("File Open menu item click");
@@ -234,10 +245,7 @@ public class CategoryNotesPresenter implements Initializable {
         );
         File f = fileChooser.showOpenDialog(rootContainer.getScene().getWindow());
         if (f != null) {
-            String masterPass = MasterPassStage.queryMasterPass(null);
-            if ((masterPass != null) && (categoryNotesModel.loadFile(f, masterPass))) {
-                loadTreeView();
-            }
+            loadVNF(f);
         }
     }
 

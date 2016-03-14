@@ -24,6 +24,7 @@ public class FXMLAbstractView {
     private static final Logger log = LoggerFactory.getLogger(FXMLAbstractView.class);
 
     private Object modelInstance;
+    private Object controllerInstance;
 
     public String getConventionalResourceName() {
         String conventionalCore = this.getClass().getSimpleName().toLowerCase();
@@ -36,6 +37,9 @@ public class FXMLAbstractView {
 
     public Object getModelInstance() {
         return modelInstance;
+    }
+    public Object getControllerInstance() {
+        return controllerInstance;
     }
 
     public Parent getView() {
@@ -72,6 +76,7 @@ public class FXMLAbstractView {
             Parent view = loader.load();
             if (modelInstance != null)
                 Binder.bindFXMLProperties(loader.getController(), modelInstance);
+            this.controllerInstance = loader.getController();
             return view;
         } catch (IOException e) {
             e.printStackTrace();
