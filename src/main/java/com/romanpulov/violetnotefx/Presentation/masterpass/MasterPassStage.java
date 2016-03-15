@@ -7,7 +7,7 @@ import javafx.stage.Modality;
 /**
  * Created by rpulov on 14.03.2016.
  */
-public class MasterPassStage extends AppStage {
+public class MasterPassStage extends AppStage<MasterPassStage.MasterPassData, MasterPassModel, MasterPassPresenter> {
     public static class MasterPassData {
         public ButtonType modalResult;
         public String masterPass;
@@ -22,14 +22,6 @@ public class MasterPassStage extends AppStage {
         }
     }
 
-    private MasterPassData masterPassData;
-    private MasterPassModel masterPassModel;
-
-    public MasterPassStage(Object data) {
-        super(data);
-        masterPassData = (MasterPassData) data;
-    }
-
     @Override
     protected Modality getModality() {
         return Modality.APPLICATION_MODAL;
@@ -39,19 +31,17 @@ public class MasterPassStage extends AppStage {
     protected void afterCreateStage() {
         super.afterCreateStage();
         stage.setTitle("Master Password");
-        masterPassModel = (MasterPassModel) model;
     }
 
     @Override
     protected void afterShowScene() {
-        masterPassData.modalResult = masterPassModel.modalResult;
-        masterPassData.masterPass = masterPassModel.passwordField_textProperty.getValue();
+        data.modalResult = model.modalResult;
+        data.masterPass = model.passwordField_textProperty.getValue();
     }
 
     public static String queryMasterPass(String pass) {
         MasterPassData data = new MasterPassData(pass);
-        (new MasterPassStage(data)).show();
+        (new MasterPassStage()).execute(data);
         return data.modalResult == ButtonType.OK ? data.masterPass : null;
     }
-
 }

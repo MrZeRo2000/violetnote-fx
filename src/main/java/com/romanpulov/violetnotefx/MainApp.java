@@ -33,6 +33,6 @@ public class MainApp extends Application {
             data.setLoadFileName(params.get(0));
         }
 
-        (new CategoryNotesStage(data)).show();
+        (new CategoryNotesStage()).execute(data);
     }
 }

@@ -10,19 +10,11 @@ import javafx.stage.Modality;
 /**
  * Created by rpulov on 14.03.2016.
  */
-public class NoteStage extends AppStage {
+public class NoteStage extends AppStage<NoteStage.NoteData, NoteModel, NotePresenter> {
     public static class NoteData {
         public ButtonType modalResult;
         public PassNoteFX passNoteFX;
         public ObservableList<PassCategoryFX> passCategoryData;
-    }
-
-    private NoteModel noteModel;
-    private NoteData noteData;
-
-    public NoteStage(Object data) {
-        super(data);
-        noteData = (NoteData) data;
     }
 
     @Override
@@ -33,16 +25,15 @@ public class NoteStage extends AppStage {
     @Override
     protected void afterCreateStage() {
         super.afterCreateStage();
-        noteModel = (NoteModel) view.getModelInstance();
 
-        noteModel.setPassCategoryData(noteData.passCategoryData);
-        noteModel.setPassNoteFX(noteData.passNoteFX);
+        model.setPassCategoryData(data.passCategoryData);
+        model.setPassNoteFX(data.passNoteFX);
     }
 
     @Override
     protected void afterShowScene() {
         super.afterShowScene();
-        noteData.modalResult = noteModel.modalResult;
-        noteData.passNoteFX = noteModel.passNoteFX.getValue();
+        data.modalResult = model.modalResult;
+        data.passNoteFX = model.passNoteFX.getValue();
     }
 }

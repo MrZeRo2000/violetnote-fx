@@ -7,7 +7,7 @@ import javafx.stage.Modality;
 /**
  * Created by rpulov on 14.03.2016.
  */
-public class CategoryNameStage extends AppStage {
+public class CategoryNameStage extends AppStage<CategoryNameStage.CategoryNameData, CategoryNameModel, CategoryNamePresenter> {
     public static class CategoryNameData {
         public ButtonType modalResult;
         public String categoryName;
@@ -18,14 +18,6 @@ public class CategoryNameStage extends AppStage {
         }
     }
 
-    private CategoryNameData categoryNameData;
-    private CategoryNameModel categoryNameModel;
-
-    public CategoryNameStage(Object data) {
-        super(data);
-        categoryNameData = (CategoryNameData)data;
-    }
-
     @Override
     protected Modality getModality() {
         return Modality.APPLICATION_MODAL;
@@ -34,13 +26,12 @@ public class CategoryNameStage extends AppStage {
     @Override
     protected void afterCreateStage() {
         super.afterCreateStage();
-        categoryNameModel = (CategoryNameModel)model;
-        categoryNameModel.categoryName.setValue(categoryNameData.categoryName);
+        model.categoryName.setValue(data.categoryName);
     }
 
     @Override
     protected void afterShowScene() {
-        categoryNameData.modalResult = categoryNameModel.modalResult;
-        categoryNameData.categoryName = categoryNameModel.categoryName.getValue();
+        data.modalResult = model.modalResult;
+        data.categoryName = model.categoryName.getValue();
     }
 }

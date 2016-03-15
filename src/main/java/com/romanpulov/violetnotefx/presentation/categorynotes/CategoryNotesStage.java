@@ -11,7 +11,7 @@ import java.io.File;
 /**
  * Created by rpulov on 14.03.2016.
  */
-public class CategoryNotesStage extends AppStage {
+public class CategoryNotesStage extends AppStage<CategoryNotesStage.CategoryNotesData, CategoryNotesModel, CategoryNotesPresenter> {
     public static class CategoryNotesData {
         private String loadFileName;
         private Document.FileType loadFileType = Document.FileType.FT_NONE;
@@ -35,13 +35,6 @@ public class CategoryNotesStage extends AppStage {
         }
     }
 
-    private CategoryNotesData categoryNotesData;
-
-    public CategoryNotesStage(Object data) {
-        super(data);
-        categoryNotesData = (CategoryNotesData)data;
-    }
-
     @Override
     protected Modality getModality() {
         return Modality.NONE;
@@ -51,19 +44,16 @@ public class CategoryNotesStage extends AppStage {
     protected void afterCreateStage() {
         super.afterCreateStage();
 
-        CategoryNotesModel model = (CategoryNotesModel) view.getModelInstance();
-        CategoryNotesPresenter controller = (CategoryNotesPresenter) view.getControllerInstance();
-
         stage.titleProperty().bind(Bindings.concat("VioletNoteFX - ").
                 concat(Document.getInstance().getFileName()).
                 concat(new When(model.getInvalidatedData()).then(" * ").otherwise("")));
 
-        switch (categoryNotesData.getLoadFileType()) {
+        switch (data.getLoadFileType()) {
             case FT_IMPORT:
-                controller.loadPINS(new File(categoryNotesData.loadFileName));
+                controller.loadPINS(new File(data.loadFileName));
                 break;
             case FT_VNF:
-                controller.loadVNF(new File(categoryNotesData.loadFileName));
+                controller.loadVNF(new File(data.loadFileName));
                 break;
         }
     }
