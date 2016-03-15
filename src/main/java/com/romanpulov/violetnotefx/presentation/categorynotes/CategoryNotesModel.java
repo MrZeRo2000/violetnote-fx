@@ -108,7 +108,7 @@ public class CategoryNotesModel {
 
             passNoteData.stream().forEach((p) -> {
                 PassCategory category = categoryData.get(p.getCategory());
-                PassNote note = new PassNote(category, p.getSystem(), p.getUser(), p.getPassword(), p.getComments(), p.getComments(), p.getInfo());
+                PassNote note = new PassNote(category, p.getSystem(), p.getUser(), p.getRealPassword(), p.getComments(), p.getComments(), p.getInfo());
                 passNoteList.add(note);
             });
 
@@ -224,11 +224,7 @@ public class CategoryNotesModel {
 
     public boolean loadFile(File f, String masterPass) {
         if (f.exists()) {
-            InputStream input = null;
-
-            try {
-                input = AESCryptService.generateCryptInputStream(new FileInputStream(f), masterPass);
-
+            try (InputStream input = AESCryptService.generateCryptInputStream(new FileInputStream(f), masterPass)) {
                 PassData passData = (new XMLPassDataReader()).readStream(input);
                 readPassData(passData);
 
@@ -238,23 +234,13 @@ public class CategoryNotesModel {
             } catch (AESCryptException | IOException | DataReadWriteException e) {
                 e.printStackTrace();
                 return false;
-            } finally {
-                if (input != null) {
-                    try {
-                        input.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
         } else
             return false;
     }
 
     public boolean saveFile(File f, String masterPass) {
-        OutputStream output = null;
-        try {
-            output = AESCryptService.generateCryptOutputStream(new FileOutputStream(f), masterPass);
+        try (OutputStream output = AESCryptService.generateCryptOutputStream(new FileOutputStream(f), masterPass)) {
             PassData passData = writePassData();
 
             (new XMLPassDataWriter(passData)).writeStream(output);
@@ -265,15 +251,6 @@ public class CategoryNotesModel {
         } catch (AESCryptException | IOException | DataReadWriteException e) {
             e.printStackTrace();
             return false;
-        } finally {
-            if (output != null) {
-                try {
-                    output.flush();
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 

@@ -23,39 +23,18 @@ public class PropertiesManager {
     private static PropertiesManager ourInstance = new PropertiesManager();
 
     public void load() {
-        InputStream input = null;
-        try {
-            input = new FileInputStream(propertiesFileName);
+        try (InputStream  input = new FileInputStream(propertiesFileName)) {
             properties.load(input);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
     public void save() {
-        OutputStream output = null;
-        try {
-            output = new FileOutputStream(propertiesFileName);
+        try (OutputStream output = new FileOutputStream(propertiesFileName)) {
             properties.store(output, null);
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (output != null) {
-                try {
-                    output.flush();
-                    output.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
