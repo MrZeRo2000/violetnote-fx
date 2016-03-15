@@ -52,6 +52,7 @@ public abstract  class AbstractTypedStage<D, M, C> {
         afterCreateStage();
 
         Modality modality = getModality();
+        stage.initModality(modality);
         if (modality.equals(Modality.NONE)) {
             stage.show();
         } else {

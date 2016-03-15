@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
  */
 public class MasterPassPresenter implements Initializable {
     private static final Logger log = LoggerFactory.getLogger(MasterPassPresenter.class);
+    private static final int MIN_PASS_LENGTH = 6;
 
     @FXML
     PasswordField passwordField;
@@ -59,6 +60,6 @@ public class MasterPassPresenter implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         log.debug("initializing controller in initialize() with URL and resources method");
-
+        okButton.disableProperty().bind(passwordField.textProperty().length().lessThan(MIN_PASS_LENGTH));
     }
 }

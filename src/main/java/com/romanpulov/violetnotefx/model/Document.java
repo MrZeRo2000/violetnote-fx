@@ -49,7 +49,7 @@ public class Document {
     }
 
     public boolean isNewFile() {
-        return fileName.equals(NEW_FILE_NAME);
+        return fileName.getValue().equals(NEW_FILE_NAME);
     }
 
     public void setFile(String fileName, String masterPass) {
