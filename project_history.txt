@@ -9,3 +9,6 @@ java -jar violetnote-jfx.jar
 
 build skipping tests:
 mvn jfx:jar -DskipTests
+
+build ready to run package:
+mvn jfx:build-native
