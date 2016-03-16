@@ -7,12 +7,10 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
- * Created by rpulov on 14.03.2016.
+ * Created by 4540 on 15.03.2016.
  */
-public abstract class AbstractStage {
+public abstract  class AbstractStage<M, C> {
     private static final String STAGE_CLASS_NAME_ENDING = "Stage";
-    private static final String MODEL_CLASS_NAME_ENDING = "Model";
-    private static final String PRESENTER_CLASS_NAME_ENDING = "Presenter";
     private static final String VIEW_CLASS_NAME_ENDING = "View";
 
     private String getConventionalCore() {
@@ -24,37 +22,45 @@ public abstract class AbstractStage {
         return conventionalCore;
     }
 
-    protected Object model;
-    protected Object controller;
+    protected M model;
+    protected C controller;
     protected FXMLAbstractView view;
     protected Stage stage;
     protected Scene scene;
 
-    protected abstract Modality getModality();
-
     protected void beforeCreateStage() {}
     protected void afterCreateStage() {};
-    protected void afterShowScene() {}
+    protected void afterShowStage() {}
 
-    public AbstractStage(Object data) {
-
-    }
-
-    public void show() {
+    @SuppressWarnings("unchecked")
+    public M createStage() {
         beforeCreateStage();
 
         String conventionalCore = getConventionalCore();
 
-        view = (FXMLAbstractView)Injector.instantiateClass(conventionalCore + VIEW_CLASS_NAME_ENDING);
+        view = (FXMLAbstractView) Injector.instantiateClass(conventionalCore + VIEW_CLASS_NAME_ENDING);
         stage = new Stage();
         scene = new Scene(view.getView());
         stage.setScene(scene);
-        model = view.getModelInstance();
-        controller = view.getControllerInstance();
+
+        model = (M)view.getModelInstance();
+        controller = (C)view.getControllerInstance();
 
         afterCreateStage();
+        return model;
+    }
 
-        Modality modality = getModality();
+    public void show() {
+        showStage(Modality.NONE);
+    }
+
+    public void showModal() {
+        showStage(Modality.APPLICATION_MODAL);
+    }
+
+    public void showStage(Modality modality) {
+        stage.initModality(modality);
+
         if (modality.equals(Modality.NONE)) {
             stage.show();
         } else {
@@ -62,6 +68,6 @@ public abstract class AbstractStage {
             stage.showAndWait();
         }
 
-        afterShowScene();
+        afterShowStage();
     }
 }

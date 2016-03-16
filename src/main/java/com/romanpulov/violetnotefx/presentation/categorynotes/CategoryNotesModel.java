@@ -51,6 +51,31 @@ public class CategoryNotesModel {
         initData();
     }
 
+    private String loadFileName;
+    private Document.FileType loadFileType = Document.FileType.FT_NONE;
+
+    public void updateFileType() {
+        int dotPos = loadFileName.lastIndexOf(".");
+        if (dotPos > 0) {
+            String extension = loadFileName.substring(dotPos + 1).toLowerCase();
+            loadFileType = Document.FILE_TYPES.get(extension);
+        } else
+            loadFileType = Document.FileType.FT_NONE;
+    }
+
+    public void setLoadFileName(String loadFileName) {
+        this.loadFileName = loadFileName;
+        updateFileType();
+    }
+
+    public String getLoadFileName() {
+        return loadFileName;
+    }
+
+    public Document.FileType getLoadFileType() {
+        return loadFileType;
+    }
+
     public final class PassDataReader {
         private PassData passData;
 

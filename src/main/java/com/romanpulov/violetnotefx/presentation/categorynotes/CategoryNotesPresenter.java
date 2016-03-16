@@ -2,11 +2,13 @@ package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
 import com.romanpulov.violetnotefx.Core.dialogs.AlertDialogs;
 import com.romanpulov.violetnotefx.Model.Document;
+import com.romanpulov.violetnotefx.Presentation.categoryname.CategoryNameModel;
 import com.romanpulov.violetnotefx.Presentation.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.Core.annotation.Model;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
+import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -130,17 +132,19 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void categoryAddButtonClick(ActionEvent event) {
-        CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
-        (new CategoryNameStage()).execute(data);
-        if (data.modalResult == ButtonType.CANCEL)
+        CategoryNameStage categoryNameStage = new CategoryNameStage();
+        CategoryNameModel categoryNameModel = categoryNameStage.createStage();
+        categoryNameStage.showModal();
+
+        if (categoryNameModel.modalResult == ButtonType.CANCEL)
             return;
 
-        if (categoryNotesModel.findChildPassCategoryName(null, data.categoryName) == null) {
+        if (categoryNotesModel.findChildPassCategoryName(null, categoryNameModel.categoryName.getValue()) == null) {
             log.debug("can process add");
-            categoryNotesModel.getCategoryData().add(new PassCategoryFX(null, data.categoryName));
+            categoryNotesModel.getCategoryData().add(new PassCategoryFX(null, categoryNameModel.categoryName.getValue()));
             loadTreeView();
         } else {
-            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + data.categoryName + " already exists").buildAlert().showAndWait();
+            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + categoryNameModel.categoryName.getValue() + " already exists").buildAlert().showAndWait();
         }
     }
 
@@ -162,18 +166,22 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void categoryEditButtonClick(ActionEvent event) {
-        CategoryNameStage.CategoryNameData data = new CategoryNameStage.CategoryNameData();
+        // find selected category
         TreeItem<PassCategoryFX> selectedTreeItem = categoryTreeView.getSelectionModel().getSelectedItem();
         PassCategoryFX selectedCategory = selectedTreeItem.getValue();
-        data.categoryName = selectedCategory.getCategoryName();
-        (new CategoryNameStage()).execute(data);
-        if (data.modalResult == ButtonType.CANCEL)
+
+        CategoryNameStage categoryNameStage = new CategoryNameStage();
+        CategoryNameModel categoryNameModel = categoryNameStage.createStage();
+        categoryNameModel.categoryName.setValue(selectedCategory.getCategoryName());
+        categoryNameStage.showModal();
+
+        if (categoryNameModel.modalResult == ButtonType.CANCEL)
             return;
 
-        if (categoryNotesModel.findChildPassCategoryName(selectedCategory.getParentCategory(), data.categoryName) != null) {
-            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + data.categoryName + " already exists").buildAlert().showAndWait();
+        if (categoryNotesModel.findChildPassCategoryName(selectedCategory.getParentCategory(), categoryNameModel.categoryName.getValue()) != null) {
+            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + categoryNameModel.categoryName.getValue() + " already exists").buildAlert().showAndWait();
         } else {
-            selectedCategory.setCategoryName(data.categoryName);
+            selectedCategory.setCategoryName(categoryNameModel.categoryName.getValue());
             // invalidate tree view
             selectedTreeItem.setValue(null);
             selectedTreeItem.setValue(selectedCategory);
@@ -187,12 +195,14 @@ public class CategoryNotesPresenter implements Initializable {
         PassCategoryFX categoryFX = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
         PassNoteFX editNote = new PassNoteFX(categoryFX);
 
-        NoteStage.NoteData data = new NoteStage.NoteData();
-        data.passNoteFX = editNote;
-        data.passCategoryData = categoryNotesModel.getPassCategoryData();
-        (new NoteStage()).execute(data);
-        if (data.modalResult == ButtonType.OK) {
-            categoryNotesModel.getPassNoteData().add(data.passNoteFX);
+        NoteStage noteStage = new NoteStage();
+        NoteModel noteModel = noteStage.createStage();
+        noteModel.setPassNoteFX(editNote);
+        noteModel.setPassCategoryData(categoryNotesModel.getPassCategoryData());
+        noteStage.showModal();
+
+        if (noteModel.modalResult == ButtonType.OK) {
+            categoryNotesModel.getPassNoteData().add(noteModel.getPassNoteFX());
         }
     }
 
@@ -209,12 +219,15 @@ public class CategoryNotesPresenter implements Initializable {
         //get selected note
         PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
 
-        NoteStage.NoteData data = new NoteStage.NoteData();
-        data.passNoteFX = PassNoteFX.newInstance(editNote);
-        data.passCategoryData = categoryNotesModel.getPassCategoryData();
-        (new NoteStage()).execute(data);
-        if (data.modalResult == ButtonType.OK) {
-            categoryNotesModel.getPassNoteData().set(categoryNotesModel.getPassNoteData().indexOf(editNote), data.passNoteFX);
+        NoteStage noteStage = new NoteStage();
+        NoteModel noteModel = noteStage.createStage();
+
+        noteModel.setPassNoteFX(PassNoteFX.newInstance(editNote));
+        noteModel.setPassCategoryData(categoryNotesModel.getPassCategoryData());
+        noteStage.showModal();
+
+        if (noteModel.modalResult == ButtonType.OK) {
+            categoryNotesModel.getPassNoteData().set(categoryNotesModel.getPassNoteData().indexOf(editNote), noteModel.getPassNoteFX());
         }
     }
 

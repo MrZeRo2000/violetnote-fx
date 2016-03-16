@@ -1,5 +1,6 @@
 package com.romanpulov.violetnotefx;
 
+import com.romanpulov.violetnotefx.Presentation.categorynotes.CategoryNotesModel;
 import com.romanpulov.violetnotefx.Presentation.categorynotes.CategoryNotesStage;
 import javafx.application.Application;
 import javafx.scene.image.Image;
@@ -17,22 +18,15 @@ public class MainApp extends Application {
         launch(args);
     }
 
-    public static void setupStageIcons(Stage stage) {
-        stage.getIcons().addAll(
-                new Image("images/Icon_16_16.png"),
-                new Image("images/Icon_32_32.png")
-        );
-    }
-
     public void start(Stage stage) throws Exception {
         List<String> params = getParameters().getRaw();
         log.debug("params:" + params.toString());
 
-        CategoryNotesStage.CategoryNotesData data = new CategoryNotesStage.CategoryNotesData();
+        CategoryNotesStage categoryNotesStage = new CategoryNotesStage();
+        CategoryNotesModel categoryNotesModel = categoryNotesStage.createStage();
         if (params.size() > 0) {
-            data.setLoadFileName(params.get(0));
+            categoryNotesModel.setLoadFileName(params.get(0));
         }
-
-        (new CategoryNotesStage()).execute(data);
+        categoryNotesStage.show();
     }
 }
