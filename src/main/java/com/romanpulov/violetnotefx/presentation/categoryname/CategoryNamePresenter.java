@@ -58,6 +58,6 @@ public class CategoryNamePresenter implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         categoryNameField.textProperty().bindBidirectional(categoryNameModel.categoryName);
-        okButton.disableProperty().bind(Bindings.isEmpty(categoryNameField.textProperty()));
+        okButton.disableProperty().bind(categoryNameField.textProperty().isEmpty());
     }
 }

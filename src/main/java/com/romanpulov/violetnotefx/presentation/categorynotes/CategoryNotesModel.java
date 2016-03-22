@@ -7,6 +7,7 @@ import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Model.PassNote;
 import com.romanpulov.violetnotecore.Processor.Exception.DataReadWriteException;
 import com.romanpulov.violetnotecore.Processor.PinsDataReader;
+import com.romanpulov.violetnotecore.Processor.PinsDataWriter;
 import com.romanpulov.violetnotecore.Processor.XMLPassDataReader;
 import com.romanpulov.violetnotecore.Processor.XMLPassDataWriter;
 import com.romanpulov.violetnotefx.Model.Document;
@@ -288,6 +289,19 @@ public class CategoryNotesModel {
             invalidatedData.setValue(true);
             return true;
         } catch (DataReadWriteException | FileNotFoundException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean exportPINSFile(File f) {
+        try (OutputStream output = new FileOutputStream(f)) {
+            PassData passData = writePassData();
+            (new PinsDataWriter()).writeStream(output, passData);
+            output.flush();
+            output.close();
+            return true;
+        } catch(IOException | DataReadWriteException e) {
             e.printStackTrace();
             return false;
         }

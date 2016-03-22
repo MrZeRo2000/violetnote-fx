@@ -72,6 +72,7 @@
                 <MenuItem fx:id="fileSaveAsMenuItem" mnemonicParsing="false" text="Save As ..." onAction="#fileSaveAsMenuItemClick" />
                 <SeparatorMenuItem />
                 <MenuItem fx:id="fileImportMenuItem" mnemonicParsing="false" text="Import" onAction="#fileImportMenuItemClick"/>
+                <MenuItem fx:id="fileExportMenuItem" mnemonicParsing="false" text="Export ..." onAction="#fileExportMenuItemClick"/>
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">

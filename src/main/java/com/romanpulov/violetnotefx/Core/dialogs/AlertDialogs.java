@@ -1,6 +1,8 @@
 package com.romanpulov.violetnotefx.Core.dialogs;
 
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 
 /**
  * Created by 4540 on 24.02.2016.
@@ -12,6 +14,7 @@ public class AlertDialogs {
         protected String title;
         protected String headerText;
         protected String contentText;
+        protected ButtonType defaultButton;
 
         protected abstract void setDefaults();
 
@@ -34,12 +37,22 @@ public class AlertDialogs {
             return this;
         }
 
+        public AlertBuilder setDefaultButton(ButtonType defaultButton) {
+            this.defaultButton = defaultButton;
+            return this;
+        }
+
         public Alert buildAlert() {
             Alert alert = new Alert(this.alertType);
             setDefaults();
             alert.setTitle(this.title);
             alert.setHeaderText(this.headerText);
             alert.setContentText(this.contentText);
+
+            if (defaultButton != null)
+                for (ButtonType buttonType : alert.getButtonTypes())
+                    ((Button)alert.getDialogPane().lookupButton(buttonType)).setDefaultButton(buttonType == defaultButton);
+
             return alert;
         }
     }

@@ -70,13 +70,18 @@ public class CategoryNotesPresenter implements Initializable {
     }
 
     private void loadTreeView() {
+        /*
         TreeItem<PassCategoryFX> root = categoryTreeView.getRoot();
         if (root == null) {
             root = new TreeItem<PassCategoryFX>();
             categoryTreeView.setRoot(root);
         } else {
+            categoryTreeView.getSelectionModel().clearSelection();
             root.getChildren().clear();
         }
+        */
+        TreeItem<PassCategoryFX> root = new TreeItem<>();
+        categoryTreeView.setRoot(root);
         categoryTreeView.setShowRoot(false);
         for (PassCategoryFX p : categoryNotesModel.getCategoryData()) {
             root.getChildren().add(new TreeItem<>(p));
@@ -127,7 +132,6 @@ public class CategoryNotesPresenter implements Initializable {
                 }
             };
         });
-
     }
 
     @FXML
@@ -161,7 +165,7 @@ public class CategoryNotesPresenter implements Initializable {
         }
         categoryNotesModel.getCategoryData().remove(selectedItem.getValue());
         selectedItem.getParent().getChildren().remove(selectedItem);
-        //loadTreeView();
+        loadTreeView();
     }
 
     @FXML
@@ -248,10 +252,14 @@ public class CategoryNotesPresenter implements Initializable {
             log.debug("Failed to load file");
     }
 
-    public void loadPINS(File f) {
+    public void importPINS(File f) {
         if (categoryNotesModel.importPINSFile(f)) {
             loadTreeView();
         }
+    }
+
+    public void exportPINS(File f) {
+        categoryNotesModel.exportPINSFile(f);
     }
 
     @FXML
@@ -315,7 +323,22 @@ public class CategoryNotesPresenter implements Initializable {
         File f = fileChooser.showOpenDialog(rootContainer.getScene().getWindow());
         if (f != null) {
             log.debug("Something chosen: " + f.getPath());
-            loadPINS(f);
+            importPINS(f);
+        }
+    }
+
+    @FXML
+    private void fileExportMenuItemClick(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Export to PINS");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("CSV files", "*.csv"),
+                new FileChooser.ExtensionFilter("All files", "*.*")
+        );
+        File f = fileChooser.showSaveDialog(rootContainer.getScene().getWindow());
+        if (f != null) {
+            log.debug("Something chosen: " + f.getPath());
+            exportPINS(f);
         }
     }
 }
