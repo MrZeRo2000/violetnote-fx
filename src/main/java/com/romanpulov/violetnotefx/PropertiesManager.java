@@ -9,6 +9,7 @@ import java.util.Properties;
 public class PropertiesManager {
     private static final String propertiesFileName;
     private static final String FILE_NAME = "config.properties";
+    public static final String DOCUMENT_FILE_NAME = "document_file_name";
 
     private final Properties properties = new Properties();
 

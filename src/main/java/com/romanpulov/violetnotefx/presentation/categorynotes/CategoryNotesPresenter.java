@@ -248,8 +248,9 @@ public class CategoryNotesPresenter implements Initializable {
         String masterPass = MasterPassStage.queryMasterPass(null);
         if ((masterPass != null) && (categoryNotesModel.loadFile(f, masterPass))) {
             loadTreeView();
-        } else
+        } else {
             log.debug("Failed to load file");
+        }
     }
 
     public void importPINS(File f) {

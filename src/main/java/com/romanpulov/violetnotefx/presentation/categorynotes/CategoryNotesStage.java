@@ -3,6 +3,7 @@ package com.romanpulov.violetnotefx.Presentation.categorynotes;
 import com.romanpulov.violetnotefx.Core.dialogs.AlertDialogs;
 import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Presentation.base.AppStage;
+import com.romanpulov.violetnotefx.PropertiesManager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;
 import javafx.scene.control.ButtonType;
@@ -14,6 +15,12 @@ import java.util.Optional;
  * Created by rpulov on 14.03.2016.
  */
 public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNotesPresenter> {
+
+    private void saveProperties() {
+        PropertiesManager.getInstance().getProperties().setProperty(PropertiesManager.DOCUMENT_FILE_NAME, Document.getInstance().getFileName().getValue());
+        PropertiesManager.getInstance().save();
+    }
+
     @Override
     protected void afterCreateStage() {
         super.afterCreateStage();
@@ -25,8 +32,12 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
                         .setDefaultButton(ButtonType.CANCEL)
                         .buildAlert()
                         .showAndWait();
-                if (!(result.get().equals(ButtonType.OK)))
+                if (!(result.get().equals(ButtonType.OK))) {
                     e.consume();
+                } else
+                    saveProperties();
+            } else {
+                saveProperties();
             }
         });
 
@@ -41,6 +52,14 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
             case FT_VNF:
                 controller.loadVNF(new File(model.getLoadFileName()));
                 break;
+        }
+
+        PropertiesManager.getInstance().load();
+        String documentFileName = PropertiesManager.getInstance().getProperties().getProperty(PropertiesManager.DOCUMENT_FILE_NAME);
+        if (documentFileName != null ) {
+            File f = new File(documentFileName);
+            if (f.exists())
+                controller.loadVNF(f);
         }
     }
 }

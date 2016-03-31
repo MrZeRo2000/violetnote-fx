@@ -66,6 +66,4 @@ public class Document {
 
     private Document() {
     }
-
-
 }
