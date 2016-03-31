@@ -249,7 +249,7 @@ public class CategoryNotesPresenter implements Initializable {
         if ((masterPass != null) && (categoryNotesModel.loadFile(f, masterPass))) {
             loadTreeView();
         } else {
-            log.debug("Failed to load file");
+            (new AlertDialogs.ErrorAlertBuilder()).setHeaderText("Error reading file: " + f.getPath()).setTitle("Error").setContentText("Wrong password or invalid file").buildAlert().showAndWait();
         }
     }
 

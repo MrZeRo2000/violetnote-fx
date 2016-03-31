@@ -8,7 +8,7 @@
 
 <AnchorPane fx:id="rootContainer" minHeight="0.0" minWidth="0.0" prefHeight="400.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.romanpulov.violetnotefx.Presentation.categorynotes.CategoryNotesPresenter">
     <children>
-<SplitPane dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+<SplitPane dividerPositions="0.3" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="57.0">
           <items>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="520.0" prefWidth="198.0">
                   <children>
@@ -62,7 +62,7 @@
               </AnchorPane>
           </items>
       </SplitPane>
-      <MenuBar layoutX="0.0" layoutY="0.0" prefHeight="25" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <MenuBar layoutX="0.0" layoutY="0.0" prefHeight="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
@@ -82,5 +82,13 @@
           </Menu>
         </menus>
       </MenuBar>
+        <ToolBar prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+            <items>
+                <Button fx:id="fileNewButton" mnemonicParsing="false" onAction="#fileNewMenuItemClick" text="New" />
+                <Button fx:id="fileOpenButton" mnemonicParsing="false" onAction="#fileOpenMenuItemClick" text="Open" />
+                <Button fx:id="fileSaveButton" mnemonicParsing="false" onAction="#fileSaveMenuItemClick" text="Save" />
+            </items>
+        </ToolBar>
+
     </children>
     </AnchorPane>

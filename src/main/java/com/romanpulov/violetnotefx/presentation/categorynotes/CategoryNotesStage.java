@@ -21,6 +21,16 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
         PropertiesManager.getInstance().save();
     }
 
+    private void loadProperties() {
+        PropertiesManager.getInstance().load();
+        String documentFileName = PropertiesManager.getInstance().getProperties().getProperty(PropertiesManager.DOCUMENT_FILE_NAME);
+        if (documentFileName != null ) {
+            File f = new File(documentFileName);
+            if (f.exists())
+                controller.loadVNF(f);
+        }
+    }
+
     @Override
     protected void afterCreateStage() {
         super.afterCreateStage();
@@ -54,12 +64,6 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
                 break;
         }
 
-        PropertiesManager.getInstance().load();
-        String documentFileName = PropertiesManager.getInstance().getProperties().getProperty(PropertiesManager.DOCUMENT_FILE_NAME);
-        if (documentFileName != null ) {
-            File f = new File(documentFileName);
-            if (f.exists())
-                controller.loadVNF(f);
-        }
+        loadProperties();
     }
 }
