@@ -62,6 +62,9 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private MenuItem fileSaveMenuItem;
 
+    @FXML
+    private Button fileSaveButton;
+
     @Model
     private CategoryNotesModel categoryNotesModel;
 
@@ -105,6 +108,7 @@ public class CategoryNotesPresenter implements Initializable {
         noteEditButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
 
         fileSaveMenuItem.disableProperty().bind(categoryNotesModel.getInvalidatedData().not());
+        fileSaveButton.disableProperty().bind(categoryNotesModel.getInvalidatedData().not());
 
         //selection change
         categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<PassCategoryFX>>() {
