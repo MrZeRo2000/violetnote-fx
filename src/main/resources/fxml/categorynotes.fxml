@@ -17,9 +17,30 @@
                       <TreeView fx:id="categoryTreeView" prefHeight="398.0" prefWidth="198.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
                   <ToolBar layoutX="0.0" layoutY="0.0" prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <Button fx:id="categoryAddButton" mnemonicParsing="false" onAction="#categoryAddButtonClick" text="Add" />
-                        <Button fx:id="categoryDeleteButton" mnemonicParsing="false" onAction="#categoryDeleteButtonClick" text="Delete" />
-                        <Button fx:id="categoryEditButton" mnemonicParsing="false" onAction="#categoryEditButtonClick" text="Edit" />
+                      <Button fx:id="categoryAddButton" mnemonicParsing="false" onAction="#categoryAddButtonClick" text="">
+                          <tooltip><Tooltip text = "Add" /></tooltip>
+                          <graphic>
+                              <ImageView>
+                                  <Image url="/images/add.png" requestedWidth="16" requestedHeight="16"/>
+                              </ImageView>
+                          </graphic>
+                      </Button>
+                      <Button fx:id="categoryDeleteButton" mnemonicParsing="false" onAction="#categoryDeleteButtonClick" text="" >
+                          <tooltip><Tooltip text = "Delete" /></tooltip>
+                          <graphic>
+                              <ImageView>
+                                  <Image url="/images/delete.png" requestedWidth="16" requestedHeight="16"/>
+                              </ImageView>
+                          </graphic>
+                      </Button>
+                      <Button fx:id="categoryEditButton" mnemonicParsing="false" onAction="#categoryEditButtonClick" text="" >
+                          <tooltip><Tooltip text = "Edit" /></tooltip>
+                          <graphic>
+                              <ImageView>
+                                  <Image url="/images/edit.png" requestedWidth="16" requestedHeight="16"/>
+                              </ImageView>
+                          </graphic>
+                      </Button>
                     </items>
                   </ToolBar>
                   </children>
@@ -55,9 +76,30 @@
                       </TableView>
                   <ToolBar prefHeight="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <items>
-                      <Button fx:id="noteAddButton" mnemonicParsing="false" onAction="#noteAddButtonClick" text="Add" />
-                        <Button fx:id="noteDeleteButton" mnemonicParsing="false" onAction="#noteDeleteButtonClick" text="Delete" />
-                        <Button fx:id="noteEditButton" mnemonicParsing="false" onAction="#noteEditButtonClick" text="Edit" />
+                      <Button fx:id="noteAddButton" mnemonicParsing="false" onAction="#noteAddButtonClick" text="" >
+                          <tooltip><Tooltip text = "Add" /></tooltip>
+                          <graphic>
+                              <ImageView>
+                                  <Image url="/images/add.png" requestedWidth="16" requestedHeight="16"/>
+                              </ImageView>
+                          </graphic>
+                      </Button>
+                      <Button fx:id="noteDeleteButton" mnemonicParsing="false" onAction="#noteDeleteButtonClick" text="" >
+                        <tooltip><Tooltip text = "Delete" /></tooltip>
+                        <graphic>
+                            <ImageView>
+                                <Image url="/images/delete.png" requestedWidth="16" requestedHeight="16"/>
+                            </ImageView>
+                        </graphic>
+                      </Button>
+                      <Button fx:id="noteEditButton" mnemonicParsing="false" onAction="#noteEditButtonClick" text="" >
+                          <tooltip><Tooltip text = "Edit" /></tooltip>
+                          <graphic>
+                              <ImageView>
+                                  <Image url="/images/edit.png" requestedWidth="16" requestedHeight="16"/>
+                              </ImageView>
+                          </graphic>
+                      </Button>
                     </items>
                   </ToolBar>
                   </children>
