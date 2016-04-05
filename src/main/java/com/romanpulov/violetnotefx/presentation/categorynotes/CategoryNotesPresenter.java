@@ -16,6 +16,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import org.slf4j.Logger;
@@ -25,6 +27,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.Callable;
+import java.util.function.Function;
 
 /**
  * Created by 4540 on 22.02.2016.
@@ -58,6 +62,12 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private Button noteEditButton;
+
+    @FXML
+    private Button noteDuplicateButton;
+
+    @FXML
+    private Button notePasswordToClipboardButton;
 
     @FXML
     private MenuItem fileSaveMenuItem;
@@ -106,6 +116,8 @@ public class CategoryNotesPresenter implements Initializable {
         noteAddButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
         noteDeleteButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
         noteEditButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
+        noteDuplicateButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
+        notePasswordToClipboardButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
 
         fileSaveMenuItem.disableProperty().bind(categoryNotesModel.getInvalidatedData().not());
         fileSaveButton.disableProperty().bind(categoryNotesModel.getInvalidatedData().not());
@@ -199,14 +211,14 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void noteAddButtonClick(ActionEvent event) {
-        //create new note with systemTextField_textProperty
-        PassCategoryFX categoryFX = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
-        PassNoteFX editNote = new PassNoteFX(categoryFX);
-
+        // setup stage and category data
         NoteStage noteStage = new NoteStage();
         NoteModel noteModel = noteStage.createStage();
-        noteModel.setPassNoteFX(editNote);
         noteModel.setPassCategoryData(categoryNotesModel.getPassCategoryData());
+
+        PassCategoryFX categoryFX = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
+        noteModel.setPassNoteFX(PassNoteFX.newEmptyInstance(categoryFX));
+
         noteStage.showModal();
 
         if (noteModel.modalResult == ButtonType.OK) {
@@ -224,19 +236,44 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void noteEditButtonClick(ActionEvent event) {
-        //get selected note
-        PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
-
+        // setup stage and category data
         NoteStage noteStage = new NoteStage();
         NoteModel noteModel = noteStage.createStage();
-
-        noteModel.setPassNoteFX(PassNoteFX.newInstance(editNote));
         noteModel.setPassCategoryData(categoryNotesModel.getPassCategoryData());
+
+        PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
+        noteModel.setPassNoteFX(PassNoteFX.newInstance(editNote));
+
         noteStage.showModal();
 
         if (noteModel.modalResult == ButtonType.OK) {
             categoryNotesModel.getPassNoteData().set(categoryNotesModel.getPassNoteData().indexOf(editNote), noteModel.getPassNoteFX());
         }
+    }
+
+    @FXML
+    private void noteDuplicateButtonClick(ActionEvent event) {
+        // setup stage and category data
+        NoteStage noteStage = new NoteStage();
+        NoteModel noteModel = noteStage.createStage();
+        noteModel.setPassCategoryData(categoryNotesModel.getPassCategoryData());
+
+        PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
+        noteModel.setPassNoteFX(PassNoteFX.newDuplicateInstance(editNote));
+
+        noteStage.showModal();
+
+        if (noteModel.modalResult == ButtonType.OK) {
+            categoryNotesModel.getPassNoteData().add(noteModel.getPassNoteFX());
+        }
+    }
+
+    @FXML
+    private void notePasswordToClipboardButtonClick(ActionEvent event) {
+        final Clipboard clipboard = Clipboard.getSystemClipboard();
+        final ClipboardContent content = new ClipboardContent();
+        content.putString(notesTableView.getSelectionModel().getSelectedItem().getRealPassword());
+        clipboard.setContent(content);
     }
 
     @FXML

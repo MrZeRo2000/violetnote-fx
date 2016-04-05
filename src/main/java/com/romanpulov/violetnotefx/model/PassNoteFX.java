@@ -25,7 +25,17 @@ public class PassNoteFX {
                 passNoteFX.getComments(), passNoteFX.getCustom(), passNoteFX.getInfo());
     }
 
-    public PassNoteFX(PassCategoryFX category) {
+    public static PassNoteFX newDuplicateInstance(PassNoteFX passNoteFX) {
+        return new PassNoteFX(
+                passNoteFX.getCategory(), passNoteFX.getSystem(), passNoteFX.getUser(), null,
+                null, null, null);
+    }
+
+    public static PassNoteFX newEmptyInstance(PassCategoryFX category) {
+        return new PassNoteFX(category, null, null, null, null, null, null);
+    }
+
+    private PassNoteFX(PassCategoryFX category) {
         this(category, null, null, null, null, null, null);
     }
 

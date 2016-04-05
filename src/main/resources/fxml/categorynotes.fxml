@@ -100,6 +100,22 @@
                               </ImageView>
                           </graphic>
                       </Button>
+                        <Button fx:id="noteDuplicateButton" mnemonicParsing="false" onAction="#noteDuplicateButtonClick" text="" >
+                            <tooltip><Tooltip text = "Duplicate" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="/images/copy.png" requestedWidth="16" requestedHeight="16"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="notePasswordToClipboardButton" mnemonicParsing="false" onAction="#notePasswordToClipboardButtonClick" text="" >
+                            <tooltip><Tooltip text = "Copy password to clipboard" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="/images/clipboard.png" requestedWidth="16" requestedHeight="16"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </items>
                   </ToolBar>
                   </children>
