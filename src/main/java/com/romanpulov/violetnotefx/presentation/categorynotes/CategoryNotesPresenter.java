@@ -152,7 +152,7 @@ public class CategoryNotesPresenter implements Initializable {
     }
 
     private boolean checkUnsavedData() {
-        return ((categoryNotesModel.getInvalidatedData().getValue()) && (DialogsHelper.queryUnsavedData()));
+        return (!categoryNotesModel.getInvalidatedData().getValue() || (categoryNotesModel.getInvalidatedData().getValue()) && (DialogsHelper.queryUnsavedData()));
     }
 
     @FXML
