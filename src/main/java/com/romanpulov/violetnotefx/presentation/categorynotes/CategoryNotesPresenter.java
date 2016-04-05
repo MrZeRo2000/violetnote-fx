@@ -2,6 +2,7 @@ package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
 import com.romanpulov.violetnotefx.Core.dialogs.AlertDialogs;
 import com.romanpulov.violetnotefx.Model.Document;
+import com.romanpulov.violetnotefx.Presentation.DialogsHelper;
 import com.romanpulov.violetnotefx.Presentation.categoryname.CategoryNameModel;
 import com.romanpulov.violetnotefx.Presentation.categoryname.CategoryNameStage;
 import com.romanpulov.violetnotefx.Core.annotation.Model;
@@ -150,6 +151,10 @@ public class CategoryNotesPresenter implements Initializable {
         });
     }
 
+    private boolean checkUnsavedData() {
+        return ((categoryNotesModel.getInvalidatedData().getValue()) && (DialogsHelper.queryUnsavedData()));
+    }
+
     @FXML
     private void categoryAddButtonClick(ActionEvent event) {
         CategoryNameStage categoryNameStage = new CategoryNameStage();
@@ -278,11 +283,12 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void fileNewMenuItemClick(ActionEvent event) {
-        log.debug("File New menu item click");
-        categoryNotesModel.initData();
-        loadTreeView();
-        notesTableView.setItems(null);
-        Document.getInstance().resetFileName();
+        if (checkUnsavedData()) {
+            categoryNotesModel.initData();
+            loadTreeView();
+            notesTableView.setItems(null);
+            Document.getInstance().resetFileName();
+        }
     }
 
     public void loadVNF(File f) {
@@ -306,7 +312,9 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void fileOpenMenuItemClick(ActionEvent event) {
-        log.debug("File Open menu item click");
+        if (!checkUnsavedData())
+            return;
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Violetnote file");
         fileChooser.getExtensionFilters().addAll(
@@ -356,6 +364,9 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void fileImportMenuItemClick(ActionEvent event) {
+        if (!checkUnsavedData())
+            return;
+
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Import from PINS");
         fileChooser.getExtensionFilters().addAll(

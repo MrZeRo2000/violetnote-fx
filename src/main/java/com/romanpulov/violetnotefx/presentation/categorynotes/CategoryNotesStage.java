@@ -2,6 +2,7 @@ package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
 import com.romanpulov.violetnotefx.Core.dialogs.AlertDialogs;
 import com.romanpulov.violetnotefx.Model.Document;
+import com.romanpulov.violetnotefx.Presentation.DialogsHelper;
 import com.romanpulov.violetnotefx.Presentation.base.AppStage;
 import com.romanpulov.violetnotefx.PropertiesManager;
 import javafx.beans.binding.Bindings;
@@ -37,12 +38,7 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
 
         stage.setOnCloseRequest((e) -> {
             if (model.getInvalidatedData().getValue()) {
-                Optional<ButtonType> result = new AlertDialogs.ConfirmationAlertBuilder()
-                        .setContentText("You have unsaved data. Are you sure?")
-                        .setDefaultButton(ButtonType.CANCEL)
-                        .buildAlert()
-                        .showAndWait();
-                if (!(result.get().equals(ButtonType.OK))) {
+                if (!DialogsHelper.queryUnsavedData()) {
                     e.consume();
                 } else
                     saveProperties();
