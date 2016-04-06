@@ -292,7 +292,7 @@ public class CategoryNotesPresenter implements Initializable {
     }
 
     public void loadVNF(File f) {
-        String masterPass = MasterPassStage.queryMasterPass(null);
+        String masterPass = MasterPassStage.queryMasterPass(f, null);
         if ((masterPass != null) && (categoryNotesModel.loadFile(f, masterPass))) {
             loadTreeView();
         } else {
@@ -336,7 +336,7 @@ public class CategoryNotesPresenter implements Initializable {
 
             String masterPass = Document.getInstance().getMasterPass();
             if (masterPass == null)
-                masterPass = MasterPassStage.queryMasterPass(null);
+                masterPass = MasterPassStage.queryMasterPass(f, null);
 
             if ((masterPass != null) && (categoryNotesModel.saveFile(f, masterPass))) {
                 loadTreeView();
@@ -355,7 +355,7 @@ public class CategoryNotesPresenter implements Initializable {
         File f = fileChooser.showSaveDialog(rootContainer.getScene().getWindow());
         if (f != null) {
             log.debug("Something chosen: " + f.getPath());
-            String masterPass = MasterPassStage.queryMasterPass(null);
+            String masterPass = MasterPassStage.queryMasterPass(f, null);
             if (masterPass != null) {
                 categoryNotesModel.saveFile(f, masterPass);
             }
