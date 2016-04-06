@@ -10,6 +10,7 @@ import com.romanpulov.violetnotecore.Processor.PinsDataReader;
 import com.romanpulov.violetnotecore.Processor.PinsDataWriter;
 import com.romanpulov.violetnotecore.Processor.XMLPassDataReader;
 import com.romanpulov.violetnotecore.Processor.XMLPassDataWriter;
+import com.romanpulov.violetnotefx.FileHelper;
 import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
@@ -267,13 +268,36 @@ public class CategoryNotesModel {
     }
 
     public boolean saveFile(File f, String masterPass) {
+        boolean result;
+
+        // save as temp file first
+        File tempFile = new File(FileHelper.getTempFileName(f.getPath()));
+        result = saveFileInternal(tempFile, masterPass);
+        if (!result)
+            return false;
+
+        //roll backup files
+        result = FileHelper.saveCopies(f.getPath());
+        if (!result)
+            return false;
+
+        //rename temp file
+        result = FileHelper.renameTempFile(tempFile.getPath());
+        if (!result)
+            return false;
+
+        Document.getInstance().setFile(f.getPath(), masterPass);
+        invalidatedData.setValue(false);
+
+        return true;
+    }
+
+    private boolean saveFileInternal(File f, String masterPass) {
         try (OutputStream output = AESCryptService.generateCryptOutputStream(new FileOutputStream(f), masterPass)) {
             PassData passData = writePassData();
 
             (new XMLPassDataWriter(passData)).writeStream(output);
 
-            Document.getInstance().setFile(f.getPath(), masterPass);
-            invalidatedData.setValue(false);
             return true;
         } catch (AESCryptException | IOException | DataReadWriteException e) {
             e.printStackTrace();
