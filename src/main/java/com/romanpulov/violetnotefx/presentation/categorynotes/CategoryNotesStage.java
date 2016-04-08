@@ -7,7 +7,14 @@ import com.romanpulov.violetnotefx.Presentation.base.AppStage;
 import com.romanpulov.violetnotefx.PropertiesManager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;
+import javafx.geometry.Pos;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.util.Optional;
@@ -61,5 +68,30 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
         }
 
         loadProperties();
+
+        /*
+        HBox hb = new HBox();
+        hb.setPrefWidth(200);
+        hb.setPrefHeight(100);
+        ProgressIndicator pi = new ProgressIndicator();
+
+        pi.setProgress(-1.);
+
+        Label lb = new Label();
+        lb.setText("Loading");
+
+
+        hb.setSpacing(5);
+        hb.setAlignment(Pos.CENTER);
+        hb.setSpacing(5);
+        hb.setAlignment(Pos.CENTER);
+
+        hb.getChildren().addAll(pi, lb);
+
+        AnchorPane.setTopAnchor(hb, 100d);
+        AnchorPane.setLeftAnchor(hb, 50d);
+        ((AnchorPane)stage.getScene().getRoot()).getChildren().add(hb);
+        ((AnchorPane)stage.getScene().getRoot()).getChildren().remove(hb);
+        */
     }
 }
