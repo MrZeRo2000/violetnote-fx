@@ -11,11 +11,14 @@ import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.File;
 import java.util.Optional;
@@ -71,14 +74,17 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
         loadProperties();
 
 
+
+
         HBox hb = new HBox();
-        hb.setPrefWidth(200);
-        hb.setPrefHeight(100);
-        hb.setBackground(new Background(new BackgroundFill(Color.rgb(100, 100, 100, 0.5d), CornerRadii.EMPTY, Insets.EMPTY)));
+        hb.setPrefWidth(150);
+        hb.setPrefHeight(70);
+        hb.setBackground(new Background(new BackgroundFill(Color.rgb(180, 180, 180, 0.5d), CornerRadii.EMPTY, Insets.EMPTY)));
         ProgressIndicator pi = new ProgressIndicator();
         pi.setProgress(-1.);
 
         Label lb = new Label();
+        lb.setStyle("-fx-font-weight: bold");
         lb.setText("Loading");
 
 
@@ -88,14 +94,27 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
 
         hb.getChildren().addAll(pi, lb);
 
+        hb.setStyle("-fx-border-width: 1;" +
+                "-fx-border-style: solid inside;");
+
         DoubleProperty heightProperty = new SimpleDoubleProperty();
         heightProperty.bind(stage.getScene().getWindow().heightProperty().divide(2.));
+
+        /*
+        Stage boxStage = new Stage();
+        Scene boxScene = new Scene(hb, 200, 200);
+        boxStage.setScene(boxScene);
+        boxStage.initStyle(StageStyle.UNDECORATED);
+        boxScene
+        boxStage.show();
+        */
+
 
         AnchorPane.setTopAnchor(hb, 100d);
         AnchorPane.setLeftAnchor(hb, 100d);
 
         ((AnchorPane)stage.getScene().getRoot()).getChildren().add(hb);
-        ((AnchorPane)stage.getScene().getRoot()).getChildren().remove(hb);
+        //((AnchorPane)stage.getScene().getRoot()).getChildren().remove(hb);
 
     }
 }
