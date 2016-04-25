@@ -7,14 +7,15 @@ import com.romanpulov.violetnotefx.Presentation.base.AppStage;
 import com.romanpulov.violetnotefx.PropertiesManager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.util.Optional;
@@ -69,29 +70,32 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
 
         loadProperties();
 
-        /*
+
         HBox hb = new HBox();
         hb.setPrefWidth(200);
         hb.setPrefHeight(100);
+        hb.setBackground(new Background(new BackgroundFill(Color.rgb(100, 100, 100, 0.5d), CornerRadii.EMPTY, Insets.EMPTY)));
         ProgressIndicator pi = new ProgressIndicator();
-
         pi.setProgress(-1.);
 
         Label lb = new Label();
         lb.setText("Loading");
 
 
-        hb.setSpacing(5);
-        hb.setAlignment(Pos.CENTER);
-        hb.setSpacing(5);
-        hb.setAlignment(Pos.CENTER);
+        hb.setSpacing(10d);
+        hb.setPadding(new Insets(10d));
+        hb.setAlignment(Pos.CENTER_LEFT);
 
         hb.getChildren().addAll(pi, lb);
 
+        DoubleProperty heightProperty = new SimpleDoubleProperty();
+        heightProperty.bind(stage.getScene().getWindow().heightProperty().divide(2.));
+
         AnchorPane.setTopAnchor(hb, 100d);
-        AnchorPane.setLeftAnchor(hb, 50d);
+        AnchorPane.setLeftAnchor(hb, 100d);
+
         ((AnchorPane)stage.getScene().getRoot()).getChildren().add(hb);
         ((AnchorPane)stage.getScene().getRoot()).getChildren().remove(hb);
-        */
+
     }
 }
