@@ -1,6 +1,7 @@
 package com.romanpulov.violetnotefx.Presentation.categorynotes;
 
 import com.romanpulov.violetnotefx.Core.dialogs.AlertDialogs;
+import com.romanpulov.violetnotefx.Core.presentation.ProgressNode;
 import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Presentation.DialogsHelper;
 import com.romanpulov.violetnotefx.Presentation.categoryname.CategoryNameModel;
@@ -11,11 +12,14 @@ import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
@@ -78,6 +82,21 @@ public class CategoryNotesPresenter implements Initializable {
 
     @Model
     private CategoryNotesModel categoryNotesModel;
+
+    private ProgressNode progressNode;
+
+    private void showProgressNode(String text) {
+        hideProgressNode();
+        progressNode = ProgressNode.newInstance().setParentScene(rootContainer.getScene()).setText(text);
+        progressNode.show();
+    }
+
+    private void hideProgressNode() {
+        if (progressNode != null) {
+            progressNode.hide();
+            progressNode = null;
+        }
+    }
 
     public void updateController() {
         loadTreeView();

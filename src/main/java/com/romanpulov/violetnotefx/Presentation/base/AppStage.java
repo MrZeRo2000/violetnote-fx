@@ -1,6 +1,6 @@
 package com.romanpulov.violetnotefx.Presentation.base;
 
-import com.romanpulov.violetnotefx.Core.stages.AbstractStage;
+import com.romanpulov.violetnotefx.Core.presentation.AbstractStage;
 import javafx.scene.image.Image;
 
 /**

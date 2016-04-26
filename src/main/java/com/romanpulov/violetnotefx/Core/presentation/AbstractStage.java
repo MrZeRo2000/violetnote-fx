@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.Core.stages;
+package com.romanpulov.violetnotefx.Core.presentation;
 
 import com.romanpulov.violetnotefx.Core.injection.Injector;
 import com.romanpulov.violetnotefx.Core.views.FXMLAbstractView;
