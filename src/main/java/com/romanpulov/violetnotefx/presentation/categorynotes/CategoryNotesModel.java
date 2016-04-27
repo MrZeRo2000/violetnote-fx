@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by 4540 on 22.02.2016.
@@ -36,6 +37,68 @@ public class CategoryNotesModel {
 
     private ObservableList<PassNoteFX> passNoteData;
     private ObservableList<PassCategoryFX> passCategoryData;
+
+
+    public static class PassNoteSearch {
+
+        List<PassNoteFX> passNoteData;
+        private static PassNoteSearch searchInstance;
+
+        private List<PassNoteFX> searchPassNoteData;
+        private int searchPosition;
+        private String searchString;
+        private String processSearchString;
+
+        public PassNoteSearch(List<PassNoteFX> passNoteData, String searchString) {
+            this.passNoteData = passNoteData;
+            this.searchString = searchString;
+            this.processSearchString = searchString.toLowerCase();
+            this.searchPosition = -1;
+        }
+
+        private PassNoteFX peekSearchResult() {
+            if ((searchPassNoteData != null) && (searchPassNoteData.size() > 0))
+                if (searchPosition < searchPassNoteData.size() - 1)
+                    return searchPassNoteData.get(searchPosition ++);
+                else
+                    return searchPassNoteData.get(searchPosition);
+            else
+                return null;
+        }
+
+        private void calcSearchResult() {
+            searchPassNoteData = passNoteData.stream().filter(p -> {
+                String s = searchString.toLowerCase();
+                return
+                        p.getSystem().toLowerCase().contains(s) ||
+                        p.getUser().toLowerCase().contains(s);
+            }).collect(Collectors.toList());
+            if (searchPassNoteData.size() > 0)
+                searchPosition = 0;
+            else
+                searchPosition = - 1;
+        }
+
+        public static PassNoteFX requestSearch(List<PassNoteFX> passNoteData, String searchString) {
+            if ((searchInstance == null) || (!searchInstance.searchString.equals(searchString))) {
+                searchInstance = new PassNoteSearch(passNoteData, searchString);
+                searchInstance.calcSearchResult();
+            }
+            return searchInstance.peekSearchResult();
+        };
+
+        public static void clearSearch() {
+            searchInstance = null;
+        }
+    }
+
+    public PassNoteFX requestSearch(String searchString) {
+        return PassNoteSearch.requestSearch(passNoteData, searchString);
+    }
+
+    public void clearSearch() {
+        PassNoteSearch.clearSearch();
+    }
 
     private BooleanProperty invalidatedData = new SimpleBooleanProperty(false);
 

@@ -168,7 +168,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <TextField fx:id="searchTextField" prefWidth="120." >
+                <TextField fx:id="searchTextField" prefWidth="120." onAction="#searchTextFieldAction">
 
                 </TextField>
                 <Button fx:id="searchButton" text=">" prefWidth="30." onAction="#searchButtonClick">

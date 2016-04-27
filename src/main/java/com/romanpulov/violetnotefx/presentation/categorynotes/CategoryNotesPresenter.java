@@ -420,9 +420,55 @@ public class CategoryNotesPresenter implements Initializable {
         }
     }
 
+    private TreeItem<PassCategoryFX> findTreeViewItem(TreeItem<PassCategoryFX> root, PassCategoryFX passCategoryFX) {
+        for (TreeItem<PassCategoryFX> p : root.getChildren()) {
+            if (p.getValue().equals(passCategoryFX))
+                return p;
+            else if (!p.isLeaf()) {
+                TreeItem<PassCategoryFX> res = findTreeViewItem(p, passCategoryFX);
+                if (res != null)
+                    return res;
+            }
+        }
+        return null;
+    };
+
+    private void selectPassNoteFX(PassNoteFX passNoteFX) {
+        log.debug("Need to select " + passNoteFX);
+        TreeItem<PassCategoryFX> selectedItem = findTreeViewItem(categoryTreeView.getRoot(), passNoteFX.getCategory());
+        if (selectedItem != null) {
+            categoryTreeView.getSelectionModel().select(selectedItem);
+            notesTableView.getSelectionModel().select(passNoteFX);
+        }
+
+        //categoryTreeView.getSelectionModel().select();
+        //notesTableView.getSelectionModel().select(passNoteFX);
+    }
+
+    private void performSearch() {
+        String searchText = searchTextField.getText();
+        if ((searchText == null) || (searchText.isEmpty())) {
+            log.debug("clearing search");
+            categoryNotesModel.clearSearch();
+        }
+        else {
+            PassNoteFX searchNoteFX = categoryNotesModel.requestSearch(searchText);
+            if (searchNoteFX != null) {
+                selectPassNoteFX(searchNoteFX);
+            }
+        }
+    }
+
     @FXML
     private void searchButtonClick(ActionEvent event) {
         log.debug("Searching for " + searchTextField.getText());
+        performSearch();
+    }
+
+    @FXML
+    private void searchTextFieldAction (ActionEvent event) {
+        log.debug("SearchTextField action:" + searchTextField.getText());
+        performSearch();
     }
 
 }
