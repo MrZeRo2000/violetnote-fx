@@ -168,6 +168,12 @@
                         </ImageView>
                     </graphic>
                 </Button>
+                <TextField fx:id="searchTextField" prefWidth="120." >
+
+                </TextField>
+                <Button fx:id="searchButton" text=">" prefWidth="30." onAction="#searchButtonClick">
+
+                </Button>
             </items>
         </ToolBar>
 

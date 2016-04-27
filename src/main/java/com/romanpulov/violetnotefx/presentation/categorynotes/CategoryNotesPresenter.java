@@ -80,6 +80,12 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private Button fileSaveButton;
 
+    @FXML
+    private TextField searchTextField;
+
+    @FXML
+    private Button searchButton;
+
     @Model
     private CategoryNotesModel categoryNotesModel;
 
@@ -413,4 +419,10 @@ public class CategoryNotesPresenter implements Initializable {
             exportPINS(f);
         }
     }
+
+    @FXML
+    private void searchButtonClick(ActionEvent event) {
+        log.debug("Searching for " + searchTextField.getText());
+    }
+
 }
