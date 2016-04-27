@@ -168,11 +168,16 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <TextField fx:id="searchTextField" prefWidth="120." onAction="#searchTextFieldAction">
-
+                <TextField fx:id="searchTextField" prefWidth="120." onAction="#searchAction" promptText="Search ...">
+                    <tooltip><Tooltip text = "Search" /></tooltip>
                 </TextField>
-                <Button fx:id="searchButton" text=">" prefWidth="30." onAction="#searchButtonClick">
-
+                <Button fx:id="searchButton" onAction="#searchAction">
+                    <tooltip><Tooltip text = "Search" /></tooltip>
+                    <graphic>
+                        <ImageView>
+                            <Image url="/images/search.png" requestedWidth="16" requestedHeight="16"/>
+                        </ImageView>
+                    </graphic>
                 </Button>
             </items>
         </ToolBar>

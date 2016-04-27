@@ -460,15 +460,7 @@ public class CategoryNotesPresenter implements Initializable {
     }
 
     @FXML
-    private void searchButtonClick(ActionEvent event) {
-        log.debug("Searching for " + searchTextField.getText());
+    private void searchAction(ActionEvent event) {
         performSearch();
     }
-
-    @FXML
-    private void searchTextFieldAction (ActionEvent event) {
-        log.debug("SearchTextField action:" + searchTextField.getText());
-        performSearch();
-    }
-
 }
