@@ -12,7 +12,6 @@ import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
