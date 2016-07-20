@@ -174,7 +174,13 @@ public class CategoryNotesModel {
             passData.getPassNoteList().stream().forEach((passNote)-> {
                 PassCategoryFX passCategoryFX = findSourcePassCategory(passNote.getPassCategory());
                 if (passCategoryFX != null)
-                    newPassNoteData.add(new PassNoteFX(passCategoryFX, passNote.getSystem(), passNote.getUser(), passNote.getPassword(), passNote.getComments(), passNote.getCustom(), passNote.getInfo()));
+                    newPassNoteData.add(new PassNoteFX(passCategoryFX,
+                            passNote.getSystem(),
+                            passNote.getUser(),
+                            passNote.getPassword(),
+                            passNote.getComments(),
+                            passNote.getCustom(),
+                            passNote.getInfo()));
             });
 
             return newPassNoteData;
