@@ -29,7 +29,7 @@ public abstract  class AbstractStage<M, C> {
     protected Scene scene;
 
     protected void beforeCreateStage() {}
-    protected void afterCreateStage() {};
+    protected void afterCreateStage() {}
     protected void afterShowStage() {}
 
     @SuppressWarnings("unchecked")
@@ -58,7 +58,7 @@ public abstract  class AbstractStage<M, C> {
         showStage(Modality.APPLICATION_MODAL);
     }
 
-    public void showStage(Modality modality) {
+    private void showStage(Modality modality) {
         stage.initModality(modality);
 
         if (modality.equals(Modality.NONE)) {

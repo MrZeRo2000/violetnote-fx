@@ -22,10 +22,6 @@
 /* Component specific styles */
 
 
-.main-panel {
-    -fx-background-image: url("../images/background.jpg");
-}
-
 .hello-message {
     -fx-text-fill: #AA0000;
     -fx-font-weight: bold;

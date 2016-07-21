@@ -1,8 +1,0 @@
-#fileNewButton {
-    -fx-background-image: url("/images/gtk-file.png");
-    -fx-background-size: 16;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
-    -fx-pref-width: 24;
-    -fx-pref-height: 24;
-}

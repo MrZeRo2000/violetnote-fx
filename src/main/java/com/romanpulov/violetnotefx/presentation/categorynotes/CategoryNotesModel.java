@@ -41,13 +41,13 @@ public class CategoryNotesModel {
 
     public static class PassNoteSearch {
 
-        List<PassNoteFX> passNoteData;
+        final List<PassNoteFX> passNoteData;
         private static PassNoteSearch searchInstance;
 
         private List<PassNoteFX> searchPassNoteData;
         private int searchPosition;
-        private String searchString;
-        private String processSearchString;
+        private final String searchString;
+        private final String processSearchString;
 
         public PassNoteSearch(List<PassNoteFX> passNoteData, String searchString) {
             this.passNoteData = passNoteData;
@@ -85,7 +85,7 @@ public class CategoryNotesModel {
                 searchInstance.calcSearchResult();
             }
             return searchInstance.peekSearchResult();
-        };
+        }
 
         public static void clearSearch() {
             searchInstance = null;
@@ -100,18 +100,22 @@ public class CategoryNotesModel {
         PassNoteSearch.clearSearch();
     }
 
-    private BooleanProperty invalidatedData = new SimpleBooleanProperty(false);
+    private final BooleanProperty invalidatedData = new SimpleBooleanProperty(false);
 
     public BooleanProperty getInvalidatedData() {
         return invalidatedData;
     }
 
-    private InvalidationListener modelInvalidationListener = new InvalidationListener() {
+    /*
+    private final InvalidationListener modelInvalidationListener = new InvalidationListener() {
         @Override
         public void invalidated(Observable observable) {
             invalidatedData.setValue(true);
         }
     };
+    */
+
+    private final InvalidationListener modelInvalidationListener = (p) -> invalidatedData.setValue(true);
 
     {
         initData();
@@ -143,7 +147,7 @@ public class CategoryNotesModel {
     }
 
     public final class PassDataReader {
-        private PassData passData;
+        private final PassData passData;
 
         public PassDataReader(PassData passData) {
             this.passData = passData;
@@ -196,12 +200,8 @@ public class CategoryNotesModel {
             data.setPassNoteList(passNoteList);
 
             Map<PassCategoryFX, PassCategory> categoryData = new HashMap<>();
-            passCategoryData.stream().forEach((p) -> {
-                addCategoryData(categoryData, p);
-            });
-            categoryData.entrySet().stream().forEach((p) -> {
-                passCategoryList.add(p.getValue());
-            });
+            passCategoryData.stream().forEach((p) -> addCategoryData(categoryData, p));
+            categoryData.entrySet().stream().forEach((p) -> passCategoryList.add(p.getValue()));
 
             passNoteData.stream().forEach((p) -> {
                 PassCategory category = categoryData.get(p.getCategory());

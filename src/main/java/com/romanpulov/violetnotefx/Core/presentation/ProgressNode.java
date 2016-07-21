@@ -19,7 +19,6 @@ public class ProgressNode {
     private static final double NODE_HEIGHT = 70.;
 
     private HBox hb;
-    private ProgressIndicator pi;
     private Label lb;
     private double prefNodeWidth = NODE_WIDTH;
 
@@ -59,7 +58,7 @@ public class ProgressNode {
         hb.setPrefHeight(NODE_HEIGHT);
         hb.setBackground(new Background(new BackgroundFill(BACKGROUND_COLOR, CornerRadii.EMPTY, Insets.EMPTY)));
 
-        pi = new ProgressIndicator();
+        ProgressIndicator pi = new ProgressIndicator();
         pi.setProgress(-1.);
 
         lb = new Label();

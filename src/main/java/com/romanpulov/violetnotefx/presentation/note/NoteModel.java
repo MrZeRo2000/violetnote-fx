@@ -15,32 +15,32 @@ public class NoteModel {
 
     public ButtonType modalResult = ButtonType.CANCEL;
 
-    public ObjectProperty<PassNoteFX> passNoteFX = new SimpleObjectProperty<>();
-    private ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
+    public final ObjectProperty<PassNoteFX> passNoteFX = new SimpleObjectProperty<>();
+    private final ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
 
     @BoundProperty
-    public ObjectProperty<PassCategoryFX> categoryComboBox_valueProperty = new SimpleObjectProperty<>();
+    public final ObjectProperty<PassCategoryFX> categoryComboBox_valueProperty = new SimpleObjectProperty<>();
 
     @BoundProperty
-    public StringProperty systemTextField_textProperty = new SimpleStringProperty();
+    public final StringProperty systemTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
-    public StringProperty passwordTextField_textProperty = new SimpleStringProperty();
+    public final StringProperty passwordTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
-    public StringProperty passwordRetypeTextField_textProperty = new SimpleStringProperty();
+    public final StringProperty passwordRetypeTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
-    public StringProperty userTextField_textProperty = new SimpleStringProperty();
+    public final StringProperty userTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
-    public StringProperty commentsTextField_textProperty = new SimpleStringProperty();
+    public final StringProperty commentsTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
-    public StringProperty customTextField_textProperty = new SimpleStringProperty();
+    public final StringProperty customTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
-    public StringProperty infoTextArea_textProperty = new SimpleStringProperty();
+    public final StringProperty infoTextArea_textProperty = new SimpleStringProperty();
 
     public void setPassCategoryData(ObservableList<PassCategoryFX> passCategoryData) {
         this.passCategoryData.addAll(passCategoryData);

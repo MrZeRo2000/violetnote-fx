@@ -5,8 +5,6 @@ import com.romanpulov.violetnotecore.Processor.Exception.DataReadWriteException;
 import com.romanpulov.violetnotecore.Processor.PinsDataReader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -20,7 +18,7 @@ public class Document {
     private final static String NEW_FILE_NAME = "New";
     private StringProperty fileName = new SimpleStringProperty();
 
-    public enum FileType {FT_NONE, FT_IMPORT, FT_VNF};
+    public enum FileType {FT_NONE, FT_IMPORT, FT_VNF}
 
     public static final Map<String, FileType> FILE_TYPES = new HashMap<>();
     static
@@ -58,7 +56,6 @@ public class Document {
     }
 
     private static Document ourInstance = new Document();
-    private static final Logger log = LoggerFactory.getLogger(Document.class);
 
     public static Document getInstance() {
         return ourInstance;

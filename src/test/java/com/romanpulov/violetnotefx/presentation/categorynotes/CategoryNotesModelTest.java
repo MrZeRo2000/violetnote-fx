@@ -93,9 +93,9 @@ public class CategoryNotesModelTest {
 
         System.out.println("LoadPassData");
         System.out.println("Categories");
-        model.getPassCategoryData().stream().forEach((p) -> System.out.println(p));
+        model.getPassCategoryData().stream().forEach(System.out::println);
         System.out.println("Notes");
-        model.getPassNoteData().stream().forEach((p) -> System.out.println(p));
+        model.getPassNoteData().stream().forEach(System.out::println);
     }
 
     @Test
@@ -108,9 +108,9 @@ public class CategoryNotesModelTest {
 
         System.out.println("SavePassData");
         System.out.println("Categories");
-        passData.getPassCategoryList().stream().forEach((p) -> System.out.println(p));
+        passData.getPassCategoryList().stream().forEach(System.out::println);
         System.out.println("Notes");
-        passData.getPassNoteList().stream().forEach((p) -> System.out.println(p));
+        passData.getPassNoteList().stream().forEach(System.out::println);
     }
 
 }

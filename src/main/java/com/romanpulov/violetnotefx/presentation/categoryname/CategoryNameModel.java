@@ -11,5 +11,5 @@ public class CategoryNameModel {
 
     public ButtonType modalResult = ButtonType.CANCEL;
 
-    public StringProperty categoryName = new SimpleStringProperty();
+    public final StringProperty categoryName = new SimpleStringProperty();
 }

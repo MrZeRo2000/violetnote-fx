@@ -9,8 +9,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -19,7 +17,6 @@ import java.util.ResourceBundle;
  * Created by rpulov on 23.01.2016.
  */
 public class MasterPassPresenter implements Initializable {
-    private static final Logger log = LoggerFactory.getLogger(MasterPassPresenter.class);
     private static final int MIN_PASS_LENGTH = 6;
 
     @FXML
@@ -33,7 +30,6 @@ public class MasterPassPresenter implements Initializable {
 
     @FXML
     private void okButtonClick() {
-        log.debug("Ok button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
         masterPassModel.modalResult = ButtonType.OK;
 
@@ -42,7 +38,6 @@ public class MasterPassPresenter implements Initializable {
 
     @FXML
     private void cancelButtonClick() {
-        log.debug("Cancel button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
         masterPassModel.modalResult = ButtonType.CANCEL;
 
@@ -59,7 +54,6 @@ public class MasterPassPresenter implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        log.debug("initializing controller in initialize() with URL and resources method");
         okButton.disableProperty().bind(passwordField.textProperty().length().lessThan(MIN_PASS_LENGTH));
     }
 }

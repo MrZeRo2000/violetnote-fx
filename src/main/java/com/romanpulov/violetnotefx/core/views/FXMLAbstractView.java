@@ -7,8 +7,6 @@ import com.romanpulov.violetnotefx.Core.injection.Injector;
 import com.romanpulov.violetnotefx.Core.injection.Invoker;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -20,8 +18,6 @@ public class FXMLAbstractView {
     public static final String DEFAULT_CLASS_NAME_ENDING = "view";
     public static final String DEFAULT_RESOURCE_PREFIX = "/fxml/";
     public static final String DEFAULT_RESOURCE_EXTENSION = ".fxml";
-
-    private static final Logger log = LoggerFactory.getLogger(FXMLAbstractView.class);
 
     private Object modelInstance;
     private Object controllerInstance;
@@ -45,7 +41,6 @@ public class FXMLAbstractView {
     public Parent getView() {
         FXMLLoader loader = new FXMLLoader(getClass().getResource(getConventionalResourceName()));
         loader.setControllerFactory((Class<?> p) ->  {
-                log.debug("In setControllerFactory: p = " + p.toString());
                 try {
                     //controller
                     Object controller = p.newInstance();

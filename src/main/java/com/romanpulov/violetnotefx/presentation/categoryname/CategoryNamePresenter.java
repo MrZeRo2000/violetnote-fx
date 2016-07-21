@@ -10,8 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,8 +18,6 @@ import java.util.ResourceBundle;
  * Created by rpulov on 22.02.2016.
  */
 public class CategoryNamePresenter implements Initializable {
-    private static final Logger log = LoggerFactory.getLogger(CategoryNamePresenter.class);
-
     @FXML
     private TextField categoryNameField;
 
@@ -33,7 +29,6 @@ public class CategoryNamePresenter implements Initializable {
 
     @FXML
     private void okButtonClick() {
-        log.debug("Ok button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
         categoryNameModel.modalResult = ButtonType.OK;
 
@@ -42,7 +37,6 @@ public class CategoryNamePresenter implements Initializable {
 
     @FXML
     private void cancelButtonClick() {
-        log.debug("Cancel button clicked");
         Invoker.invokeModelOperation(this, ModelOperationType.UNLOAD);
         categoryNameModel.modalResult = ButtonType.CANCEL;
 

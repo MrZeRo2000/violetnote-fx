@@ -24,8 +24,6 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
@@ -38,8 +36,6 @@ import java.util.function.Function;
  * Created by 4540 on 22.02.2016.
  */
 public class CategoryNotesPresenter implements Initializable {
-    private static final Logger log = LoggerFactory.getLogger(CategoryNotesPresenter.class);
-
     @FXML
     private AnchorPane rootContainer;
 
@@ -148,20 +144,17 @@ public class CategoryNotesPresenter implements Initializable {
         fileSaveButton.disableProperty().bind(categoryNotesModel.getInvalidatedData().not());
 
         //selection change
-        categoryTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<PassCategoryFX>>() {
-            @Override
-            public void changed(ObservableValue<? extends TreeItem<PassCategoryFX>> observable, TreeItem<PassCategoryFX> oldValue, TreeItem<PassCategoryFX> newValue) {
-                if (newValue != null)
-                    loadTable(newValue.getValue());
-                else
-                    loadTable(null);
-            }
-        });
+        categoryTreeView.getSelectionModel().selectedItemProperty().addListener(((observable, oldValue, newValue) -> {
+            if (newValue != null)
+                loadTable(newValue.getValue());
+            else
+                loadTable(null);
+        }));
 
         // cell factory
 
-        categoryTreeView.setCellFactory((tv) -> {
-            return new TreeCell<PassCategoryFX>() {
+        categoryTreeView.setCellFactory((tv) ->
+            new TreeCell<PassCategoryFX>() {
                 @Override
                 protected void updateItem(PassCategoryFX item, boolean empty) {
                     super.updateItem(item, empty);
@@ -171,7 +164,6 @@ public class CategoryNotesPresenter implements Initializable {
                         setText(item.getDisplayValue());
                     }
                 }
-            };
         });
     }
 
@@ -189,7 +181,6 @@ public class CategoryNotesPresenter implements Initializable {
             return;
 
         if (categoryNotesModel.findChildPassCategoryName(null, categoryNameModel.categoryName.getValue()) == null) {
-            log.debug("can process add");
             categoryNotesModel.getCategoryData().add(new PassCategoryFX(null, categoryNameModel.categoryName.getValue()));
             loadTreeView();
         } else {
@@ -370,7 +361,6 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void fileSaveAsMenuItemClick(ActionEvent event) {
-        log.debug("File Save menu item click");
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Violetnote file");
         fileChooser.getExtensionFilters().addAll(
@@ -378,7 +368,6 @@ public class CategoryNotesPresenter implements Initializable {
         );
         File f = fileChooser.showSaveDialog(rootContainer.getScene().getWindow());
         if (f != null) {
-            log.debug("Something chosen: " + f.getPath());
             String masterPass = MasterPassStage.queryMasterPass(f, null);
             if (masterPass != null) {
                 categoryNotesModel.saveFile(f, masterPass);
@@ -399,7 +388,6 @@ public class CategoryNotesPresenter implements Initializable {
         );
         File f = fileChooser.showOpenDialog(rootContainer.getScene().getWindow());
         if (f != null) {
-            log.debug("Something chosen: " + f.getPath());
             importPINS(f);
         }
     }
@@ -414,7 +402,6 @@ public class CategoryNotesPresenter implements Initializable {
         );
         File f = fileChooser.showSaveDialog(rootContainer.getScene().getWindow());
         if (f != null) {
-            log.debug("Something chosen: " + f.getPath());
             exportPINS(f);
         }
     }
@@ -430,10 +417,9 @@ public class CategoryNotesPresenter implements Initializable {
             }
         }
         return null;
-    };
+    }
 
     private void selectPassNoteFX(PassNoteFX passNoteFX) {
-        log.debug("Need to select " + passNoteFX);
         TreeItem<PassCategoryFX> selectedItem = findTreeViewItem(categoryTreeView.getRoot(), passNoteFX.getCategory());
         if (selectedItem != null) {
             categoryTreeView.getSelectionModel().select(selectedItem);
@@ -447,7 +433,6 @@ public class CategoryNotesPresenter implements Initializable {
     private void performSearch() {
         String searchText = searchTextField.getText();
         if ((searchText == null) || (searchText.isEmpty())) {
-            log.debug("clearing search");
             categoryNotesModel.clearSearch();
         }
         else {

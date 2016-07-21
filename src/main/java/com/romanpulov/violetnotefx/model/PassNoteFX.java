@@ -40,7 +40,7 @@ public class PassNoteFX {
     }
 
     public PassNoteFX(PassCategoryFX category, String system, String user, String password, String comments, String custom, String info) {
-        this.category = new SimpleObjectProperty<PassCategoryFX>(category);
+        this.category = new SimpleObjectProperty<>(category);
         this.system = new SimpleStringProperty(system);
         this.user = new SimpleStringProperty(user);
         this.password = new SimpleStringProperty(password);

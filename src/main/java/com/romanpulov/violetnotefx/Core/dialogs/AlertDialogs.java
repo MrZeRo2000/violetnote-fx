@@ -10,7 +10,7 @@ import javafx.scene.control.ButtonType;
 public class AlertDialogs {
 
     public static abstract class AlertBuilder {
-        protected Alert.AlertType alertType;
+        protected final Alert.AlertType alertType;
         protected String title;
         protected String headerText;
         protected String contentText;

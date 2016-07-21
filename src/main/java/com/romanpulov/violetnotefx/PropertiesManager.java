@@ -21,7 +21,7 @@ public class PropertiesManager {
         propertiesFileName = PropertiesManager.class.getProtectionDomain().getCodeSource().getLocation().getPath() + FILE_NAME;
     }
 
-    private static PropertiesManager ourInstance = new PropertiesManager();
+    private static final PropertiesManager ourInstance = new PropertiesManager();
 
     public void load() {
         try (InputStream  input = new FileInputStream(propertiesFileName)) {

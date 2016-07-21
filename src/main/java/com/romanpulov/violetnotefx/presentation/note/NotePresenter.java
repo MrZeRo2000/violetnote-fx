@@ -79,8 +79,8 @@ public class NotePresenter  implements Initializable {
     private void setupComboBox() {
         categoryComboBox.setItems(noteModel.getPassCategoryData());
 
-        categoryComboBox.setCellFactory((lp) -> {
-            return new ListCell<PassCategoryFX>() {
+        categoryComboBox.setCellFactory((lp) ->
+            new ListCell<PassCategoryFX>() {
                 @Override
                 protected void updateItem(PassCategoryFX item, boolean empty) {
                     super.updateItem(item, empty);
@@ -91,7 +91,6 @@ public class NotePresenter  implements Initializable {
                         setText(item.getPathDisplayValue());
                     }
                 }
-            };
         });
 
         categoryComboBox.setConverter(new StringConverter<PassCategoryFX>() {
