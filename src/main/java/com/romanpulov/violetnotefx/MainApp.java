@@ -23,7 +23,8 @@ public class MainApp extends Application {
         log.debug("params:" + params.toString());
 
         CategoryNotesStage categoryNotesStage = new CategoryNotesStage();
-        CategoryNotesModel categoryNotesModel = categoryNotesStage.createStage();
+        categoryNotesStage.createStage();
+        CategoryNotesModel categoryNotesModel = categoryNotesStage.getModel();
         if (params.size() > 0) {
             categoryNotesModel.setLoadFileName(params.get(0));
         }

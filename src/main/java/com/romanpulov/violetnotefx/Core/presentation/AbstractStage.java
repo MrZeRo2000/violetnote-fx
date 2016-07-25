@@ -23,7 +23,15 @@ public abstract  class AbstractStage<M, C> {
     }
 
     protected M model;
+    public M getModel() {
+        return model;
+    }
+
     protected C controller;
+    public C getController() {
+        return controller;
+    }
+
     protected FXMLAbstractView view;
     protected Stage stage;
     protected Scene scene;
@@ -33,7 +41,7 @@ public abstract  class AbstractStage<M, C> {
     protected void afterShowStage() {}
 
     @SuppressWarnings("unchecked")
-    public M createStage() {
+    public void createStage() {
         beforeCreateStage();
 
         String conventionalCore = getConventionalCore();
@@ -47,7 +55,6 @@ public abstract  class AbstractStage<M, C> {
         controller = (C)view.getControllerInstance();
 
         afterCreateStage();
-        return model;
     }
 
     public void show() {

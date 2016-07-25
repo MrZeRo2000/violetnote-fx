@@ -16,7 +16,8 @@ public class MasterPassStage extends AppStage<MasterPassModel, MasterPassPresent
 
     public static String queryMasterPass(File f, String pass) {
         MasterPassStage masterPassStage = new MasterPassStage();
-        MasterPassModel masterPassModel = masterPassStage.createStage();
+        masterPassStage.createStage();
+        MasterPassModel masterPassModel = masterPassStage.getModel();
         masterPassStage.stage.setTitle("Master Password for " + f.getName());
 
         masterPassStage.showModal();
