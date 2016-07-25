@@ -6,6 +6,8 @@ import com.romanpulov.violetnotefx.Presentation.base.AppStage;
 import com.romanpulov.violetnotefx.PropertiesManager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;
+import javafx.scene.input.KeyCode;
+
 import java.io.File;
 
 
@@ -43,6 +45,11 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
                 saveProperties();
             }
         });
+
+        stage.getScene().setOnKeyPressed((event -> {
+            if ((event.isControlDown()) && (event.getCode() == KeyCode.F))
+                controller.activateSearch();
+        }));
 
         stage.titleProperty().bind(Bindings.concat("VioletNoteFX - ").
                 concat(Document.getInstance().getFileName()).

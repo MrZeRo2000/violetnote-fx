@@ -23,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -441,8 +442,12 @@ public class CategoryNotesPresenter implements Initializable {
     private void selectPassNoteFX(PassNoteFX passNoteFX) {
         TreeItem<PassCategoryFX> selectedItem = findTreeViewItem(categoryTreeView.getRoot(), passNoteFX.getCategory());
         if (selectedItem != null) {
+            //select category
             categoryTreeView.getSelectionModel().select(selectedItem);
+            //select note
             notesTableView.getSelectionModel().select(passNoteFX);
+            //make selected note visible
+            notesTableView.scrollTo(passNoteFX);
         }
 
         //categoryTreeView.getSelectionModel().select();
@@ -460,6 +465,10 @@ public class CategoryNotesPresenter implements Initializable {
                 selectPassNoteFX(searchNoteFX);
             }
         }
+    }
+
+    public void activateSearch() {
+        searchTextField.requestFocus();
     }
 
     @FXML
