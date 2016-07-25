@@ -27,6 +27,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.URL;
@@ -39,6 +41,8 @@ import java.util.function.Function;
  * Created by 4540 on 22.02.2016.
  */
 public class CategoryNotesPresenter implements Initializable {
+    private static final Logger log = LoggerFactory.getLogger(CategoryNotesPresenter.class);
+
     @FXML
     private AnchorPane rootContainer;
 
@@ -178,6 +182,21 @@ public class CategoryNotesPresenter implements Initializable {
         categoryTreeView.setOnMouseClicked((event) -> {
             if ((event != null) &&  (event.getClickCount() == 2))
                 categoryEditButtonClick(null);
+        });
+
+        //search
+        searchTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                log.debug("search field changed focus to " + searchTextField.getScene().getFocusOwner());
+                handleSearchFocusChange(searchTextField.getScene().getFocusOwner());
+            }
+        });
+
+        searchButton.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                log.debug("search button changed focus to " + searchTextField.getScene().getFocusOwner());
+                handleSearchFocusChange(searchTextField.getScene().getFocusOwner());
+            }
         });
     }
 
@@ -469,6 +488,12 @@ public class CategoryNotesPresenter implements Initializable {
 
     public void activateSearch() {
         searchTextField.requestFocus();
+    }
+
+    private void handleSearchFocusChange(Node focusedNode) {
+        if ((focusedNode != searchButton) && (focusedNode != searchTextField)) {
+            categoryNotesModel.clearSearch();
+        }
     }
 
     @FXML
