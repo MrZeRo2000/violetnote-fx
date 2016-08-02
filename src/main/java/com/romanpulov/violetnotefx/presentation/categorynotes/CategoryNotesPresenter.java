@@ -12,19 +12,15 @@ import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.concurrent.Task;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import org.slf4j.Logger;
@@ -34,8 +30,6 @@ import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.Callable;
-import java.util.function.Function;
 
 /**
  * Created by 4540 on 22.02.2016.
@@ -60,6 +54,12 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private Button categoryEditButton;
+
+    @FXML
+    private Button categoryMoveUpButton;
+
+    @FXML
+    private Button categoryMoveDownButton;
 
     @FXML
     private Button noteAddButton;
@@ -90,6 +90,8 @@ public class CategoryNotesPresenter implements Initializable {
 
     @Model
     private CategoryNotesModel categoryNotesModel;
+
+    private IntegerProperty treeViewLastItemIndexProperty = new SimpleIntegerProperty(0);
 
     private ProgressNode progressNode;
 
@@ -124,9 +126,13 @@ public class CategoryNotesPresenter implements Initializable {
         TreeItem<PassCategoryFX> root = new TreeItem<>();
         categoryTreeView.setRoot(root);
         categoryTreeView.setShowRoot(false);
+
+        int lastItemIndex = -1;
         for (PassCategoryFX p : categoryNotesModel.getCategoryData()) {
             root.getChildren().add(new TreeItem<>(p));
+            lastItemIndex ++;
         }
+        treeViewLastItemIndexProperty.setValue(lastItemIndex);
     }
 
     private void loadTable(PassCategoryFX category) {
@@ -141,6 +147,15 @@ public class CategoryNotesPresenter implements Initializable {
         categoryDeleteButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
         categoryEditButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
 
+        //move up and down
+        categoryMoveUpButton.disableProperty().bind(
+                categoryTreeView.getSelectionModel().selectedItemProperty().isNull().or(
+                categoryTreeView.getSelectionModel().selectedIndexProperty().isEqualTo(0)));
+        categoryMoveDownButton.disableProperty().bind(
+                categoryTreeView.getSelectionModel().selectedItemProperty().isNull().or(
+                        categoryTreeView.getSelectionModel().selectedIndexProperty().isEqualTo(treeViewLastItemIndexProperty)));
+
+        //
         noteAddButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
         noteDeleteButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
         noteEditButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
@@ -499,5 +514,18 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private void searchAction(ActionEvent event) {
         performSearch();
+    }
+
+    @FXML
+    private void categoryMoveUpButtonClick(ActionEvent event) {
+        log.debug("moving up");
+        log.debug("Selected " + categoryTreeView.getSelectionModel().selectedIndexProperty().get());
+    }
+
+    @FXML
+    private void categoryMoveDownButtonClick(ActionEvent event) {
+        log.debug("moving down");
+        log.debug("LastItemIndexProperty = " + treeViewLastItemIndexProperty);
+
     }
 }

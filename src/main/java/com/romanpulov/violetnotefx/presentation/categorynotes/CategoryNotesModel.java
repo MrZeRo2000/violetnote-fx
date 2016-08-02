@@ -18,7 +18,9 @@ import com.romanpulov.violetnotefx.PropertiesManager;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -37,7 +39,6 @@ public class CategoryNotesModel {
 
     private ObservableList<PassNoteFX> passNoteData;
     private ObservableList<PassCategoryFX> passCategoryData;
-
 
     public static class PassNoteSearch {
 

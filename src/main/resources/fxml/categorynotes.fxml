@@ -37,6 +37,22 @@
                               </ImageView>
                           </graphic>
                       </Button>
+                        <Button fx:id="categoryMoveUpButton" mnemonicParsing="false" onAction="#categoryMoveUpButtonClick" text="" >
+                            <tooltip><Tooltip text = "Move up" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="/images/up.png" requestedWidth="16" requestedHeight="16"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="categoryMoveDownButton" mnemonicParsing="false" onAction="#categoryMoveDownButtonClick" text="" >
+                            <tooltip><Tooltip text = "Move down" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="/images/down.png" requestedWidth="16" requestedHeight="16"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </items>
                   </ToolBar>
                   </children>
