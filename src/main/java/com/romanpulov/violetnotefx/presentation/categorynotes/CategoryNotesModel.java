@@ -14,22 +14,15 @@ import com.romanpulov.violetnotefx.FileHelper;
 import com.romanpulov.violetnotefx.Model.Document;
 import com.romanpulov.violetnotefx.Model.PassCategoryFX;
 import com.romanpulov.violetnotefx.Model.PassNoteFX;
-import com.romanpulov.violetnotefx.PropertiesManager;
 import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -400,5 +393,29 @@ public class CategoryNotesModel {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static <T> void listMoveUp(T item, List<? super T> list) {
+        int index = list.indexOf(item);
+        if (index > 0) {
+            list.remove(index);
+            list.add(index - 1, item);
+        }
+    }
+
+    public static <T> void listMoveDown(T item, List<? super T> list) {
+        int index = list.indexOf(item);
+        if (index < list.size() - 1) {
+            list.remove(index);
+            list.add(index + 1, item);
+        }
+    }
+
+    public void categoryMoveUp(PassCategoryFX item) {
+        listMoveUp(item, passCategoryData);
+    }
+
+    public void categoryMoveDown(PassCategoryFX item) {
+        listMoveDown(item, passCategoryData);
     }
 }

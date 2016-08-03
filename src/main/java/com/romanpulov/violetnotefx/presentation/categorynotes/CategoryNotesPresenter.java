@@ -520,14 +520,25 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void categoryMoveUpButtonClick(ActionEvent event) {
-        log.debug("moving up");
-        log.debug("Selected " + categoryTreeView.getSelectionModel().selectedIndexProperty().get());
+        TreeItem<PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
+        int selectedIndex = categoryTreeView.getSelectionModel().getSelectedIndex();
+
+        if ((selectedItem != null) && (selectedIndex > 0)) {
+            categoryNotesModel.categoryMoveUp(selectedItem.getValue());
+            loadTreeView();
+            categoryTreeView.getSelectionModel().select(selectedIndex - 1);
+        }
     }
 
     @FXML
     private void categoryMoveDownButtonClick(ActionEvent event) {
-        log.debug("moving down");
-        log.debug("LastItemIndexProperty = " + treeViewLastItemIndexProperty);
+        TreeItem<PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
+        int selectedIndex = categoryTreeView.getSelectionModel().getSelectedIndex();
 
+        if ((selectedItem != null) && (selectedIndex < categoryTreeView.getRoot().getChildren().size() - 1)) {
+            categoryNotesModel.categoryMoveDown(selectedItem.getValue());
+            loadTreeView();
+            categoryTreeView.getSelectionModel().select(selectedIndex + 1);
+        }
     }
 }
