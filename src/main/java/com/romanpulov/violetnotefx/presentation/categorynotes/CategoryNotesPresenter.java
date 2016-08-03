@@ -362,10 +362,12 @@ public class CategoryNotesPresenter implements Initializable {
 
     public void loadVNF(File f) {
         String masterPass = MasterPassStage.queryMasterPass(f, null);
-        if ((masterPass != null) && (categoryNotesModel.loadFile(f, masterPass))) {
-            loadTreeView();
-        } else {
-            (new AlertDialogs.ErrorAlertBuilder()).setHeaderText("Error reading file: " + f.getPath()).setTitle("Error").setContentText("Wrong password or invalid file").buildAlert().showAndWait();
+        if (masterPass != null) {
+            if (categoryNotesModel.loadFile(f, masterPass)){
+                loadTreeView();
+            } else {
+                (new AlertDialogs.ErrorAlertBuilder()).setHeaderText("Error reading file: " + f.getPath()).setTitle("Error").setContentText("Wrong password or invalid file").buildAlert().showAndWait();
+            }
         }
     }
 
