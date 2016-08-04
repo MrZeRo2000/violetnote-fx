@@ -367,15 +367,22 @@ public class CategoryNotesPresenter implements Initializable {
         }
     }
 
-    public void loadVNF(File f) {
-        String masterPass = MasterPassStage.queryMasterPass(f, null);
+    @FunctionalInterface
+    public interface FilePassConsumer {
+        boolean accept(File f, String message);
+    }
+
+    public void processFile(File f, String initMasterPass, FilePassConsumer filePass, String processingMessage, String errorHeaderMessage, String errorContentMessage) {
+
+        final String masterPass = initMasterPass == null ? MasterPassStage.queryMasterPass(f, null) : initMasterPass;
+
         if (masterPass != null) {
-            showProgressNode("Loading ...");
+            showProgressNode(processingMessage);
 
             Task<Boolean> loadTask = new Task<Boolean>() {
                 @Override
                 protected Boolean call() throws InterruptedException  {
-                    return categoryNotesModel.loadFile(f, masterPass);
+                    return filePass.accept(f, masterPass);
                 }
             };
 
@@ -386,12 +393,20 @@ public class CategoryNotesPresenter implements Initializable {
                     loadTreeView();
                 }
                 else
-                    (new AlertDialogs.ErrorAlertBuilder()).setHeaderText("Error reading file: " + f.getPath()).setTitle("Error").setContentText("Wrong password or invalid file").buildAlert().showAndWait();
+                    (new AlertDialogs.ErrorAlertBuilder()).setHeaderText(errorHeaderMessage + f.getPath()).setTitle("Error").setContentText(errorContentMessage).buildAlert().showAndWait();
             });
 
             Executor executor = Executors.newCachedThreadPool();
             executor.execute(loadTask);
         }
+    }
+
+    public void loadVNF(File f) {
+        processFile(f, null, categoryNotesModel::loadFile, "Loading ...", "Error reading file: ", "Wrong password or invalid file");
+    }
+
+    public void saveVNF(File f, String masterPass) {
+        processFile(f, masterPass, categoryNotesModel::saveFile, "Saving ...", "Error saving file: ", "See logs for details");
     }
 
     public void importPINS(File f) {
@@ -432,9 +447,8 @@ public class CategoryNotesPresenter implements Initializable {
             if (masterPass == null)
                 masterPass = MasterPassStage.queryMasterPass(f, null);
 
-            if ((masterPass != null) && (categoryNotesModel.saveFile(f, masterPass))) {
-                loadTreeView();
-            }
+            if (masterPass != null)
+                saveVNF(f, masterPass);
         }
     }
 
@@ -447,10 +461,7 @@ public class CategoryNotesPresenter implements Initializable {
         );
         File f = fileChooser.showSaveDialog(rootContainer.getScene().getWindow());
         if (f != null) {
-            String masterPass = MasterPassStage.queryMasterPass(f, null);
-            if (masterPass != null) {
-                categoryNotesModel.saveFile(f, masterPass);
-            }
+            saveVNF(f, null);
         }
     }
 

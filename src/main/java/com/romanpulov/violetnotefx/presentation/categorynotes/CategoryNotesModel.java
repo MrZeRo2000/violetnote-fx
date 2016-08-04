@@ -352,8 +352,7 @@ public class CategoryNotesModel {
         if (!result)
             return false;
 
-        Document.getInstance().setFile(f.getPath(), masterPass);
-        invalidatedData.setValue(false);
+
 
         return true;
     }
