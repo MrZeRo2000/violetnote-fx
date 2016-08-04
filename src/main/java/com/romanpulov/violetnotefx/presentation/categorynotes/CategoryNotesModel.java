@@ -319,8 +319,6 @@ public class CategoryNotesModel {
                 PassData passData = (new XMLPassDataReader()).readStream(input);
                 readPassData(passData);
 
-                Document.getInstance().setFile(f.getPath(), masterPass);
-                invalidatedData.setValue(false);
                 return true;
             } catch (AESCryptException | IOException | DataReadWriteException e) {
                 e.printStackTrace();
@@ -328,6 +326,11 @@ public class CategoryNotesModel {
             }
         } else
             return false;
+    }
+
+    public void updateFile(String fileName, String masterPass) {
+        Document.getInstance().setFile(fileName, masterPass);
+        invalidatedData.setValue(false);
     }
 
     public boolean saveFile(File f, String masterPass) {

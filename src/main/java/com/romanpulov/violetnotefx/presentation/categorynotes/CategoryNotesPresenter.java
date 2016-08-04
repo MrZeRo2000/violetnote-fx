@@ -14,7 +14,10 @@ import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -30,6 +33,9 @@ import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by 4540 on 22.02.2016.
@@ -96,6 +102,7 @@ public class CategoryNotesPresenter implements Initializable {
     private ProgressNode progressNode;
 
     private void showProgressNode(String text) {
+        log.debug("Showing progress, scene = " + rootContainer.getScene());
         hideProgressNode();
         progressNode = ProgressNode.newInstance().setParentScene(rootContainer.getScene()).setText(text);
         progressNode.show();
@@ -363,11 +370,27 @@ public class CategoryNotesPresenter implements Initializable {
     public void loadVNF(File f) {
         String masterPass = MasterPassStage.queryMasterPass(f, null);
         if (masterPass != null) {
-            if (categoryNotesModel.loadFile(f, masterPass)){
-                loadTreeView();
-            } else {
-                (new AlertDialogs.ErrorAlertBuilder()).setHeaderText("Error reading file: " + f.getPath()).setTitle("Error").setContentText("Wrong password or invalid file").buildAlert().showAndWait();
-            }
+            showProgressNode("Loading ...");
+
+            Task<Boolean> loadTask = new Task<Boolean>() {
+                @Override
+                protected Boolean call() throws InterruptedException  {
+                    return categoryNotesModel.loadFile(f, masterPass);
+                }
+            };
+
+            loadTask.setOnSucceeded(e -> {
+                hideProgressNode();
+                if (loadTask.getValue()) {
+                    categoryNotesModel.updateFile(f.getPath(), masterPass);
+                    loadTreeView();
+                }
+                else
+                    (new AlertDialogs.ErrorAlertBuilder()).setHeaderText("Error reading file: " + f.getPath()).setTitle("Error").setContentText("Wrong password or invalid file").buildAlert().showAndWait();
+            });
+
+            Executor executor = Executors.newCachedThreadPool();
+            executor.execute(loadTask);
         }
     }
 

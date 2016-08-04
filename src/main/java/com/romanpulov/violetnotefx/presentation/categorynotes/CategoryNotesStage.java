@@ -55,6 +55,7 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
                 concat(Document.getInstance().getFileName()).
                 concat(new When(model.getInvalidatedData()).then(" * ").otherwise("")));
 
+        /*
         switch (model.getLoadFileType()) {
             case FT_IMPORT:
                 controller.importPINS(new File(model.getLoadFileName()));
@@ -63,7 +64,10 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
                 controller.loadVNF(new File(model.getLoadFileName()));
                 break;
         }
+        */
 
-        loadProperties();
+        stage.setOnShown(e -> {
+            loadProperties();
+        });
     }
 }
