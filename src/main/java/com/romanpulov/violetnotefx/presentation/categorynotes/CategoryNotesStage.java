@@ -31,6 +31,11 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
         }
     }
 
+    private void performCloseAction() {
+        saveProperties();
+        getController().shutdownExecutorService();
+    }
+
     @Override
     protected void afterCreateStage() {
         super.afterCreateStage();
@@ -40,9 +45,9 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
                 if (!DialogsHelper.queryUnsavedData()) {
                     e.consume();
                 } else
-                    saveProperties();
+                    performCloseAction();
             } else {
-                saveProperties();
+                performCloseAction();
             }
         });
 

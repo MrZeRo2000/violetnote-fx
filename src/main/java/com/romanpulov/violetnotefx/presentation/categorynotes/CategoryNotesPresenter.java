@@ -34,6 +34,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
@@ -100,6 +101,12 @@ public class CategoryNotesPresenter implements Initializable {
     private IntegerProperty treeViewLastItemIndexProperty = new SimpleIntegerProperty(0);
 
     private ProgressNode progressNode;
+
+    ExecutorService executorService = Executors.newFixedThreadPool(1);
+
+    public void shutdownExecutorService() {
+        executorService.shutdown();
+    }
 
     private void showProgressNode(String text) {
         log.debug("Showing progress, scene = " + rootContainer.getScene());
@@ -396,8 +403,7 @@ public class CategoryNotesPresenter implements Initializable {
                     (new AlertDialogs.ErrorAlertBuilder()).setHeaderText(errorHeaderMessage + f.getPath()).setTitle("Error").setContentText(errorContentMessage).buildAlert().showAndWait();
             });
 
-            Executor executor = Executors.newCachedThreadPool();
-            executor.execute(loadTask);
+            executorService.execute(loadTask);
         }
     }
 
