@@ -199,7 +199,7 @@ public class CategoryNotesModel {
 
             passNoteData.stream().forEach((p) -> {
                 PassCategory category = categoryData.get(p.getCategory());
-                PassNote note = new PassNote(category, p.getSystem(), p.getUser(), p.getRealPassword(), p.getComments(), p.getComments(), p.getInfo());
+                PassNote note = new PassNote(category, p.getSystem(), p.getUser(), p.getRealPassword(), p.getComments(), p.getCustom(), p.getInfo());
                 passNoteList.add(note);
             });
 
