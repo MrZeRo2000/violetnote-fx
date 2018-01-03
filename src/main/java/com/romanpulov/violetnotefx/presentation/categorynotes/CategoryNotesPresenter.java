@@ -421,6 +421,21 @@ public class CategoryNotesPresenter implements Initializable {
         }
     }
 
+    /**
+     * Loads file with given type
+     * @param f File
+     * @param fileType FileType
+     */
+    public void loadFile(File f, Document.FileType fileType) {
+        switch (fileType) {
+            case FT_VNF:
+                loadVNF(f);
+                break;
+            case FT_IMPORT:
+                importPINS(f);
+        }
+    }
+
     public void exportPINS(File f) {
         categoryNotesModel.exportPINSFile(f);
     }

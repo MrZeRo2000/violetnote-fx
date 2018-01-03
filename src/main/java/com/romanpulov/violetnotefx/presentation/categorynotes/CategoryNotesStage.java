@@ -23,12 +23,29 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
 
     private void loadProperties() {
         PropertiesManager.getInstance().load();
-        String documentFileName = PropertiesManager.getInstance().getProperties().getProperty(PropertiesManager.DOCUMENT_FILE_NAME);
-        if (documentFileName != null ) {
-            File f = new File(documentFileName);
-            if (f.exists())
-                controller.loadVNF(f);
+    }
+
+    private void performStartup() {
+        File f = null;
+
+        // first check command line
+        if (model.getLoadFileName() != null) {
+            f = new File(model.getLoadFileName());
         }
+
+        // check configuration file
+        if ((f == null) || !f.exists())    {
+            String documentFileName = PropertiesManager.getInstance().getProperties().getProperty(PropertiesManager.DOCUMENT_FILE_NAME);
+            if (documentFileName != null ) {
+                f = new File(documentFileName);
+                model.setLoadFileName(documentFileName);
+            }
+        }
+
+        // load from found file
+        if ((f != null) && (f.exists()))
+            controller.loadFile(f, model.getLoadFileType());
+
     }
 
     private void performCloseAction() {
@@ -73,6 +90,7 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
 
         stage.setOnShown(e -> {
             loadProperties();
+            performStartup();
         });
     }
 }
