@@ -7,24 +7,45 @@ import java.util.Properties;
  * Created by 4540 on 10.03.2016.
  */
 public class PropertiesManager {
-    private static final String propertiesFileName;
+    private static final String PROPERTIES_FILE_NAME;
     private static final String FILE_NAME = "config.properties";
     public static final String DOCUMENT_FILE_NAME = "document_file_name";
 
     private final Properties properties = new Properties();
+    private boolean isModified = false;
 
-    public Properties getProperties() {
-        return properties;
+    public boolean isModified() {
+        return isModified;
     }
 
     static {
-        propertiesFileName = PropertiesManager.class.getProtectionDomain().getCodeSource().getLocation().getPath() + FILE_NAME;
+        PROPERTIES_FILE_NAME = PropertiesManager.class.getProtectionDomain().getCodeSource().getLocation().getPath() + FILE_NAME;
     }
 
     private static final PropertiesManager ourInstance = new PropertiesManager();
 
+    public String getProperty(String key) {
+        return properties.getProperty(key);
+    }
+
+    public void setProperty(String key, String value){
+        String oldValue = properties.getProperty(key);
+        if (((oldValue != null) && !(oldValue.equals(value))) || ((value != null) && !(value.equals(oldValue)))) {
+            properties.setProperty(key, value);
+            isModified = true;
+        }
+    }
+
+    /**
+     * Clears properties
+     */
+    public void clear(){
+        properties.clear();
+    }
+
     public void load() {
-        try (InputStream  input = new FileInputStream(propertiesFileName)) {
+        isModified = false;
+        try (InputStream  input = new FileInputStream(PROPERTIES_FILE_NAME)) {
             properties.load(input);
         } catch (IOException e) {
             e.printStackTrace();
@@ -32,15 +53,17 @@ public class PropertiesManager {
     }
 
     public void save() {
-        try (OutputStream output = new FileOutputStream(propertiesFileName)) {
-            properties.store(output, null);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (isModified) {
+            try (OutputStream output = new FileOutputStream(PROPERTIES_FILE_NAME)) {
+                properties.store(output, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public boolean deletePropertiesFile() {
-        File f = new File(propertiesFileName);
+        File f = new File(PROPERTIES_FILE_NAME);
         return f.exists() && f.delete();
     }
 

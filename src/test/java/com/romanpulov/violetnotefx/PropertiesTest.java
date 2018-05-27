@@ -2,9 +2,9 @@ package com.romanpulov.violetnotefx;
 
 import org.junit.Test;
 
-import java.util.Properties;
-
+import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
 /**
@@ -18,17 +18,29 @@ public class PropertiesTest {
     }
 
     @Test
-    public void testProperties() throws Exception {
-        Properties p = PropertiesManager.getInstance().getProperties();
-        p.put("Prop 1", "Value1");
-        PropertiesManager.getInstance().save();
-        p.clear();
-        assertNotEquals(p.getProperty("Prop 1"), "Value1");
-        PropertiesManager.getInstance().load();
-        assertEquals(p.getProperty("Prop 1"), "Value1");
-        assertEquals(p.size(), 1);
-        PropertiesManager.getInstance().load();
-        assertEquals(p.size(), 1);
-        PropertiesManager.getInstance().deletePropertiesFile();
+    public void testProperties() {
+        final String propName = "Prop 1";
+        final String propValue = "Value1";
+        final String propValue2 = "Value2";
+
+        PropertiesManager propertiesManager = PropertiesManager.getInstance();
+
+        propertiesManager.setProperty(propName, propValue);
+        assertTrue(propertiesManager.isModified());
+
+        propertiesManager.save();
+
+        propertiesManager.clear();
+
+        assertNotEquals(propValue, propertiesManager.getProperty(propName));
+
+        propertiesManager.load();
+        assertEquals(propValue, propertiesManager.getProperty(propName));
+        assertFalse(propertiesManager.isModified());
+
+        propertiesManager.setProperty(propName, propValue2);
+        assertTrue(propertiesManager.isModified());
+
+        propertiesManager.deletePropertiesFile();
     }
 }

@@ -17,7 +17,7 @@ import java.io.File;
 public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNotesPresenter> {
 
     private void saveProperties() {
-        PropertiesManager.getInstance().getProperties().setProperty(PropertiesManager.DOCUMENT_FILE_NAME, Document.getInstance().getFileName().getValue());
+        PropertiesManager.getInstance().setProperty(PropertiesManager.DOCUMENT_FILE_NAME, Document.getInstance().getFileName().getValue());
         PropertiesManager.getInstance().save();
     }
 
@@ -35,7 +35,7 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
 
         // check configuration file
         if ((f == null) || !f.exists())    {
-            String documentFileName = PropertiesManager.getInstance().getProperties().getProperty(PropertiesManager.DOCUMENT_FILE_NAME);
+            String documentFileName = PropertiesManager.getInstance().getProperty(PropertiesManager.DOCUMENT_FILE_NAME);
             if (documentFileName != null ) {
                 f = new File(documentFileName);
                 model.setLoadFileName(documentFileName);
