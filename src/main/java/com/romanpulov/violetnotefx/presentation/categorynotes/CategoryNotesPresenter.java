@@ -15,9 +15,7 @@ import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
-import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -33,10 +31,8 @@ import java.io.File;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
  * Created by 4540 on 22.02.2016.
@@ -204,8 +200,13 @@ public class CategoryNotesPresenter implements Initializable {
 
         // double click handling
         notesTableView.setOnMouseClicked((event) -> {
-            if ((event != null) &&  (event.getClickCount() == 2))
-                noteEditButtonClick(null);
+            PassNoteFX editNote;
+
+            if ((event != null) &&
+                    (event.getClickCount() == 2) &&
+                    ((editNote = notesTableView.getSelectionModel().getSelectedItem()) != null)) {
+                NoteStage.createReadOnly(editNote).showModal();
+            }
         });
 
         categoryTreeView.setOnMouseClicked((event) -> {
@@ -295,15 +296,10 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void noteAddButtonClick(ActionEvent event) {
-        // setup stage and category data
-        NoteStage noteStage = new NoteStage();
-        noteStage.createStage();
+        NoteStage noteStage = NoteStage.createForAdd(
+                categoryNotesModel.getPassCategoryData(),
+                categoryTreeView.getSelectionModel().getSelectedItem().getValue());
         NoteModel noteModel = noteStage.getModel();
-        noteModel.setPassCategoryData(categoryNotesModel.getPassCategoryData());
-
-        PassCategoryFX categoryFX = categoryTreeView.getSelectionModel().getSelectedItem().getValue();
-        noteModel.setPassNoteFX(PassNoteFX.newEmptyInstance(categoryFX));
-
         noteStage.showModal();
 
         if (noteModel.modalResult == ButtonType.OK) {
@@ -324,12 +320,8 @@ public class CategoryNotesPresenter implements Initializable {
         PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
         if (editNote != null) {
             // setup stage and category data
-            NoteStage noteStage = new NoteStage();
-            noteStage.createStage();
+            NoteStage noteStage = NoteStage.createForEdit(categoryNotesModel.getPassCategoryData(), editNote);
             NoteModel noteModel = noteStage.getModel();
-            noteModel.setPassCategoryData(categoryNotesModel.getPassCategoryData());
-            noteModel.setPassNoteFX(PassNoteFX.newInstance(editNote));
-
             noteStage.showModal();
 
             if (noteModel.modalResult == ButtonType.OK) {
@@ -341,14 +333,10 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private void noteDuplicateButtonClick(ActionEvent event) {
         // setup stage and category data
-        NoteStage noteStage = new NoteStage();
-        noteStage.createStage();
+        NoteStage noteStage = NoteStage.createForDuplicate(
+                categoryNotesModel.getPassCategoryData(),
+                notesTableView.getSelectionModel().getSelectedItem());
         NoteModel noteModel = noteStage.getModel();
-        noteModel.setPassCategoryData(categoryNotesModel.getPassCategoryData());
-
-        PassNoteFX editNote = notesTableView.getSelectionModel().getSelectedItem();
-        noteModel.setPassNoteFX(PassNoteFX.newDuplicateInstance(editNote));
-
         noteStage.showModal();
 
         if (noteModel.modalResult == ButtonType.OK) {

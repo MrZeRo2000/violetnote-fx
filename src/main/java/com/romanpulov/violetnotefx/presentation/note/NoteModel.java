@@ -61,6 +61,18 @@ public class NoteModel {
         infoTextArea_textProperty.bindBidirectional(passNoteFX.getInfoProperty());
     }
 
+    public void setPassNoteFXReadOnly(PassNoteFX passNoteFX) {
+        //this.passNoteFX.setValue(passNoteFX);
+        categoryComboBox_valueProperty.bind(passNoteFX.getCategoryProperty());
+        systemTextField_textProperty.bind(passNoteFX.getSystemProperty());
+        userTextField_textProperty.bind(passNoteFX.getUserProperty());
+        passwordTextField_textProperty.bind(passNoteFX.getRealPasswordProperty());
+        passwordRetypeTextField_textProperty.bind(new SimpleStringProperty());
+        commentsTextField_textProperty.bind(passNoteFX.getCommentsProperty());
+        customTextField_textProperty.bind(passNoteFX.getCustomProperty());
+        infoTextArea_textProperty.bind(passNoteFX.getInfoProperty());
+    }
+
     public PassNoteFX getPassNoteFX() {
         return passNoteFX.get();
     }
