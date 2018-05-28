@@ -10,6 +10,11 @@ import javafx.collections.ObservableList;
  */
 public class NoteStage extends AppStage<NoteModel, NotePresenter> {
 
+    private static final String TITLE_NOTE_ADD = "Note add";
+    private static final String TITLE_NOTE_VIEW = "Note View";
+    private static final String TITLE_NOTE_EDIT = "Note Edit";
+    private static final String TITLE_NOTE_DUPLICATE = "Note Duplicate";
+    
     private String title;
 
     private NoteStage(){
@@ -32,7 +37,7 @@ public class NoteStage extends AppStage<NoteModel, NotePresenter> {
 
     public static NoteStage createReadOnly(PassNoteFX note) {
         NoteStage noteStage = new NoteStage();
-        noteStage.title = "Note View";
+        noteStage.title = TITLE_NOTE_VIEW;
         noteStage.createStage();
         NoteModel noteModel = noteStage.getModel();
         noteModel.setPassNoteFXReadOnly(note);
@@ -41,15 +46,15 @@ public class NoteStage extends AppStage<NoteModel, NotePresenter> {
     }
 
     public static NoteStage createForAdd(ObservableList<PassCategoryFX> passCategoryData, PassCategoryFX categoryFX) {
-        return createEditable(passCategoryData, PassNoteFX.newEmptyInstance(categoryFX), "Note add");
+        return createEditable(passCategoryData, PassNoteFX.newEmptyInstance(categoryFX), TITLE_NOTE_ADD);
     }
 
     public static NoteStage createForEdit(ObservableList<PassCategoryFX> passCategoryData, PassNoteFX note) {
-        return createEditable(passCategoryData, PassNoteFX.newInstance(note), "Note Edit");
+        return createEditable(passCategoryData, PassNoteFX.newInstance(note), TITLE_NOTE_EDIT);
     }
 
     public static NoteStage createForDuplicate(ObservableList<PassCategoryFX> passCategoryData, PassNoteFX note) {
-        return createEditable(passCategoryData, PassNoteFX.newDuplicateInstance(note), "Note Duplicate");
+        return createEditable(passCategoryData, PassNoteFX.newDuplicateInstance(note), TITLE_NOTE_DUPLICATE);
     }
 
     @Override
