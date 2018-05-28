@@ -128,6 +128,22 @@
                                 </ImageView>
                             </graphic>
                         </Button>
+                        <Button fx:id="noteMoveUpButton" mnemonicParsing="false" onAction="#noteMoveUpButtonClick" text="" >
+                            <tooltip><Tooltip text = "Move up" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="/images/up.png" requestedWidth="16" requestedHeight="16"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
+                        <Button fx:id="noteMoveDownButton" mnemonicParsing="false" onAction="#noteMoveDownButtonClick" text="" >
+                            <tooltip><Tooltip text = "Move down" /></tooltip>
+                            <graphic>
+                                <ImageView>
+                                    <Image url="/images/down.png" requestedWidth="16" requestedHeight="16"/>
+                                </ImageView>
+                            </graphic>
+                        </Button>
                     </items>
                   </ToolBar>
                   </children>

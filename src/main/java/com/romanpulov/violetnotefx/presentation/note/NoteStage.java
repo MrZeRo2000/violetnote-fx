@@ -14,7 +14,7 @@ public class NoteStage extends AppStage<NoteModel, NotePresenter> {
     private static final String TITLE_NOTE_VIEW = "Note View";
     private static final String TITLE_NOTE_EDIT = "Note Edit";
     private static final String TITLE_NOTE_DUPLICATE = "Note Duplicate";
-    
+
     private String title;
 
     private NoteStage(){

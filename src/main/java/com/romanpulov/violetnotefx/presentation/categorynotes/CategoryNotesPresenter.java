@@ -22,6 +22,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import org.slf4j.Logger;
@@ -80,6 +81,12 @@ public class CategoryNotesPresenter implements Initializable {
     private Button notePasswordToClipboardButton;
 
     @FXML
+    private Button noteMoveUpButton;
+
+    @FXML
+    private Button noteMoveDownButton;
+
+    @FXML
     private MenuItem fileSaveMenuItem;
 
     @FXML
@@ -95,6 +102,7 @@ public class CategoryNotesPresenter implements Initializable {
     private CategoryNotesModel categoryNotesModel;
 
     private IntegerProperty treeViewLastItemIndexProperty = new SimpleIntegerProperty(0);
+    private IntegerProperty notesTableLastItemIndexProperty = new SimpleIntegerProperty(0);
 
     private ProgressNode progressNode;
 
@@ -147,6 +155,7 @@ public class CategoryNotesPresenter implements Initializable {
 
     private void loadTable(PassCategoryFX category) {
         notesTableView.setItems(categoryNotesModel.getPassNoteData(category));
+        notesTableLastItemIndexProperty.setValue(notesTableView.getItems().size() - 1);
     }
 
     @Override
@@ -164,6 +173,18 @@ public class CategoryNotesPresenter implements Initializable {
         categoryMoveDownButton.disableProperty().bind(
                 categoryTreeView.getSelectionModel().selectedItemProperty().isNull().or(
                         categoryTreeView.getSelectionModel().selectedIndexProperty().isEqualTo(treeViewLastItemIndexProperty)));
+
+        noteMoveUpButton.disableProperty().bind(
+                notesTableView.getSelectionModel().selectedItemProperty().isNull().or(
+                        notesTableView.getSelectionModel().selectedIndexProperty().isEqualTo(0)
+                )
+        );
+        noteMoveDownButton.disableProperty().bind(
+                notesTableView.getSelectionModel().selectedItemProperty().isNull().or(
+                        notesTableView.getSelectionModel().selectedIndexProperty().isEqualTo(notesTableLastItemIndexProperty)
+                )
+        );
+
 
         //
         noteAddButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
@@ -201,13 +222,22 @@ public class CategoryNotesPresenter implements Initializable {
         // double click handling
         notesTableView.setOnMouseClicked((event) -> {
             PassNoteFX editNote;
-
             if ((event != null) &&
                     (event.getClickCount() == 2) &&
                     ((editNote = notesTableView.getSelectionModel().getSelectedItem()) != null)) {
                 NoteStage.createReadOnly(editNote).showModal();
             }
         });
+
+        //enter key
+        notesTableView.setOnKeyPressed((event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                PassNoteFX editNote;
+                if ((editNote = notesTableView.getSelectionModel().getSelectedItem()) != null) {
+                    NoteStage.createReadOnly(editNote).showModal();
+                }
+            }
+        }));
 
         categoryTreeView.setOnMouseClicked((event) -> {
             if ((event != null) &&  (event.getClickCount() == 2))
@@ -570,6 +600,7 @@ public class CategoryNotesPresenter implements Initializable {
             categoryNotesModel.categoryMoveUp(selectedItem.getValue());
             loadTreeView();
             categoryTreeView.getSelectionModel().select(selectedIndex - 1);
+            categoryTreeView.requestFocus();
         }
     }
 
@@ -582,6 +613,59 @@ public class CategoryNotesPresenter implements Initializable {
             categoryNotesModel.categoryMoveDown(selectedItem.getValue());
             loadTreeView();
             categoryTreeView.getSelectionModel().select(selectedIndex + 1);
+            categoryTreeView.requestFocus();
         }
+    }
+
+    @FXML
+    private void noteMoveUpButtonClick(ActionEvent event) {
+        TreeItem<PassCategoryFX> selectedCategory = categoryTreeView.getSelectionModel().getSelectedItem();
+        PassNoteFX selectedNote = notesTableView.getSelectionModel().getSelectedItem();
+        if ((selectedCategory != null) && (selectedNote != null)) {
+            int selectedIndex = notesTableView.getSelectionModel().getSelectedIndex();
+            if (selectedIndex > 0) {
+                categoryNotesModel.noteMoveUp(selectedNote);
+                loadTable(selectedCategory.getValue());
+                notesTableView.getSelectionModel().select(selectedIndex - 1);
+                notesTableView.requestFocus();
+            }
+        }
+
+        /*
+        TreeItem<PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
+        int selectedIndex = categoryTreeView.getSelectionModel().getSelectedIndex();
+
+        if ((selectedItem != null) && (selectedIndex > 0)) {
+            categoryNotesModel.categoryMoveUp(selectedItem.getValue());
+            loadTreeView();
+            categoryTreeView.getSelectionModel().select(selectedIndex - 1);
+        }
+        */
+    }
+
+    @FXML
+    private void noteMoveDownButtonClick(ActionEvent event) {
+        TreeItem<PassCategoryFX> selectedCategory = categoryTreeView.getSelectionModel().getSelectedItem();
+        PassNoteFX selectedNote = notesTableView.getSelectionModel().getSelectedItem();
+        if ((selectedCategory != null) && (selectedNote != null)) {
+            int selectedIndex = notesTableView.getSelectionModel().getSelectedIndex();
+            if (selectedIndex < notesTableView.getItems().size() - 1) {
+                categoryNotesModel.noteMoveDown(selectedNote);
+                loadTable(selectedCategory.getValue());
+                notesTableView.getSelectionModel().select(selectedIndex + 1);
+                notesTableView.requestFocus();
+            }
+        }
+
+        /*
+        TreeItem<PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
+        int selectedIndex = categoryTreeView.getSelectionModel().getSelectedIndex();
+
+        if ((selectedItem != null) && (selectedIndex < categoryTreeView.getRoot().getChildren().size() - 1)) {
+            categoryNotesModel.categoryMoveDown(selectedItem.getValue());
+            loadTreeView();
+            categoryTreeView.getSelectionModel().select(selectedIndex + 1);
+        }
+        */
     }
 }

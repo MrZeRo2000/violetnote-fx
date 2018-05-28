@@ -405,7 +405,7 @@ public class CategoryNotesModel {
         }
     }
 
-    public static <T> void listMoveDown(T item, List<? super T> list) {
+    private static <T> void listMoveDown(T item, List<? super T> list) {
         int index = list.indexOf(item);
         if (index < list.size() - 1) {
             list.remove(index);
@@ -419,5 +419,13 @@ public class CategoryNotesModel {
 
     public void categoryMoveDown(PassCategoryFX item) {
         listMoveDown(item, passCategoryData);
+    }
+
+    public void noteMoveUp(PassNoteFX note) {
+        listMoveUp(note, passNoteData);
+    }
+
+    public void noteMoveDown(PassNoteFX note) {
+        listMoveDown(note, passNoteData);
     }
 }
