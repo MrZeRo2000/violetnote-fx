@@ -4,6 +4,7 @@ import com.romanpulov.violetnotefx.Core.annotation.BoundProperty;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
+import org.apache.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -14,20 +15,23 @@ import java.util.List;
  * Created by rpulov on 26.01.2016.
  */
 public class Binder {
+
+    private static final Logger log = Logger.getLogger(Binder.class);
+
     public static void bindFXMLProperties(Object FXMLHolder, Object propertyHolder) {
         List<Field> viewFields = Injector.getFieldsWithAnnotation(FXMLHolder.getClass(), FXML.class);
         List<Field> propertyFields = Injector.getFieldsWithAnnotation(propertyHolder.getClass(), BoundProperty.class);
         for (Field f: viewFields)
-            System.out.println("field:" + f.toString());
+            log.debug("field:" + f.toString());
         for (Field f: propertyFields)
-            System.out.println("bound property:" + f.toString());
+            log.debug("bound property:" + f.toString());
 
         for (Field viewField : viewFields) {
             for (Field propertyField : propertyFields) {
                 if (propertyField.getName().startsWith(viewField.getName())) {
-                    System.out.println("found match between " + viewField + " and " + propertyField);
+                    log.debug("found match between " + viewField + " and " + propertyField);
                     String propertyName = propertyField.getName().substring(viewField.getName().length() + 1);
-                    System.out.println("propertyName=" + propertyName);
+                    log.debug("propertyName=" + propertyName);
 
                     //find proper method
                     Method propertyMethod = null;
@@ -38,11 +42,11 @@ public class Binder {
                         Class<?> currentClass = viewField.get(FXMLHolder).getClass();
                         while ((propertyMethod == null) && (currentClass != null)) {
                             try {
-                                System.out.println("looking for textproperty method in " + currentClass.toString());
+                                log.debug("looking for textproperty method in " + currentClass.toString());
                                 propertyMethod = currentClass.getDeclaredMethod(propertyName);
                                 propertyMethodValue =  propertyMethod.invoke(viewField.get(FXMLHolder));
                             } catch (NoSuchMethodException e) {
-                                System.out.println(" not found ...");
+                                log.debug(" not found ...");
                                 currentClass = currentClass.getSuperclass();
                             }
                         }
@@ -53,13 +57,13 @@ public class Binder {
                     }
 
                     if (propertyMethod != null) {
-                        System.out.println("found property method!");
+                        log.debug("found property method!");
                         oldAccessible = propertyField.isAccessible();
                         try {
                             propertyField.setAccessible(true);
                             Object propertyValue = propertyField.get(propertyHolder);
                             if (propertyValue != null) {
-                                System.out.println("property value=" + propertyValue);
+                                log.debug("property value=" + propertyValue);
                                 Method bindingsMethod = Bindings.class.getDeclaredMethod("bindBidirectional", Property.class, Property.class);
                                 if (bindingsMethod != null) {
                                     bindingsMethod.invoke(null, propertyMethodValue, propertyField.get(propertyHolder));

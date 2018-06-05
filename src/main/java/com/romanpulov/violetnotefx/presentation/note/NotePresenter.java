@@ -9,8 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,7 +19,7 @@ import java.util.ResourceBundle;
  */
 public class NotePresenter  implements Initializable {
 
-    private static final Logger log = LoggerFactory.getLogger(NotePresenter.class);
+    private static final Logger log = Logger.getLogger(NotePresenter.class);
 
     @FXML
     private ComboBox<PassCategoryFX> categoryComboBox;

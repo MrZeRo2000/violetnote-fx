@@ -12,6 +12,7 @@ import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
+import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
@@ -25,9 +26,9 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.log4j.Logger;
 
+import javax.security.auth.callback.Callback;
 import java.io.File;
 import java.net.URL;
 import java.util.Optional;
@@ -39,7 +40,7 @@ import java.util.concurrent.Executors;
  * Created by 4540 on 22.02.2016.
  */
 public class CategoryNotesPresenter implements Initializable {
-    private static final Logger log = LoggerFactory.getLogger(CategoryNotesPresenter.class);
+    private static final Logger log = Logger.getLogger(CategoryNotesPresenter.class);
 
     @FXML
     private AnchorPane rootContainer;
@@ -217,6 +218,23 @@ public class CategoryNotesPresenter implements Initializable {
                         setText(item.getDisplayValue());
                     }
                 }
+        });
+
+        // table row factory
+        notesTableView.setRowFactory(tv -> {
+            final TableRow<PassNoteFX> row = new TableRow<>();
+            final ContextMenu contextMenu = new ContextMenu();
+            final MenuItem moveMenuItem = new MenuItem("Move");
+            moveMenuItem.setOnAction((event) -> {
+
+            });
+            contextMenu.getItems().add(moveMenuItem);
+            row.contextMenuProperty().bind(
+                    Bindings.when(row.emptyProperty())
+                            .then((ContextMenu)null)
+                            .otherwise(contextMenu)
+            );
+            return row;
         });
 
         // double click handling
