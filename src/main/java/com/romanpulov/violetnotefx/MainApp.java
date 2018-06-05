@@ -3,10 +3,8 @@ package com.romanpulov.violetnotefx;
 import com.romanpulov.violetnotefx.Presentation.categorynotes.CategoryNotesModel;
 import com.romanpulov.violetnotefx.Presentation.categorynotes.CategoryNotesStage;
 import javafx.application.Application;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.apache.log4j.Logger;
-
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class MainApp extends Application {
 
     public void start(Stage stage) throws Exception {
         List<String> params = getParameters().getRaw();
-        log.debug("params:" + params.toString());
+        log.info("params:" + params.toString());
 
         CategoryNotesStage categoryNotesStage = new CategoryNotesStage();
         categoryNotesStage.createStage();
