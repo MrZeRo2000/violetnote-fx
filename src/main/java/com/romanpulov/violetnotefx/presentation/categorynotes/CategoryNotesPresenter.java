@@ -13,8 +13,9 @@ import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
 import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,7 +29,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import org.apache.log4j.Logger;
 
-import javax.security.auth.callback.Callback;
 import java.io.File;
 import java.net.URL;
 import java.util.Optional;
@@ -104,6 +104,7 @@ public class CategoryNotesPresenter implements Initializable {
 
     private IntegerProperty treeViewLastItemIndexProperty = new SimpleIntegerProperty(0);
     private IntegerProperty notesTableLastItemIndexProperty = new SimpleIntegerProperty(0);
+    private StringProperty treeViewSelectedCategoryNameProperty = new SimpleStringProperty();
 
     private ProgressNode progressNode;
 
@@ -225,16 +226,45 @@ public class CategoryNotesPresenter implements Initializable {
             final TableRow<PassNoteFX> row = new TableRow<>();
             final ContextMenu contextMenu = new ContextMenu();
             final MenuItem moveMenuItem = new MenuItem("Move");
-            moveMenuItem.setOnAction((event) -> {
+            final Menu moveMenu = new Menu("Move to category");
 
+            //categoryTreeView.getSelectionModel().selectedItemProperty().
+            //notesTableView.getSelectionModel().selectedItemProperty()
+
+            //notesTableView.getSelectionModel().selectedItemProperty().getValue().getCategoryProperty()
+
+            //categoryTreeView.getSelectionModel().selectedIndexProperty()
+
+            categoryNotesModel.getPassCategoryData().forEach(passCategoryFX -> {
+                MenuItem categoryMenuItem = new MenuItem(passCategoryFX.getCategoryName());
+                categoryMenuItem.visibleProperty().bind(
+                        treeViewSelectedCategoryNameProperty.isNotEqualTo(categoryMenuItem.textProperty())
+                );
+                categoryMenuItem.setOnAction((event -> {
+                    log.debug("Selected tree item:" + categoryTreeView.getSelectionModel().selectedItemProperty().getValue().getValue().getCategoryNameProperty().getValue());
+                    log.debug("Selected menu text property:" + ((MenuItem)event.getSource()).textProperty().getValue());
+                }));
+
+                moveMenu.getItems().add(categoryMenuItem);
+                //passCategoryFX.getCategoryName()
+            });
+
+            moveMenuItem.setOnAction((event) -> {
+                log.debug(((MenuItem)event.getSource()).getText());
+                log.debug("Selected tree item:" + categoryTreeView.getSelectionModel().selectedItemProperty().getValue().getValue().getCategoryNameProperty());
             });
             contextMenu.getItems().add(moveMenuItem);
+            contextMenu.getItems().add(moveMenu);
             row.contextMenuProperty().bind(
                     Bindings.when(row.emptyProperty())
                             .then((ContextMenu)null)
                             .otherwise(contextMenu)
             );
             return row;
+        });
+
+        categoryTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            treeViewSelectedCategoryNameProperty.setValue(newValue.getValue().getCategoryName());
         });
 
         // double click handling
@@ -246,6 +276,8 @@ public class CategoryNotesPresenter implements Initializable {
                 NoteStage.createReadOnly(editNote).showModal();
             }
         });
+
+        //notesTableView.getSelectionModel().selectedItemProperty()
 
         //enter key
         notesTableView.setOnKeyPressed((event -> {
