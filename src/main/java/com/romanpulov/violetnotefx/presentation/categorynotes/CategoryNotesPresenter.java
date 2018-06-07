@@ -12,6 +12,7 @@ import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
+import com.sun.istack.internal.NotNull;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.beans.value.ChangeListener;
@@ -31,10 +32,12 @@ import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.net.URL;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 /**
  * Created by 4540 on 22.02.2016.
@@ -155,9 +158,59 @@ public class CategoryNotesPresenter implements Initializable {
         treeViewLastItemIndexProperty.setValue(lastItemIndex);
     }
 
+    private void setTreeViewCellFactory() {
+        categoryTreeView.setCellFactory((tv) ->
+                new TreeCell<PassCategoryFX>() {
+                    @Override
+                    protected void updateItem(PassCategoryFX item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if ((empty) || (item == null)) {
+                            setText(null);
+                        } else {
+                            setText(item.getDisplayValue());
+                        }
+                    }
+                });
+    }
+
     private void loadTable(PassCategoryFX category) {
         notesTableView.setItems(categoryNotesModel.getPassNoteData(category));
         notesTableLastItemIndexProperty.setValue(notesTableView.getItems().size() - 1);
+    }
+
+    private void setTableRowFactory() {
+        notesTableView.setRowFactory(tv -> {
+            final TableRow<PassNoteFX> row = new TableRow<>();
+            final ContextMenu contextMenu = new ContextMenu();
+            final Menu moveMenu = new Menu("Move to category");
+
+            //add last
+            PassCategoryFX lastPassCategoryFX = categoryNotesModel.findChildPassCategoryName(null, categoryNotesModel.getLastUpdateCategoryName());
+            if (lastPassCategoryFX != null) {
+                MenuItem lastPassCategoryMenuItem = createCategoryMenuItem(lastPassCategoryFX);
+                moveMenu.getItems().add(lastPassCategoryMenuItem);
+            }
+
+            categoryNotesModel.getPassCategoryData().filtered(passCategoryFX -> !passCategoryFX.equals(lastPassCategoryFX)).forEach(passCategoryFX -> {
+                MenuItem categoryMenuItem = createCategoryMenuItem(passCategoryFX);
+                moveMenu.getItems().add(categoryMenuItem);
+            });
+
+            /*
+            categoryNotesModel.getPassCategoryData().forEach(passCategoryFX -> {
+                MenuItem categoryMenuItem = createCategoryMenuItem(passCategoryFX);
+                moveMenu.getItems().add(categoryMenuItem);
+            });
+            */
+
+            contextMenu.getItems().add(moveMenu);
+            row.contextMenuProperty().bind(
+                    Bindings.when(row.emptyProperty())
+                            .then((ContextMenu)null)
+                            .otherwise(contextMenu)
+            );
+            return row;
+        });
     }
 
     @Override
@@ -207,64 +260,13 @@ public class CategoryNotesPresenter implements Initializable {
         }));
 
         // cell factory
+        setTreeViewCellFactory();
 
-        categoryTreeView.setCellFactory((tv) ->
-            new TreeCell<PassCategoryFX>() {
-                @Override
-                protected void updateItem(PassCategoryFX item, boolean empty) {
-                    super.updateItem(item, empty);
-                    if ((empty) || (item == null)) {
-                        setText(null);
-                    } else {
-                        setText(item.getDisplayValue());
-                    }
-                }
-        });
-
-        // table row factory
-        notesTableView.setRowFactory(tv -> {
-            final TableRow<PassNoteFX> row = new TableRow<>();
-            final ContextMenu contextMenu = new ContextMenu();
-            final MenuItem moveMenuItem = new MenuItem("Move");
-            final Menu moveMenu = new Menu("Move to category");
-
-            //categoryTreeView.getSelectionModel().selectedItemProperty().
-            //notesTableView.getSelectionModel().selectedItemProperty()
-
-            //notesTableView.getSelectionModel().selectedItemProperty().getValue().getCategoryProperty()
-
-            //categoryTreeView.getSelectionModel().selectedIndexProperty()
-
-            categoryNotesModel.getPassCategoryData().forEach(passCategoryFX -> {
-                MenuItem categoryMenuItem = new MenuItem(passCategoryFX.getCategoryName());
-                categoryMenuItem.visibleProperty().bind(
-                        treeViewSelectedCategoryNameProperty.isNotEqualTo(categoryMenuItem.textProperty())
-                );
-                categoryMenuItem.setOnAction((event -> {
-                    log.debug("Selected tree item:" + categoryTreeView.getSelectionModel().selectedItemProperty().getValue().getValue().getCategoryNameProperty().getValue());
-                    log.debug("Selected menu text property:" + ((MenuItem)event.getSource()).textProperty().getValue());
-                }));
-
-                moveMenu.getItems().add(categoryMenuItem);
-                //passCategoryFX.getCategoryName()
-            });
-
-            moveMenuItem.setOnAction((event) -> {
-                log.debug(((MenuItem)event.getSource()).getText());
-                log.debug("Selected tree item:" + categoryTreeView.getSelectionModel().selectedItemProperty().getValue().getValue().getCategoryNameProperty());
-            });
-            contextMenu.getItems().add(moveMenuItem);
-            contextMenu.getItems().add(moveMenu);
-            row.contextMenuProperty().bind(
-                    Bindings.when(row.emptyProperty())
-                            .then((ContextMenu)null)
-                            .otherwise(contextMenu)
-            );
-            return row;
-        });
+        setTableRowFactory();
 
         categoryTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            treeViewSelectedCategoryNameProperty.setValue(newValue.getValue().getCategoryName());
+            if (newValue != null)
+                treeViewSelectedCategoryNameProperty.setValue(newValue.getValue().getCategoryName());
         });
 
         // double click handling
@@ -308,6 +310,41 @@ public class CategoryNotesPresenter implements Initializable {
                 handleSearchFocusChange(searchTextField.getScene().getFocusOwner());
             }
         });
+    }
+
+    private MenuItem createCategoryMenuItem(@NotNull PassCategoryFX passCategoryFX) {
+        MenuItem categoryMenuItem = new MenuItem(passCategoryFX.getCategoryName());
+        categoryMenuItem.setUserData(passCategoryFX);
+        categoryMenuItem.visibleProperty().bind(
+                treeViewSelectedCategoryNameProperty.isNotEqualTo(categoryMenuItem.textProperty())
+        );
+        categoryMenuItem.setOnAction(event -> {
+            Object userData = ((MenuItem) event.getSource()).getUserData();
+            if (userData instanceof PassCategoryFX) {
+                PassCategoryFX selectedCategory = (PassCategoryFX) userData;
+                List<PassNoteFX> selectedList = notesTableView.getSelectionModel().getSelectedItems();
+
+                if ((selectedList != null) && (selectedList.size() > 0)) {
+                    PassCategoryFX oldSelectedCategory = selectedList.get(0).getCategory();
+
+                    categoryNotesModel.notesUpdateCategory(selectedList, selectedCategory);
+
+                    loadTreeView();
+
+                    //to navigate to new position
+                    Optional<TreeItem<PassCategoryFX>> categoryItem =
+                            categoryTreeView.getRoot().getChildren().stream().filter(
+                                    obj -> obj.getValue().equals(oldSelectedCategory)
+                            ).findFirst();
+
+                    categoryItem.ifPresent((consumer) -> {
+                        categoryTreeView.getSelectionModel().select(consumer);
+                    });
+                }
+            }
+        });
+
+        return categoryMenuItem;
     }
 
     private boolean checkUnsavedData() {

@@ -140,6 +140,12 @@ public class CategoryNotesModel {
         return loadFileType;
     }
 
+    private String lastUpdateCategoryName;
+
+    public String getLastUpdateCategoryName() {
+        return lastUpdateCategoryName;
+    }
+
     public final class PassDataReader {
         private final PassData passData;
 
@@ -427,5 +433,12 @@ public class CategoryNotesModel {
 
     public void noteMoveDown(PassNoteFX note) {
         listMoveDown(note, passNoteData);
+    }
+
+    public void notesUpdateCategory(List<PassNoteFX> noteList, PassCategoryFX categoryFX) {
+        noteList.forEach((action) -> {
+            action.getCategoryProperty().setValue(categoryFX);
+        });
+        lastUpdateCategoryName = categoryFX.getCategoryName();
     }
 }
