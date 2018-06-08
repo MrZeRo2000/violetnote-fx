@@ -176,8 +176,34 @@ public class CategoryNotesPresenter implements Initializable {
     private void loadTable(PassCategoryFX category) {
         notesTableView.setItems(categoryNotesModel.getPassNoteData(category));
         notesTableLastItemIndexProperty.setValue(notesTableView.getItems().size() - 1);
+        notesTableView.contextMenuProperty().bind(
+                Bindings.when(notesTableView.getSelectionModel().selectedItemProperty().isNull()).then((ContextMenu)null).otherwise(createTableContextMenu())
+        );
     }
 
+    private ContextMenu createTableContextMenu() {
+        final ContextMenu contextMenu = new ContextMenu();
+        final Menu moveMenu = new Menu("Move to category");
+
+        //add last
+        PassCategoryFX lastPassCategoryFX = categoryNotesModel.findChildPassCategoryName(null, categoryNotesModel.getLastUpdateCategoryName());
+        if (lastPassCategoryFX != null) {
+            MenuItem lastPassCategoryMenuItem = createCategoryMenuItem(lastPassCategoryFX);
+            moveMenu.getItems().add(lastPassCategoryMenuItem);
+        }
+
+        categoryNotesModel.getPassCategoryData().filtered(passCategoryFX -> !passCategoryFX.equals(lastPassCategoryFX)).forEach(passCategoryFX -> {
+            MenuItem categoryMenuItem = createCategoryMenuItem(passCategoryFX);
+            moveMenu.getItems().add(categoryMenuItem);
+        });
+
+        contextMenu.getItems().add(moveMenu);
+
+        return contextMenu;
+    }
+
+    /*
+    // another way to implement context menu for table
     private void setTableRowFactory() {
         notesTableView.setRowFactory(tv -> {
             final TableRow<PassNoteFX> row = new TableRow<>();
@@ -196,12 +222,6 @@ public class CategoryNotesPresenter implements Initializable {
                 moveMenu.getItems().add(categoryMenuItem);
             });
 
-            /*
-            categoryNotesModel.getPassCategoryData().forEach(passCategoryFX -> {
-                MenuItem categoryMenuItem = createCategoryMenuItem(passCategoryFX);
-                moveMenu.getItems().add(categoryMenuItem);
-            });
-            */
 
             contextMenu.getItems().add(moveMenu);
             row.contextMenuProperty().bind(
@@ -212,6 +232,7 @@ public class CategoryNotesPresenter implements Initializable {
             return row;
         });
     }
+    */
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -262,7 +283,7 @@ public class CategoryNotesPresenter implements Initializable {
         // cell factory
         setTreeViewCellFactory();
 
-        setTableRowFactory();
+        //setTableRowFactory();
 
         categoryTreeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null)
@@ -278,6 +299,7 @@ public class CategoryNotesPresenter implements Initializable {
                 NoteStage.createReadOnly(editNote).showModal();
             }
         });
+
 
         //notesTableView.getSelectionModel().selectedItemProperty()
 
