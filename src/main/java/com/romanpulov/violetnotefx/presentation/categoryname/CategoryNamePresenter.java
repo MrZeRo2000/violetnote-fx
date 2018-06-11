@@ -3,7 +3,6 @@ package com.romanpulov.violetnotefx.Presentation.categoryname;
 import com.romanpulov.violetnotefx.Core.annotation.Model;
 import com.romanpulov.violetnotefx.Core.annotation.ModelOperationType;
 import com.romanpulov.violetnotefx.Core.injection.Invoker;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -51,7 +50,7 @@ public class CategoryNamePresenter implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        categoryNameField.textProperty().bindBidirectional(categoryNameModel.categoryName);
+        //categoryNameField.textProperty().bindBidirectional(categoryNameModel.categoryName);
         okButton.disableProperty().bind(categoryNameField.textProperty().isEmpty());
     }
 }

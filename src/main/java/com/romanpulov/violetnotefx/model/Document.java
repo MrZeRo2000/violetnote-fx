@@ -1,13 +1,8 @@
 package com.romanpulov.violetnotefx.Model;
 
-import com.romanpulov.violetnotecore.Model.PassData;
-import com.romanpulov.violetnotecore.Processor.Exception.DataReadWriteException;
-import com.romanpulov.violetnotecore.Processor.PinsDataReader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,7 +11,7 @@ import java.util.Map;
  */
 public class Document {
     private final static String NEW_FILE_NAME = "New";
-    private StringProperty fileName = new SimpleStringProperty();
+    private final StringProperty fileName = new SimpleStringProperty();
 
     public enum FileType {FT_NONE, FT_IMPORT, FT_VNF}
 

@@ -12,11 +12,11 @@ public class MainApp extends Application {
 
     private static final Logger log = Logger.getLogger(MainApp.class);
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         launch(args);
     }
 
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         List<String> params = getParameters().getRaw();
         log.info("params:" + params.toString());
 

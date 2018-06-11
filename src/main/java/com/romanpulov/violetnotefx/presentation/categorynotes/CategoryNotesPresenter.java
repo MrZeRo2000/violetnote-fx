@@ -15,8 +15,6 @@ import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
 import com.sun.istack.internal.NotNull;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -37,7 +35,6 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 /**
  * Created by 4540 on 22.02.2016.
@@ -105,13 +102,13 @@ public class CategoryNotesPresenter implements Initializable {
     @Model
     private CategoryNotesModel categoryNotesModel;
 
-    private IntegerProperty treeViewLastItemIndexProperty = new SimpleIntegerProperty(0);
+    private final IntegerProperty treeViewLastItemIndexProperty = new SimpleIntegerProperty(0);
     private IntegerProperty notesTableLastItemIndexProperty = new SimpleIntegerProperty(0);
     private StringProperty treeViewSelectedCategoryNameProperty = new SimpleStringProperty();
 
     private ProgressNode progressNode;
 
-    ExecutorService executorService = Executors.newFixedThreadPool(1);
+    private ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     public void shutdownExecutorService() {
         executorService.shutdown();
@@ -314,8 +311,10 @@ public class CategoryNotesPresenter implements Initializable {
         }));
 
         categoryTreeView.setOnMouseClicked((event) -> {
-            if ((event != null) &&  (event.getClickCount() == 2))
-                categoryEditButtonClick(null);
+            PassCategoryFX editCategory;
+            if ((event != null) &&  (event.getClickCount() == 2) && ((editCategory = categoryTreeView.getSelectionModel().getSelectedItem().getValue()) != null))
+                //categoryEditButtonClick(null);
+                CategoryNameStage.createReadOnly(editCategory).showModal();
         });
 
         //search
@@ -359,9 +358,7 @@ public class CategoryNotesPresenter implements Initializable {
                                     obj -> obj.getValue().equals(oldSelectedCategory)
                             ).findFirst();
 
-                    categoryItem.ifPresent((consumer) -> {
-                        categoryTreeView.getSelectionModel().select(consumer);
-                    });
+                    categoryItem.ifPresent((treeItem) -> categoryTreeView.getSelectionModel().select(treeItem));
                 }
             }
         });
@@ -375,19 +372,20 @@ public class CategoryNotesPresenter implements Initializable {
 
     @FXML
     private void categoryAddButtonClick(ActionEvent event) {
-        CategoryNameStage categoryNameStage = new CategoryNameStage();
-        categoryNameStage.createStage();
+        CategoryNameStage categoryNameStage = CategoryNameStage.createForAdd(null);
         CategoryNameModel categoryNameModel = categoryNameStage.getModel();
         categoryNameStage.showModal();
 
         if (categoryNameModel.modalResult == ButtonType.CANCEL)
             return;
 
-        if (categoryNotesModel.findChildPassCategoryName(null, categoryNameModel.categoryName.getValue()) == null) {
-            categoryNotesModel.getCategoryData().add(new PassCategoryFX(null, categoryNameModel.categoryName.getValue()));
+        String categoryName = categoryNameModel.getPassCategoryFX().getCategoryName();
+
+        if (categoryNotesModel.findChildPassCategoryName(null, categoryName) == null) {
+            categoryNotesModel.getCategoryData().add(new PassCategoryFX(null, categoryName));
             loadTreeView();
         } else {
-            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + categoryNameModel.categoryName.getValue() + " already exists").buildAlert().showAndWait();
+            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + categoryName + " already exists").buildAlert().showAndWait();
         }
     }
 
@@ -413,19 +411,20 @@ public class CategoryNotesPresenter implements Initializable {
         TreeItem<PassCategoryFX> selectedTreeItem = categoryTreeView.getSelectionModel().getSelectedItem();
         PassCategoryFX selectedCategory = selectedTreeItem.getValue();
 
-        CategoryNameStage categoryNameStage = new CategoryNameStage();
-        categoryNameStage.createStage();
+
+        CategoryNameStage categoryNameStage = CategoryNameStage.createForEdit(null, selectedCategory);
         CategoryNameModel categoryNameModel = categoryNameStage.getModel();
-        categoryNameModel.categoryName.setValue(selectedCategory.getCategoryName());
         categoryNameStage.showModal();
 
         if (categoryNameModel.modalResult == ButtonType.CANCEL)
             return;
 
-        if (categoryNotesModel.findChildPassCategoryName(selectedCategory.getParentCategory(), categoryNameModel.categoryName.getValue()) != null) {
-            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + categoryNameModel.categoryName.getValue() + " already exists").buildAlert().showAndWait();
+        String categoryName = categoryNameModel.getPassCategoryFX().getCategoryName();
+
+        if (categoryNotesModel.findChildPassCategoryName(selectedCategory.getParentCategory(), categoryName) != null) {
+            new AlertDialogs.ErrorAlertBuilder().setContentText("Category " + categoryName + " already exists").buildAlert().showAndWait();
         } else {
-            selectedCategory.setCategoryName(categoryNameModel.categoryName.getValue());
+            selectedCategory.setCategoryName(categoryName);
             // invalidate tree view
             selectedTreeItem.setValue(null);
             selectedTreeItem.setValue(selectedCategory);
@@ -449,9 +448,11 @@ public class CategoryNotesPresenter implements Initializable {
     @FXML
     private void noteDeleteButtonClick(ActionEvent event) {
         Optional<ButtonType> result = new AlertDialogs.ConfirmationAlertBuilder().setContentText("Are you sure?").buildAlert().showAndWait();
-        if (result.get() == ButtonType.OK) {
-            categoryNotesModel.getPassNoteData().remove(notesTableView.getSelectionModel().getSelectedItem());
-        }
+        result.ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                categoryNotesModel.getPassNoteData().remove(notesTableView.getSelectionModel().getSelectedItem());
+            }
+        });
     }
 
     @FXML
@@ -506,7 +507,7 @@ public class CategoryNotesPresenter implements Initializable {
         boolean accept(File f, String message);
     }
 
-    public void processFile(File f, String initMasterPass, FilePassConsumer filePass, String processingMessage, String errorHeaderMessage, String errorContentMessage) {
+    private void processFile(File f, String initMasterPass, FilePassConsumer filePass, String processingMessage, String errorHeaderMessage, String errorContentMessage) {
 
         final String masterPass = initMasterPass == null ? MasterPassStage.queryMasterPass(f, null) : initMasterPass;
 
@@ -534,15 +535,15 @@ public class CategoryNotesPresenter implements Initializable {
         }
     }
 
-    public void loadVNF(File f) {
+    private void loadVNF(File f) {
         processFile(f, null, categoryNotesModel::loadFile, "Loading ...", "Error reading file: ", "Wrong password or invalid file");
     }
 
-    public void saveVNF(File f, String masterPass) {
+    private void saveVNF(File f, String masterPass) {
         processFile(f, masterPass, categoryNotesModel::saveFile, "Saving ...", "Error saving file: ", "See logs for details");
     }
 
-    public void importPINS(File f) {
+    private void importPINS(File f) {
         if (categoryNotesModel.importPINSFile(f)) {
             loadTreeView();
         }
@@ -563,7 +564,7 @@ public class CategoryNotesPresenter implements Initializable {
         }
     }
 
-    public void exportPINS(File f) {
+    private void exportPINS(File f) {
         categoryNotesModel.exportPINSFile(f);
     }
 
@@ -739,17 +740,6 @@ public class CategoryNotesPresenter implements Initializable {
                 notesTableView.requestFocus();
             }
         }
-
-        /*
-        TreeItem<PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
-        int selectedIndex = categoryTreeView.getSelectionModel().getSelectedIndex();
-
-        if ((selectedItem != null) && (selectedIndex > 0)) {
-            categoryNotesModel.categoryMoveUp(selectedItem.getValue());
-            loadTreeView();
-            categoryTreeView.getSelectionModel().select(selectedIndex - 1);
-        }
-        */
     }
 
     @FXML
@@ -765,16 +755,5 @@ public class CategoryNotesPresenter implements Initializable {
                 notesTableView.requestFocus();
             }
         }
-
-        /*
-        TreeItem<PassCategoryFX> selectedItem = categoryTreeView.getSelectionModel().getSelectedItem();
-        int selectedIndex = categoryTreeView.getSelectionModel().getSelectedIndex();
-
-        if ((selectedItem != null) && (selectedIndex < categoryTreeView.getRoot().getChildren().size() - 1)) {
-            categoryNotesModel.categoryMoveDown(selectedItem.getValue());
-            loadTreeView();
-            categoryTreeView.getSelectionModel().select(selectedIndex + 1);
-        }
-        */
     }
 }

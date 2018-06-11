@@ -11,7 +11,7 @@ import java.nio.file.StandardCopyOption;
  * Created by romanpulov on 06.04.2016.
  */
 public class FileHelper {
-    private static int FILE_KEEP_COPIES_COUNT = 5;
+    private static final int FILE_KEEP_COPIES_COUNT = 5;
     private static final String FILE_COPY_FORMAT = "%s.bak%02d";
     public static final String FILE_TEMP_EXTENSION = ".temp";
 

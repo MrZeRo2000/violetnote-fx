@@ -355,12 +355,7 @@ public class CategoryNotesModel {
 
         //rename temp file
         result = FileHelper.renameTempFile(tempFile.getPath());
-        if (!result)
-            return false;
-
-
-
-        return true;
+        return result;
     }
 
     private boolean saveFileInternal(File f, String masterPass) {
@@ -436,9 +431,7 @@ public class CategoryNotesModel {
     }
 
     public void notesUpdateCategory(List<PassNoteFX> noteList, PassCategoryFX categoryFX) {
-        noteList.forEach((action) -> {
-            action.getCategoryProperty().setValue(categoryFX);
-        });
+        noteList.forEach((noteFX) ->  noteFX.getCategoryProperty().setValue(categoryFX));
         lastUpdateCategoryName = categoryFX.getCategoryName();
     }
 }

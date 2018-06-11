@@ -34,7 +34,7 @@ public class NotePresenter  implements Initializable {
     private TextField passwordTextField;
 
     @FXML
-    private TextField passwordRetypeTextField;
+    private PasswordField passwordRetypeTextField;
 
     @FXML
     private TextField commentsTextField;

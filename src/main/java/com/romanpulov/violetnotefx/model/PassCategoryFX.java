@@ -12,6 +12,14 @@ public class PassCategoryFX {
     private final SimpleObjectProperty<PassCategoryFX> parentCategory;
     private final SimpleStringProperty categoryName;
 
+    public static PassCategoryFX newEmptyInstance(PassCategoryFX parentCategory) {
+        return new PassCategoryFX(parentCategory, null);
+    }
+
+    public static PassCategoryFX newInstance(PassCategoryFX parentCategory, PassCategoryFX category) {
+        return new PassCategoryFX(parentCategory, category.getCategoryName());
+    }
+
     public PassCategoryFX(PassCategoryFX parentCategory, String categoryName) {
         this.parentCategory = new SimpleObjectProperty<>(parentCategory);
         this.categoryName = new SimpleStringProperty(categoryName);

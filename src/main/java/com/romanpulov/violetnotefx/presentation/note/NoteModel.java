@@ -15,7 +15,7 @@ public class NoteModel {
 
     public ButtonType modalResult = ButtonType.CANCEL;
 
-    public final ObjectProperty<PassNoteFX> passNoteFX = new SimpleObjectProperty<>();
+    private final ObjectProperty<PassNoteFX> passNoteFX = new SimpleObjectProperty<>();
     private final ObservableList<PassCategoryFX> passCategoryData = FXCollections.observableArrayList();
 
     @BoundProperty
@@ -52,6 +52,7 @@ public class NoteModel {
 
     public void setPassNoteFX(PassNoteFX passNoteFX) {
         this.passNoteFX.setValue(passNoteFX);
+
         categoryComboBox_valueProperty.bindBidirectional(passNoteFX.getCategoryProperty());
         systemTextField_textProperty.bindBidirectional(passNoteFX.getSystemProperty());
         userTextField_textProperty.bindBidirectional(passNoteFX.getUserProperty());
@@ -59,6 +60,8 @@ public class NoteModel {
         commentsTextField_textProperty.bindBidirectional(passNoteFX.getCommentsProperty());
         customTextField_textProperty.bindBidirectional(passNoteFX.getCustomProperty());
         infoTextArea_textProperty.bindBidirectional(passNoteFX.getInfoProperty());
+
+        passwordRetypeTextField_textProperty.setValue(passNoteFX.getRealPasswordProperty().getValue());
     }
 
     public void setPassNoteFXReadOnly(PassNoteFX passNoteFX) {
