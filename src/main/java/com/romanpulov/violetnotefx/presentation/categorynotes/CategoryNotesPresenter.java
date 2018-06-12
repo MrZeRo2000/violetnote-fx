@@ -15,6 +15,7 @@ import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
 import com.sun.istack.internal.NotNull;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
+import javafx.collections.ListChangeListener;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -105,6 +106,7 @@ public class CategoryNotesPresenter implements Initializable {
     private final IntegerProperty treeViewLastItemIndexProperty = new SimpleIntegerProperty(0);
     private IntegerProperty notesTableLastItemIndexProperty = new SimpleIntegerProperty(0);
     private StringProperty treeViewSelectedCategoryNameProperty = new SimpleStringProperty();
+    private final IntegerProperty treeViewSelectedCountProperty = new SimpleIntegerProperty(0);
 
     private ProgressNode progressNode;
 
@@ -247,24 +249,26 @@ public class CategoryNotesPresenter implements Initializable {
                 categoryTreeView.getSelectionModel().selectedItemProperty().isNull().or(
                         categoryTreeView.getSelectionModel().selectedIndexProperty().isEqualTo(treeViewLastItemIndexProperty)));
 
+
+
         noteMoveUpButton.disableProperty().bind(
-                notesTableView.getSelectionModel().selectedItemProperty().isNull().or(
+                treeViewSelectedCountProperty.isNotEqualTo(1).or(
                         notesTableView.getSelectionModel().selectedIndexProperty().isEqualTo(0)
                 )
         );
         noteMoveDownButton.disableProperty().bind(
-                notesTableView.getSelectionModel().selectedItemProperty().isNull().or(
+                treeViewSelectedCountProperty.isNotEqualTo(1).or(
                         notesTableView.getSelectionModel().selectedIndexProperty().isEqualTo(notesTableLastItemIndexProperty)
                 )
         );
 
-
         //
         noteAddButton.disableProperty().bind(categoryTreeView.getSelectionModel().selectedItemProperty().isNull());
         noteDeleteButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
-        noteEditButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
-        noteDuplicateButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
-        notePasswordToClipboardButton.disableProperty().bind(notesTableView.getSelectionModel().selectedItemProperty().isNull());
+        noteEditButton.disableProperty().bind(treeViewSelectedCountProperty.isNotEqualTo(1));
+
+        noteDuplicateButton.disableProperty().bind(treeViewSelectedCountProperty.isNotEqualTo(1));
+        notePasswordToClipboardButton.disableProperty().bind(treeViewSelectedCountProperty.isNotEqualTo(1));
 
         fileSaveMenuItem.disableProperty().bind(categoryNotesModel.getInvalidatedData().not());
         fileSaveButton.disableProperty().bind(categoryNotesModel.getInvalidatedData().not());
@@ -309,6 +313,12 @@ public class CategoryNotesPresenter implements Initializable {
                 }
             }
         }));
+
+        notesTableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        notesTableView.getSelectionModel().getSelectedCells().addListener((ListChangeListener.Change<? extends TablePosition> c) -> {
+            treeViewSelectedCountProperty.setValue(notesTableView.getSelectionModel().getSelectedCells().size());
+            log.debug("Selected " + notesTableView.getSelectionModel().getSelectedCells().size() + " items in tableView");
+        });
 
         categoryTreeView.setOnMouseClicked((event) -> {
             PassCategoryFX editCategory;
@@ -450,7 +460,7 @@ public class CategoryNotesPresenter implements Initializable {
         Optional<ButtonType> result = new AlertDialogs.ConfirmationAlertBuilder().setContentText("Are you sure?").buildAlert().showAndWait();
         result.ifPresent(buttonType -> {
             if (buttonType == ButtonType.OK) {
-                categoryNotesModel.getPassNoteData().remove(notesTableView.getSelectionModel().getSelectedItem());
+                categoryNotesModel.getPassNoteData().removeAll(notesTableView.getSelectionModel().getSelectedItems());
             }
         });
     }
@@ -736,6 +746,7 @@ public class CategoryNotesPresenter implements Initializable {
             if (selectedIndex > 0) {
                 categoryNotesModel.noteMoveUp(selectedNote);
                 loadTable(selectedCategory.getValue());
+                notesTableView.getSelectionModel().clearSelection();
                 notesTableView.getSelectionModel().select(selectedIndex - 1);
                 notesTableView.requestFocus();
             }
@@ -751,6 +762,7 @@ public class CategoryNotesPresenter implements Initializable {
             if (selectedIndex < notesTableView.getItems().size() - 1) {
                 categoryNotesModel.noteMoveDown(selectedNote);
                 loadTable(selectedCategory.getValue());
+                notesTableView.getSelectionModel().clearSelection();
                 notesTableView.getSelectionModel().select(selectedIndex + 1);
                 notesTableView.requestFocus();
             }
