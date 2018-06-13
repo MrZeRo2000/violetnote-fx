@@ -12,7 +12,6 @@ import com.romanpulov.violetnotefx.Model.PassNoteFX;
 import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassStage;
 import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
 import com.romanpulov.violetnotefx.Presentation.note.NoteStage;
-import com.sun.istack.internal.NotNull;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.collections.ListChangeListener;
@@ -343,7 +342,7 @@ public class CategoryNotesPresenter implements Initializable {
         });
     }
 
-    private MenuItem createCategoryMenuItem(@NotNull PassCategoryFX passCategoryFX) {
+    private MenuItem createCategoryMenuItem(PassCategoryFX passCategoryFX) {
         MenuItem categoryMenuItem = new MenuItem(passCategoryFX.getCategoryName());
         categoryMenuItem.setUserData(passCategoryFX);
         categoryMenuItem.visibleProperty().bind(
