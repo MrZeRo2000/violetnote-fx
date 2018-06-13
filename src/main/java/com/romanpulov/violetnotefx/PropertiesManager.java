@@ -10,6 +10,7 @@ public class PropertiesManager {
     private static final String PROPERTIES_FILE_NAME;
     private static final String FILE_NAME = "config.properties";
     public static final String DOCUMENT_FILE_NAME = "document_file_name";
+    public static final String LOG_LEVEL = "log_level";
 
     private final Properties properties = new Properties();
     private boolean isModified = false;
