@@ -449,8 +449,11 @@ public class CategoryNotesPresenter implements Initializable {
         NoteModel noteModel = noteStage.getModel();
         noteStage.showModal();
 
-        if (noteModel.modalResult == ButtonType.OK) {
-            categoryNotesModel.getPassNoteData().add(noteModel.getPassNoteFX());
+        if ((noteModel.modalResult == ButtonType.OK) && (categoryNotesModel.getPassNoteData().add(noteModel.getPassNoteFX()))) {
+            TreeItem<PassCategoryFX> selectedCategory = categoryTreeView.getSelectionModel().getSelectedItem();
+            notesTableLastItemIndexProperty.setValue(notesTableView.getItems().size() - 1);
+            int newIndex = notesTableView.getItems().size() - 1;
+            selectNoteByIndex(newIndex);
         }
     }
 
@@ -460,6 +463,9 @@ public class CategoryNotesPresenter implements Initializable {
         result.ifPresent(buttonType -> {
             if (buttonType == ButtonType.OK) {
                 categoryNotesModel.getPassNoteData().removeAll(notesTableView.getSelectionModel().getSelectedItems());
+                notesTableLastItemIndexProperty.setValue(notesTableView.getItems().size() - 1);
+                int newIndex = notesTableView.getItems().size() - 1;
+                selectNoteByIndex(newIndex);
             }
         });
     }
@@ -705,6 +711,12 @@ public class CategoryNotesPresenter implements Initializable {
         }
     }
 
+    private void selectNoteByIndex(int selectedIndex) {
+        notesTableView.getSelectionModel().clearSelection();
+        notesTableView.getSelectionModel().select(selectedIndex);
+        notesTableView.requestFocus();
+    }
+
     @FXML
     private void searchAction(ActionEvent event) {
         performSearch();
@@ -743,11 +755,10 @@ public class CategoryNotesPresenter implements Initializable {
         if ((selectedCategory != null) && (selectedNote != null)) {
             int selectedIndex = notesTableView.getSelectionModel().getSelectedIndex();
             if (selectedIndex > 0) {
-                categoryNotesModel.noteMoveUp(selectedNote);
+                PassNoteFX prevNote = notesTableView.getItems().get(selectedIndex - 1);
+                categoryNotesModel.noteSwap(prevNote, selectedNote);
                 loadTable(selectedCategory.getValue());
-                notesTableView.getSelectionModel().clearSelection();
-                notesTableView.getSelectionModel().select(selectedIndex - 1);
-                notesTableView.requestFocus();
+                selectNoteByIndex(selectedIndex - 1);
             }
         }
     }
@@ -759,11 +770,10 @@ public class CategoryNotesPresenter implements Initializable {
         if ((selectedCategory != null) && (selectedNote != null)) {
             int selectedIndex = notesTableView.getSelectionModel().getSelectedIndex();
             if (selectedIndex < notesTableView.getItems().size() - 1) {
-                categoryNotesModel.noteMoveDown(selectedNote);
+                PassNoteFX nextNote = notesTableView.getItems().get(selectedIndex + 1);
+                categoryNotesModel.noteSwap(nextNote, selectedNote);
                 loadTable(selectedCategory.getValue());
-                notesTableView.getSelectionModel().clearSelection();
-                notesTableView.getSelectionModel().select(selectedIndex + 1);
-                notesTableView.requestFocus();
+                selectNoteByIndex(selectedIndex + 1);
             }
         }
     }

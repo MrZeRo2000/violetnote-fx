@@ -430,6 +430,10 @@ public class CategoryNotesModel {
         listMoveDown(note, passNoteData);
     }
 
+    public void noteSwap(PassNoteFX note1, PassNoteFX note2) {
+        Collections.swap(passNoteData, passNoteData.indexOf(note1), passNoteData.indexOf(note2));
+    }
+
     public void notesUpdateCategory(List<PassNoteFX> noteList, PassCategoryFX categoryFX) {
         noteList.forEach((noteFX) ->  noteFX.getCategoryProperty().setValue(categoryFX));
         lastUpdateCategoryName = categoryFX.getCategoryName();
