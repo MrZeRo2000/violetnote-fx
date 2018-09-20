@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.Presentation.categorynotes;
+package com.romanpulov.violetnotefx.presentation.categorynotes;
 
 import com.romanpulov.violetnotecore.AESCrypt.AESCryptException;
 import com.romanpulov.violetnotecore.AESCrypt.AESCryptService;
@@ -11,9 +11,9 @@ import com.romanpulov.violetnotecore.Processor.PinsDataWriter;
 import com.romanpulov.violetnotecore.Processor.XMLPassDataReader;
 import com.romanpulov.violetnotecore.Processor.XMLPassDataWriter;
 import com.romanpulov.violetnotefx.FileHelper;
-import com.romanpulov.violetnotefx.Model.Document;
-import com.romanpulov.violetnotefx.Model.PassCategoryFX;
-import com.romanpulov.violetnotefx.Model.PassNoteFX;
+import com.romanpulov.violetnotefx.model.Document;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
+import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.beans.InvalidationListener;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

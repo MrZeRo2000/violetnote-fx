@@ -1,6 +1,6 @@
-package com.romanpulov.violetnotefx.Presentation.masterpass;
+package com.romanpulov.violetnotefx.presentation.masterpass;
 
-import com.romanpulov.violetnotefx.Presentation.base.AppStage;
+import com.romanpulov.violetnotefx.presentation.base.AppStage;
 import javafx.scene.control.ButtonType;
 
 import java.io.File;

@@ -1,6 +1,6 @@
-package com.romanpulov.violetnotefx.Core.injection;
+package com.romanpulov.violetnotefx.core.injection;
 
-import com.romanpulov.violetnotefx.Core.annotation.BoundProperty;
+import com.romanpulov.violetnotefx.core.annotation.BoundProperty;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;

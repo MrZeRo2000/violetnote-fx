@@ -1,10 +1,10 @@
-package com.romanpulov.violetnotefx.Presentation.categorynotes;
+package com.romanpulov.violetnotefx.presentation.categorynotes;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import com.romanpulov.violetnotecore.Model.PassData;
 import com.romanpulov.violetnotecore.Model.PassNote;
-import com.romanpulov.violetnotefx.Model.PassCategoryFX;
-import com.romanpulov.violetnotefx.Model.PassNoteFX;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
+import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.Test;

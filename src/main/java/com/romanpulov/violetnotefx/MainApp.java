@@ -1,7 +1,7 @@
 package com.romanpulov.violetnotefx;
 
-import com.romanpulov.violetnotefx.Presentation.categorynotes.CategoryNotesModel;
-import com.romanpulov.violetnotefx.Presentation.categorynotes.CategoryNotesStage;
+import com.romanpulov.violetnotefx.presentation.categorynotes.CategoryNotesModel;
+import com.romanpulov.violetnotefx.presentation.categorynotes.CategoryNotesStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import org.apache.log4j.Level;

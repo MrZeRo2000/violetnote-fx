@@ -1,8 +1,8 @@
-package com.romanpulov.violetnotefx.Presentation.categorynotes;
+package com.romanpulov.violetnotefx.presentation.categorynotes;
 
-import com.romanpulov.violetnotefx.Model.Document;
-import com.romanpulov.violetnotefx.Presentation.DialogsHelper;
-import com.romanpulov.violetnotefx.Presentation.base.AppStage;
+import com.romanpulov.violetnotefx.model.Document;
+import com.romanpulov.violetnotefx.presentation.DialogsHelper;
+import com.romanpulov.violetnotefx.presentation.base.AppStage;
 import com.romanpulov.violetnotefx.PropertiesManager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;

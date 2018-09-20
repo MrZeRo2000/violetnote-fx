@@ -1,6 +1,6 @@
-package com.romanpulov.violetnotefx.Presentation;
+package com.romanpulov.violetnotefx.presentation;
 
-import com.romanpulov.violetnotefx.Core.dialogs.AlertDialogs;
+import com.romanpulov.violetnotefx.core.dialogs.AlertDialogs;
 import javafx.scene.control.ButtonType;
 
 import java.util.Optional;

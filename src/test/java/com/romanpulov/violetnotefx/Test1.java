@@ -2,7 +2,7 @@ package com.romanpulov.violetnotefx;
 
 import static org.junit.Assert.*;
 
-import com.romanpulov.violetnotefx.Presentation.masterpass.MasterPassView;
+import com.romanpulov.violetnotefx.presentation.masterpass.MasterPassView;
 import org.junit.Test;
 
 public class Test1 {

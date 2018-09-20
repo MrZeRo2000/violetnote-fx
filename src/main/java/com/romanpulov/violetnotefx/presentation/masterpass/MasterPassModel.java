@@ -1,6 +1,6 @@
-package com.romanpulov.violetnotefx.Presentation.masterpass;
+package com.romanpulov.violetnotefx.presentation.masterpass;
 
-import com.romanpulov.violetnotefx.Core.annotation.BoundProperty;
+import com.romanpulov.violetnotefx.core.annotation.BoundProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.ButtonType;

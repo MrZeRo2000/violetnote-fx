@@ -1,9 +1,9 @@
-package com.romanpulov.violetnotefx.Presentation.note;
+package com.romanpulov.violetnotefx.presentation.note;
 
-import com.romanpulov.violetnotefx.Core.annotation.Model;
-import com.romanpulov.violetnotefx.Core.annotation.ModelOperationType;
-import com.romanpulov.violetnotefx.Core.injection.Invoker;
-import com.romanpulov.violetnotefx.Model.PassCategoryFX;
+import com.romanpulov.violetnotefx.core.annotation.Model;
+import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.core.injection.Invoker;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;

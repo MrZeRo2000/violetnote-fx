@@ -1,7 +1,7 @@
-package com.romanpulov.violetnotefx.Presentation.categoryname;
+package com.romanpulov.violetnotefx.presentation.categoryname;
 
-import com.romanpulov.violetnotefx.Model.PassCategoryFX;
-import com.romanpulov.violetnotefx.Presentation.base.AppStage;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
+import com.romanpulov.violetnotefx.presentation.base.AppStage;
 
 /**
  * Created by rpulov on 14.03.2016.

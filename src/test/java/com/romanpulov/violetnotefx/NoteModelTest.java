@@ -1,7 +1,7 @@
 package com.romanpulov.violetnotefx;
 
-import com.romanpulov.violetnotefx.Model.PassCategoryFX;
-import com.romanpulov.violetnotefx.Presentation.note.NoteModel;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
+import com.romanpulov.violetnotefx.presentation.note.NoteModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.junit.Test;

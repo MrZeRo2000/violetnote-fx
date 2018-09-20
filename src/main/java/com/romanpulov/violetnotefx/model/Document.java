@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.Model;
+package com.romanpulov.violetnotefx.model;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;

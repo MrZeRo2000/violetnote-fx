@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.Core.presentation;
+package com.romanpulov.violetnotefx.core.presentation;
 
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

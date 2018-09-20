@@ -1,7 +1,7 @@
-package com.romanpulov.violetnotefx.Presentation.categoryname;
+package com.romanpulov.violetnotefx.presentation.categoryname;
 
-import com.romanpulov.violetnotefx.Core.annotation.BoundProperty;
-import com.romanpulov.violetnotefx.Model.PassCategoryFX;
+import com.romanpulov.violetnotefx.core.annotation.BoundProperty;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;

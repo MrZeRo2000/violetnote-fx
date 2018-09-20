@@ -1,4 +1,4 @@
-package com.romanpulov.violetnotefx.Model;
+package com.romanpulov.violetnotefx.model;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
 import javafx.beans.property.SimpleObjectProperty;

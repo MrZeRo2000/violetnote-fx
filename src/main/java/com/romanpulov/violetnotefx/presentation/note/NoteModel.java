@@ -1,8 +1,8 @@
-package com.romanpulov.violetnotefx.Presentation.note;
+package com.romanpulov.violetnotefx.presentation.note;
 
-import com.romanpulov.violetnotefx.Core.annotation.BoundProperty;
-import com.romanpulov.violetnotefx.Model.PassCategoryFX;
-import com.romanpulov.violetnotefx.Model.PassNoteFX;
+import com.romanpulov.violetnotefx.core.annotation.BoundProperty;
+import com.romanpulov.violetnotefx.model.PassCategoryFX;
+import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

@@ -1,6 +1,6 @@
-package com.romanpulov.violetnotefx.Presentation.masterpass;
+package com.romanpulov.violetnotefx.presentation.masterpass;
 
-import com.romanpulov.violetnotefx.Core.views.FXMLAbstractView;
+import com.romanpulov.violetnotefx.core.views.FXMLAbstractView;
 
 /**
  * Created by rpulov on 23.01.2016.

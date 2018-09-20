@@ -1,10 +1,10 @@
-package com.romanpulov.violetnotefx.Core.views;
+package com.romanpulov.violetnotefx.core.views;
 
-import com.romanpulov.violetnotefx.Core.annotation.Model;
-import com.romanpulov.violetnotefx.Core.annotation.ModelOperationType;
-import com.romanpulov.violetnotefx.Core.injection.Binder;
-import com.romanpulov.violetnotefx.Core.injection.Injector;
-import com.romanpulov.violetnotefx.Core.injection.Invoker;
+import com.romanpulov.violetnotefx.core.annotation.Model;
+import com.romanpulov.violetnotefx.core.annotation.ModelOperationType;
+import com.romanpulov.violetnotefx.core.injection.Binder;
+import com.romanpulov.violetnotefx.core.injection.Injector;
+import com.romanpulov.violetnotefx.core.injection.Invoker;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 

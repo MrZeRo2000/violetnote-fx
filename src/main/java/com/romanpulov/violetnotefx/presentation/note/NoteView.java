@@ -1,6 +1,6 @@
-package com.romanpulov.violetnotefx.Presentation.note;
+package com.romanpulov.violetnotefx.presentation.note;
 
-import com.romanpulov.violetnotefx.Core.views.FXMLAbstractView;
+import com.romanpulov.violetnotefx.core.views.FXMLAbstractView;
 
 /**
  * Created by rpulov on 01.03.2016.

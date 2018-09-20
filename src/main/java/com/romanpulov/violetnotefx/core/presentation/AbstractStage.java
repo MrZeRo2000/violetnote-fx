@@ -1,7 +1,7 @@
-package com.romanpulov.violetnotefx.Core.presentation;
+package com.romanpulov.violetnotefx.core.presentation;
 
-import com.romanpulov.violetnotefx.Core.injection.Injector;
-import com.romanpulov.violetnotefx.Core.views.FXMLAbstractView;
+import com.romanpulov.violetnotefx.core.injection.Injector;
+import com.romanpulov.violetnotefx.core.views.FXMLAbstractView;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
