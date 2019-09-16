@@ -12,3 +12,21 @@ mvn jfx:jar -DskipTests
 
 build ready to run package:
 mvn jfx:build-native
+
+=== Java 12 ===
+
+In IntelliJ Idea in run configuration add VM options:
+--module-path "path_to_javafx"\javafx-sdk-11.0.2\lib --add-modules javafx.controls,javafx.fxml
+
+Command line compile:
+mvn -e clean javafx:compile
+
+Command line build and run:
+mvn clean javafx:run
+
+Command line build shaded:
+mvn clean package
+
+Run:
+"path_to_jdk"\bin\java.exe -jar violetnote-fx.jar 
+
