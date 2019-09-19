@@ -26,11 +26,14 @@ Command line compile:
 mvn -e clean javafx:compile
 
 Command line build and run:
-mvn clean javafx:run
+  Ensure environment variables:
+    set path=C:\WinApp\jdk-12.0.2\;D:\prj\apache-maven-3.3.9\bin
+  mvn clean javafx:run
 
 Command line build shaded:
 mvn clean package
 
 Run:
 "path_to_jdk"\bin\java.exe -jar violetnote-fx.jar 
+
 
