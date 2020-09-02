@@ -1,6 +1,9 @@
-/target/
+/target
 *.iml
 /.idea/
 /classes/
 /data/test*.*
 /shade
+
+.gradle
+build/

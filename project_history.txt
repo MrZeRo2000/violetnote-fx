@@ -37,3 +37,10 @@ Run:
 "path_to_jdk"\bin\java.exe -jar violetnote-fx.jar 
 
 
+=== Gradle
+
+Command line run:
+gradlew run
+
+Command line build jar (output is in build\libs\):
+gradlew jar
