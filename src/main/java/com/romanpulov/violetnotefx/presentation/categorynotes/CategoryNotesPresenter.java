@@ -26,7 +26,8 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.net.URL;
@@ -40,7 +41,7 @@ import java.util.concurrent.Executors;
  * Created by 4540 on 22.02.2016.
  */
 public class CategoryNotesPresenter implements Initializable {
-    private static final Logger log = Logger.getLogger(CategoryNotesPresenter.class);
+    private static final Logger log = LogManager.getLogger(CategoryNotesPresenter.class);
 
     @FXML
     private AnchorPane rootContainer;
@@ -103,13 +104,13 @@ public class CategoryNotesPresenter implements Initializable {
     private CategoryNotesModel categoryNotesModel;
 
     private final IntegerProperty treeViewLastItemIndexProperty = new SimpleIntegerProperty(0);
-    private IntegerProperty notesTableLastItemIndexProperty = new SimpleIntegerProperty(0);
-    private StringProperty treeViewSelectedCategoryNameProperty = new SimpleStringProperty();
+    private final IntegerProperty notesTableLastItemIndexProperty = new SimpleIntegerProperty(0);
+    private final StringProperty treeViewSelectedCategoryNameProperty = new SimpleStringProperty();
     private final IntegerProperty treeViewSelectedCountProperty = new SimpleIntegerProperty(0);
 
     private ProgressNode progressNode;
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(1);
+    private final ExecutorService executorService = Executors.newFixedThreadPool(1);
 
     public void shutdownExecutorService() {
         executorService.shutdown();

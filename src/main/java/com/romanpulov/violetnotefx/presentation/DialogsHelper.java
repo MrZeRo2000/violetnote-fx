@@ -15,6 +15,6 @@ public class DialogsHelper {
                 .setDefaultButton(ButtonType.CANCEL)
                 .buildAlert()
                 .showAndWait();
-        return result.get().equals(ButtonType.OK);
+        return result.isPresent() && result.get().equals(ButtonType.OK);
     }
 }

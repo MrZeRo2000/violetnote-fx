@@ -18,7 +18,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'log4j:log4j:1.2.17'
+    implementation 'org.apache.logging.log4j:log4j-api:2.8'
+    implementation 'org.apache.logging.log4j:log4j-core:2.8'
     implementation 'com.romanpulov:violetnote-core:1.1-SNAPSHOT'
     testImplementation 'junit:junit:4.12'
 }

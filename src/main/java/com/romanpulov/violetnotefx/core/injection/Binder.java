@@ -4,7 +4,8 @@ import com.romanpulov.violetnotefx.core.annotation.BoundProperty;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.Property;
 import javafx.fxml.FXML;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public class Binder {
 
-    private static final Logger log = Logger.getLogger(Binder.class);
+    private static final Logger log = LogManager.getLogger(Binder.class);
 
     public static void bindFXMLProperties(Object FXMLHolder, Object propertyHolder) {
         List<Field> viewFields = Injector.getFieldsWithAnnotation(FXMLHolder.getClass(), FXML.class);

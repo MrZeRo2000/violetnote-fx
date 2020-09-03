@@ -7,7 +7,7 @@ import com.romanpulov.violetnotefx.PropertiesManager;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.When;
 import javafx.scene.input.KeyCode;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 
@@ -21,7 +21,7 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
     private void saveProperties() {
         PropertiesManager propertiesManager = PropertiesManager.getInstance();
         propertiesManager.setProperty(PropertiesManager.DOCUMENT_FILE_NAME, Document.getInstance().getFileName().getValue());
-        propertiesManager.setProperty(PropertiesManager.LOG_LEVEL, Logger.getLogger(CategoryNotesStage.class).getParent().getLevel().toString());
+        propertiesManager.setProperty(PropertiesManager.LOG_LEVEL, LogManager.getRootLogger().getLevel().toString());
         propertiesManager.save();
     }
 
@@ -88,8 +88,6 @@ public class CategoryNotesStage extends AppStage<CategoryNotesModel, CategoryNot
         }
         */
 
-        stage.setOnShown(e -> {
-            performStartup();
-        });
+        stage.setOnShown(e -> performStartup());
     }
 }

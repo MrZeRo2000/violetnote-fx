@@ -50,7 +50,7 @@ public class Document {
         this.masterPass = masterPass;
     }
 
-    private static Document ourInstance = new Document();
+    private static final Document ourInstance = new Document();
 
     public static Document getInstance() {
         return ourInstance;

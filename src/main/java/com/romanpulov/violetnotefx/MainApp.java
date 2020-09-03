@@ -4,14 +4,16 @@ import com.romanpulov.violetnotefx.presentation.categorynotes.CategoryNotesModel
 import com.romanpulov.violetnotefx.presentation.categorynotes.CategoryNotesStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.config.Configurator;
 
 import java.util.List;
 
 public class MainApp extends Application {
 
-    private static final Logger log = Logger.getLogger(MainApp.class);
+    private static final Logger log = LogManager.getLogger(MainApp.class);
 
     public static void main(String[] args) {
         launch(args);
@@ -27,7 +29,7 @@ public class MainApp extends Application {
         propertiesManager.load();
 
         // set up logger level
-        log.getParent().setLevel(Level.toLevel(propertiesManager.getProperty(PropertiesManager.LOG_LEVEL)));
+        Configurator.setRootLevel(Level.toLevel(propertiesManager.getProperty(PropertiesManager.LOG_LEVEL)));
 
         CategoryNotesStage categoryNotesStage = new CategoryNotesStage();
         categoryNotesStage.createStage();
