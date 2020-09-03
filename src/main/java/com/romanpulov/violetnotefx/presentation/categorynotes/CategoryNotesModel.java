@@ -1,15 +1,9 @@
 package com.romanpulov.violetnotefx.presentation.categorynotes;
 
 import com.romanpulov.violetnotecore.AESCrypt.AESCryptException;
-import com.romanpulov.violetnotecore.AESCrypt.AESCryptService;
-import com.romanpulov.violetnotecore.Model.PassCategory;
-import com.romanpulov.violetnotecore.Model.PassData;
-import com.romanpulov.violetnotecore.Model.PassNote;
+import com.romanpulov.violetnotecore.Model.*;
+import com.romanpulov.violetnotecore.Processor.*;
 import com.romanpulov.violetnotecore.Processor.Exception.DataReadWriteException;
-import com.romanpulov.violetnotecore.Processor.PinsDataReader;
-import com.romanpulov.violetnotecore.Processor.PinsDataWriter;
-import com.romanpulov.violetnotecore.Processor.XMLPassDataReader;
-import com.romanpulov.violetnotecore.Processor.XMLPassDataWriter;
 import com.romanpulov.violetnotefx.FileHelper;
 import com.romanpulov.violetnotefx.model.Document;
 import com.romanpulov.violetnotefx.model.PassCategoryFX;
@@ -146,68 +140,83 @@ public class CategoryNotesModel {
         return lastUpdateCategoryName;
     }
 
-    public final class PassDataReader {
-        private final PassData passData;
+    public final static class PassDataReader {
+        private final PassData2 passData2;
 
-        public PassDataReader(PassData passData) {
-            this.passData = passData;
+        private ObservableList<PassCategoryFX> passCategoryData;
+
+        public ObservableList<PassCategoryFX> getPassCategoryData() {
+            return passCategoryData;
         }
 
-        private PassCategoryFX findSourcePassCategory(PassCategory passCategory) {
-            for (PassCategoryFX p : passCategoryData) {
-                if (p.getSourcePassCategory().equals(passCategory))
-                    return p;
-            }
-            return null;
+        private ObservableList<PassNoteFX> passNoteData;
+
+        public ObservableList<PassNoteFX> getPassNoteData() {
+            return passNoteData;
         }
 
-        private ObservableList<PassCategoryFX> readCategoryData() {
-            ObservableList<PassCategoryFX> newPassCategoryData = FXCollections.observableArrayList();
-            passData.getPassCategoryList().stream().forEach((passCategory -> {
-                PassCategoryFX newPassCategoryFX = addPassCategoryFX(passCategory);
-                if (newPassCategoryFX != null){
-                    newPassCategoryData.add(newPassCategoryFX);
-                }
-            }));
-
-           return newPassCategoryData;
+        public PassDataReader(PassData2 passData) {
+            this.passData2 = passData;
         }
 
-        private ObservableList<PassNoteFX> readNoteData() {
-            ObservableList<PassNoteFX> newPassNoteData =  FXCollections.observableArrayList();
-            passData.getPassNoteList().stream().forEach((passNote)-> {
-                PassCategoryFX passCategoryFX = findSourcePassCategory(passNote.getPassCategory());
-                if (passCategoryFX != null)
-                    newPassNoteData.add(new PassNoteFX(passCategoryFX,
-                            passNote.getSystem(),
-                            passNote.getUser(),
-                            passNote.getPassword(),
-                            passNote.getComments(),
-                            passNote.getCustom(),
-                            passNote.getInfo()));
+        public void readPassData() {
+            passCategoryData = FXCollections.observableArrayList();
+            passNoteData =  FXCollections.observableArrayList();
+
+            passData2.getCategoryList().forEach(passCategory2 -> {
+                PassCategoryFX passCategoryFX = new PassCategoryFX(null, passCategory2.getCategoryName());
+                passCategoryData.add(passCategoryFX);
+
+                passCategory2.getNoteList().forEach(passNote2 -> {
+                    passNoteData.add(new PassNoteFX(
+                            passCategoryFX,
+                            passNote2.getSystem(),
+                            passNote2.getUser(),
+                            passNote2.getPassword(),
+                            passNote2.getUrl(),
+                            passNote2.getInfo()
+                    ));
+                });
             });
 
-            return newPassNoteData;
         }
+
     }
 
     public final class PassDataWriter {
-        public PassData writePassData() {
-            PassData data = new PassData();
-            List<PassCategory> passCategoryList = new ArrayList<>();
-            List<PassNote> passNoteList = new ArrayList<>();
-            data.setPassCategoryList(passCategoryList);
-            data.setPassNoteList(passNoteList);
+         private final ObservableList<PassNoteFX> passNoteData;
 
-            Map<PassCategoryFX, PassCategory> categoryData = new HashMap<>();
-            passCategoryData.stream().forEach((p) -> addCategoryData(categoryData, p));
-            categoryData.entrySet().stream().forEach((p) -> passCategoryList.add(p.getValue()));
+        public PassDataWriter(ObservableList<PassNoteFX> passNoteData) {
+            this.passNoteData = passNoteData;
+        }
 
-            passNoteData.stream().forEach((p) -> {
-                PassCategory category = categoryData.get(p.getCategory());
-                PassNote note = new PassNote(category, p.getSystem(), p.getUser(), p.getRealPassword(), p.getComments(), p.getCustom(), p.getInfo());
-                passNoteList.add(note);
+        public PassData2 writePassData() {
+            PassData2 data = new PassData2();
+            List<PassCategory2> passCategoryList = new ArrayList<>();
+            Map<PassCategoryFX, PassCategory2> categoryData = new HashMap<>();
+
+            passNoteData.forEach(passNoteFX -> {
+                // find category and add if not found
+                PassCategory2 passCategory2 = categoryData.get(passNoteFX.getCategory());
+                if (passCategory2 == null) {
+                    passCategory2 = new PassCategory2(passNoteFX.getCategoryName());
+                    passCategory2.setNoteList(new ArrayList<>());
+                    categoryData.put(passNoteFX.getCategory(), passCategory2);
+                }
+
+                // add note
+                passCategory2.getNoteList().add(new PassNote2(
+                        passNoteFX.getSystem(),
+                        passNoteFX.getUser(),
+                        passNoteFX.getPassword(),
+                        passNoteFX.getUrl(),
+                        passNoteFX.getInfo(),
+                        null,
+                        null
+                ));
             });
+
+            data.setCategoryList(passCategoryList);
 
             return data;
         }
@@ -243,16 +252,12 @@ public class CategoryNotesModel {
         return passNoteData;
     }
 
-    private PassCategoryFX addPassCategoryFX(PassCategory passCategory) {
-        PassCategory parentPassCategory = passCategory.getParentCategory();
-        if (parentPassCategory == null) {
-            PassCategoryFX newPassCategoryFX = new PassCategoryFX(null, passCategory.getCategoryName());
-            newPassCategoryFX.setSourcePassCategory(passCategory);
-            return newPassCategoryFX;
-        } else {
-            return addPassCategoryFX(passCategory);
-        }
+    private PassCategoryFX addPassCategoryFX(PassCategory2 passCategory2) {
+        PassCategoryFX newPassCategoryFX = new PassCategoryFX(null, passCategory2.getCategoryName());
+        newPassCategoryFX.setSourcePassCategory(passCategory2);
+        return newPassCategoryFX;
     }
+
 
     public PassCategoryFX findChildPassCategoryName(PassCategoryFX parentPassCategory, String categoryName) {
         for (PassCategoryFX p : passCategoryData) {
@@ -285,30 +290,26 @@ public class CategoryNotesModel {
     }
     */
 
-    private PassCategory addCategoryData(Map<PassCategoryFX, PassCategory> categoryData, PassCategoryFX categoryFX) {
-        PassCategory category = categoryData.get(categoryFX);
+    private PassCategory2 addCategoryData(Map<PassCategoryFX, PassCategory2> categoryData, PassCategoryFX categoryFX) {
+        PassCategory2 category = categoryData.get(categoryFX);
         if (category == null) {
             // create new systemTextField_textProperty if not exists
-            category = new PassCategory(categoryFX.getCategoryName());
-            // create and set parent systemTextField_textProperty
-            PassCategoryFX parentCategoryFX = categoryFX.getParentCategory();
-            if (parentCategoryFX != null) {
-                PassCategory parentPassCategory = addCategoryData(categoryData, parentCategoryFX);
-                category.setParentCategory(parentPassCategory);
-            }
+            category = new PassCategory2(categoryFX.getCategoryName());
             categoryData.put(categoryFX, category);
         }
         return category;
     }
 
-    public void readPassData(PassData passData) {
-        PassDataReader pdr = new PassDataReader(passData);
-        setPassCategoryData(pdr.readCategoryData());
-        setPassNoteData(pdr.readNoteData());
+    public void readPassData(PassData2 passData2) {
+        PassDataReader pdr = new PassDataReader(passData2);
+        pdr.readPassData();
+
+        setPassCategoryData(pdr.getPassCategoryData());
+        setPassNoteData(pdr.getPassNoteData());
     }
 
-    public PassData writePassData() {
-        return new PassDataWriter().writePassData();
+    public PassData2 writePassData() {
+        return new PassDataWriter(passNoteData).writePassData();
     }
 
     public ObservableList<PassCategoryFX> getCategoryData() {
@@ -321,9 +322,12 @@ public class CategoryNotesModel {
 
     public boolean loadFile(File f, String masterPass) {
         if (f.exists()) {
-            try (InputStream input = AESCryptService.generateCryptInputStream(new FileInputStream(f), masterPass)) {
-                PassData passData = (new XMLPassDataReader()).readStream(input);
-                readPassData(passData);
+            try (InputStream inputStream =new FileInputStream(f)) {
+
+                FilePassDataReaderV2 reader = new FilePassDataReaderV2(inputStream, masterPass);
+                PassData2 passData2 = reader.readFile();
+
+                readPassData(passData2);
 
                 return true;
             } catch (AESCryptException | IOException | DataReadWriteException e) {
@@ -359,10 +363,11 @@ public class CategoryNotesModel {
     }
 
     private boolean saveFileInternal(File f, String masterPass) {
-        try (OutputStream output = AESCryptService.generateCryptOutputStream(new FileOutputStream(f), masterPass)) {
-            PassData passData = writePassData();
+        try (OutputStream outputStream = new FileOutputStream(f)) {
+            PassData2 passData2 = writePassData();
 
-            (new XMLPassDataWriter(passData)).writeStream(output);
+            FilePassDataWriterV2 writer = new FilePassDataWriterV2(outputStream, masterPass, passData2);
+            writer.writeFile();
 
             return true;
         } catch (AESCryptException | IOException | DataReadWriteException e) {
@@ -376,7 +381,7 @@ public class CategoryNotesModel {
         PinsDataReader pinsReader = new PinsDataReader();
         try {
             passData = pinsReader.readStream(new FileInputStream(f));
-            readPassData(passData);
+            // readPassData(passData);
             invalidatedData.setValue(true);
             return true;
         } catch (DataReadWriteException | FileNotFoundException e) {
@@ -387,7 +392,8 @@ public class CategoryNotesModel {
 
     public boolean exportPINSFile(File f) {
         try (OutputStream output = new FileOutputStream(f)) {
-            PassData passData = writePassData();
+            // PassData passData = writePassData();
+            PassData passData = new PassData();
             (new PinsDataWriter()).writeStream(output, passData);
             output.flush();
             output.close();

@@ -15,39 +15,37 @@ public class PassNoteFX {
     private final SimpleStringProperty user;
     private final SimpleStringProperty password;
     private final SimpleStringProperty realPassword;
-    private final SimpleStringProperty comments;
-    private final SimpleStringProperty custom;
+    private final SimpleStringProperty url;
     private final SimpleStringProperty info;
 
     public static PassNoteFX newInstance(PassNoteFX passNoteFX) {
         return new PassNoteFX(
                 passNoteFX.getCategory(), passNoteFX.getSystem(), passNoteFX.getUser(), passNoteFX.getRealPassword(),
-                passNoteFX.getComments(), passNoteFX.getCustom(), passNoteFX.getInfo());
+                passNoteFX.getUrl(), passNoteFX.getInfo());
     }
 
     public static PassNoteFX newDuplicateInstance(PassNoteFX passNoteFX) {
         return new PassNoteFX(
-                passNoteFX.getCategory(), passNoteFX.getSystem(), passNoteFX.getUser(), null,
+                passNoteFX.getCategory(), passNoteFX.getSystem(), passNoteFX.getUser(),
                 null, null, null);
     }
 
     public static PassNoteFX newEmptyInstance(PassCategoryFX category) {
-        return new PassNoteFX(category, null, null, null, null, null, null);
+        return new PassNoteFX(category, null, null, null, null, null);
     }
 
     private PassNoteFX(PassCategoryFX category) {
-        this(category, null, null, null, null, null, null);
+        this(category, null, null, null, null, null);
     }
 
-    public PassNoteFX(PassCategoryFX category, String system, String user, String password, String comments, String custom, String info) {
+    public PassNoteFX(PassCategoryFX category, String system, String user, String password, String url, String info) {
         this.category = new SimpleObjectProperty<>(category);
         this.system = new SimpleStringProperty(system);
         this.user = new SimpleStringProperty(user);
         this.password = new SimpleStringProperty(password);
         this.realPassword = new SimpleStringProperty(password);
         this.password.bind(this.realPassword);
-        this.comments = new SimpleStringProperty(comments);
-        this.custom = new SimpleStringProperty(custom);
+        this.url = new SimpleStringProperty(url);
         this.info = new SimpleStringProperty(info);
     }
 
@@ -95,20 +93,12 @@ public class PassNoteFX {
         return realPassword;
     }
 
-    public String getComments() {
-        return comments.get();
+    public String getUrl() {
+        return url.get();
     }
 
-    public StringProperty getCommentsProperty() {
-        return comments;
-    }
-
-    public String getCustom() {
-        return custom.get();
-    }
-
-    public StringProperty getCustomProperty() {
-        return custom;
+    public StringProperty getUrlProperty() {
+        return url;
     }
 
     public String getInfo() {
@@ -122,6 +112,6 @@ public class PassNoteFX {
     @Override
     public String toString() {
         return "{systemTextField_textProperty = " + getCategory() + ", systemTextField_textProperty = " + getSystem() + ", user = " + getUser() + ", password = " + getPassword() +
-                ", comments = " + getComments() + ", custom = " + getCustom() + ", info = " + getInfo() + "}";
+                ", url = " + getUrl() + ", info = " + getInfo() + "}";
     }
 }

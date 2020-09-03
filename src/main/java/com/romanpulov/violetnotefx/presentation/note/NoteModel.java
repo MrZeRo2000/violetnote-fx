@@ -34,10 +34,7 @@ public class NoteModel {
     public final StringProperty userTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
-    public final StringProperty commentsTextField_textProperty = new SimpleStringProperty();
-
-    @BoundProperty
-    public final StringProperty customTextField_textProperty = new SimpleStringProperty();
+    public final StringProperty urlTextField_textProperty = new SimpleStringProperty();
 
     @BoundProperty
     public final StringProperty infoTextArea_textProperty = new SimpleStringProperty();
@@ -57,8 +54,7 @@ public class NoteModel {
         systemTextField_textProperty.bindBidirectional(passNoteFX.getSystemProperty());
         userTextField_textProperty.bindBidirectional(passNoteFX.getUserProperty());
         passwordTextField_textProperty.bindBidirectional(passNoteFX.getRealPasswordProperty());
-        commentsTextField_textProperty.bindBidirectional(passNoteFX.getCommentsProperty());
-        customTextField_textProperty.bindBidirectional(passNoteFX.getCustomProperty());
+        urlTextField_textProperty.bindBidirectional(passNoteFX.getUrlProperty());
         infoTextArea_textProperty.bindBidirectional(passNoteFX.getInfoProperty());
 
         passwordRetypeTextField_textProperty.setValue(passNoteFX.getRealPasswordProperty().getValue());
@@ -71,8 +67,7 @@ public class NoteModel {
         userTextField_textProperty.bind(passNoteFX.getUserProperty());
         passwordTextField_textProperty.bind(passNoteFX.getRealPasswordProperty());
         passwordRetypeTextField_textProperty.bind(new SimpleStringProperty());
-        commentsTextField_textProperty.bind(passNoteFX.getCommentsProperty());
-        customTextField_textProperty.bind(passNoteFX.getCustomProperty());
+        urlTextField_textProperty.bind(passNoteFX.getUrlProperty());
         infoTextArea_textProperty.bind(passNoteFX.getInfoProperty());
     }
 

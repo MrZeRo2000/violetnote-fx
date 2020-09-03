@@ -64,15 +64,15 @@ public class CategoryNotesModelTest {
         //notes
         ObservableList<PassNoteFX> passNoteData = FXCollections.observableArrayList();
         passNoteData.add(
-          new PassNoteFX(category1, "System 1", "User 1", "Password 1", null, null, null)
+          new PassNoteFX(category1, "System 1", "User 1", "Password 1", null, null)
         );
 
         passNoteData.add(
-                new PassNoteFX(category1, "System 1", "User 2", "Password 2", null, null, null)
+                new PassNoteFX(category1, "System 1", "User 2", "Password 2", null, null)
         );
 
         passNoteData.add(
-                new PassNoteFX(category2, "System 2", "User 6", "Password 4", null, null, null)
+                new PassNoteFX(category2, "System 2", "User 6", "Password 4", null, null)
         );
 
         model.setPassCategoryData(passCategoryData);

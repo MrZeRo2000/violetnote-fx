@@ -1,6 +1,7 @@
 package com.romanpulov.violetnotefx.model;
 
 import com.romanpulov.violetnotecore.Model.PassCategory;
+import com.romanpulov.violetnotecore.Model.PassCategory2;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -8,7 +9,7 @@ import javafx.beans.property.SimpleStringProperty;
  * Created by rpulov on 01.03.2016.
  */
 public class PassCategoryFX {
-    private PassCategory sourcePassCategory;
+    private PassCategory2 sourcePassCategory;
     private final SimpleObjectProperty<PassCategoryFX> parentCategory;
     private final SimpleStringProperty categoryName;
 
@@ -25,7 +26,7 @@ public class PassCategoryFX {
         this.categoryName = new SimpleStringProperty(categoryName);
     }
 
-    public void setSourcePassCategory(PassCategory passCategory) {
+    public void setSourcePassCategory(PassCategory2 passCategory) {
         sourcePassCategory = passCategory;
     }
 
@@ -41,7 +42,7 @@ public class PassCategoryFX {
         return parentCategory.get();
     }
 
-    public PassCategory getSourcePassCategory() {
+    public PassCategory2 getSourcePassCategory() {
         return sourcePassCategory;
     }
 
