@@ -9,7 +9,6 @@ import javafx.beans.property.SimpleStringProperty;
  * Created by rpulov on 01.03.2016.
  */
 public class PassCategoryFX {
-    private PassCategory2 sourcePassCategory;
     private final SimpleObjectProperty<PassCategoryFX> parentCategory;
     private final SimpleStringProperty categoryName;
 
@@ -26,10 +25,6 @@ public class PassCategoryFX {
         this.categoryName = new SimpleStringProperty(categoryName);
     }
 
-    public void setSourcePassCategory(PassCategory2 passCategory) {
-        sourcePassCategory = passCategory;
-    }
-
     public String getCategoryName() {
         return categoryName.get();
     }
@@ -40,10 +35,6 @@ public class PassCategoryFX {
 
     public PassCategoryFX getParentCategory() {
         return parentCategory.get();
-    }
-
-    public PassCategory2 getSourcePassCategory() {
-        return sourcePassCategory;
     }
 
     public String getDisplayValue() {
@@ -64,6 +55,6 @@ public class PassCategoryFX {
 
     @Override
     public String toString() {
-        return "{sourcePassCategory =  " + sourcePassCategory.toString() + ", parentCategory = " + parentCategory.get() + ", categoryName = " + categoryName.get() + "}";
+        return "{parentCategory = " + parentCategory.get() + ", categoryName = " + categoryName.get() + "}";
     }
 }

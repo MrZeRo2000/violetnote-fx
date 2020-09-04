@@ -202,6 +202,7 @@ public class CategoryNotesModel {
                     passCategory2 = new PassCategory2(passNoteFX.getCategoryName());
                     passCategory2.setNoteList(new ArrayList<>());
                     categoryData.put(passNoteFX.getCategory(), passCategory2);
+                    passCategoryList.add(passCategory2);
                 }
 
                 // add note
@@ -251,13 +252,6 @@ public class CategoryNotesModel {
     public ObservableList<PassNoteFX> getPassNoteData() {
         return passNoteData;
     }
-
-    private PassCategoryFX addPassCategoryFX(PassCategory2 passCategory2) {
-        PassCategoryFX newPassCategoryFX = new PassCategoryFX(null, passCategory2.getCategoryName());
-        newPassCategoryFX.setSourcePassCategory(passCategory2);
-        return newPassCategoryFX;
-    }
-
 
     public PassCategoryFX findChildPassCategoryName(PassCategoryFX parentPassCategory, String categoryName) {
         for (PassCategoryFX p : passCategoryData) {

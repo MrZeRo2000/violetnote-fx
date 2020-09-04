@@ -1,8 +1,6 @@
 package com.romanpulov.violetnotefx.presentation.categorynotes;
 
-import com.romanpulov.violetnotecore.Model.PassCategory;
-import com.romanpulov.violetnotecore.Model.PassData;
-import com.romanpulov.violetnotecore.Model.PassNote;
+import com.romanpulov.violetnotecore.Model.*;
 import com.romanpulov.violetnotefx.model.PassCategoryFX;
 import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.collections.FXCollections;
@@ -25,30 +23,30 @@ public class CategoryNotesModelTest {
         assertEquals(1, 1);
     }
 
-    public PassData createSamplePassData() {
-        PassData data = new PassData();
+    public PassData2 createSamplePassData() {
+        PassData2 data = new PassData2();
 
         // systemTextField_textProperty
-        List<PassCategory> passCategoryList = new ArrayList<>();
-        PassCategory category1 = new PassCategory("Category 1");
-        PassCategory category2 = new PassCategory("Category 2");
-        passCategoryList.addAll(Arrays.asList(category1, category2));
+        PassCategory2 category1 = new PassCategory2("Category 1");
+        category1.setNoteList(new ArrayList<>());
+        PassCategory2 category2 = new PassCategory2("Category 2");
+        category2.setNoteList(new ArrayList<>());
+        List<PassCategory2> passCategoryList = new ArrayList<>(Arrays.asList(category1, category2));
 
         //notes
-        List<PassNote> passNoteList = new ArrayList<>();
-        passNoteList.add(
-          new PassNote(category1, "System 1", "User 1", "Password 1", null, null, null)
-        );
-        passNoteList.add(
-                new PassNote(category1, "System 1", "User 2", "Password 2", null, null, null)
+        category1.getNoteList().add(
+          new PassNote2("System 1", "User 1", "Password 1", null, null, null, null)
         );
 
-        passNoteList.add(
-                new PassNote(category2, "System 2", "User 6", "Password 4", null, null, null)
+        category1.getNoteList().add(
+                new PassNote2("System 1", "User 2", "Password 2", null, null, null, null)
         );
 
-        data.setPassCategoryList(passCategoryList);
-        data.setPassNoteList(passNoteList);
+        category2.getNoteList().add(
+                new PassNote2( "System 2", "User 6", "Password 4", null, null, null, null)
+        );
+
+        data.setCategoryList(passCategoryList);
         return data;
     }
 
@@ -84,33 +82,37 @@ public class CategoryNotesModelTest {
     @Test
     public void testLoadPassData() {
         CategoryNotesModel model = new CategoryNotesModel();
-        PassData passData = createSamplePassData();
+        PassData2 passData2 = createSamplePassData();
 
-        model.readPassData(passData);
+        model.readPassData(passData2);
 
-        assertEquals(passData.getPassCategoryList().size(), model.getPassCategoryData().size());
-        assertEquals(passData.getPassNoteList().size(), model.getPassNoteData().size());
+        assertEquals(passData2.getCategoryList().size(), model.getPassCategoryData().size());
+
+        int passNoteListSize = passData2.getCategoryList().stream().mapToInt(passCategory2 -> passCategory2.getNoteList().size()).sum();
+
+        assertEquals(passNoteListSize, model.getPassNoteData().size());
 
         System.out.println("LoadPassData");
         System.out.println("Categories");
-        model.getPassCategoryData().stream().forEach(System.out::println);
+        model.getPassCategoryData().forEach(System.out::println);
         System.out.println("Notes");
-        model.getPassNoteData().stream().forEach(System.out::println);
+        model.getPassNoteData().forEach(System.out::println);
     }
 
     @Test
     public void testSavePassData() {
         CategoryNotesModel model = createSampleCategoryNotesModel();
-        PassData passData = model.writePassData();
+        PassData2 passData2 = model.writePassData();
 
-        assertEquals(model.getPassCategoryData().size(), passData.getPassCategoryList().size());
-        assertEquals(model.getPassNoteData().size(), passData.getPassNoteList().size());
+        assertEquals(model.getPassCategoryData().size(), passData2.getCategoryList().size());
+        assertEquals(model.getPassNoteData().size(),
+                passData2.getCategoryList().stream().mapToInt(passCategory2 -> passCategory2.getNoteList().size()).sum());
 
         System.out.println("SavePassData");
         System.out.println("Categories");
-        passData.getPassCategoryList().stream().forEach(System.out::println);
+        passData2.getCategoryList().forEach(System.out::println);
         System.out.println("Notes");
-        passData.getPassNoteList().stream().forEach(System.out::println);
+        passData2.getCategoryList().forEach(passCategory2 -> passCategory2.getNoteList().forEach(System.out::println));
     }
 
 }
