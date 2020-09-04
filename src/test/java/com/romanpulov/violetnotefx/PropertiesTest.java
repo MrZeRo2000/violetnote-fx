@@ -1,11 +1,7 @@
 package com.romanpulov.violetnotefx;
 
-import org.junit.Test;
-
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by 4540 on 10.03.2016.

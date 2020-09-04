@@ -5,13 +5,13 @@ import com.romanpulov.violetnotefx.model.PassCategoryFX;
 import com.romanpulov.violetnotefx.model.PassNoteFX;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Created by 4540 on 25.02.2016.

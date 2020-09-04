@@ -1,9 +1,15 @@
 package com.romanpulov.violetnotefx.presentation.categorynotes;
 
 import com.romanpulov.violetnotecore.AESCrypt.AESCryptException;
-import com.romanpulov.violetnotecore.Model.*;
-import com.romanpulov.violetnotecore.Processor.*;
+import com.romanpulov.violetnotecore.Model.PassCategory2;
+import com.romanpulov.violetnotecore.Model.PassData;
+import com.romanpulov.violetnotecore.Model.PassData2;
+import com.romanpulov.violetnotecore.Model.PassNote2;
 import com.romanpulov.violetnotecore.Processor.Exception.DataReadWriteException;
+import com.romanpulov.violetnotecore.Processor.PinsDataReader;
+import com.romanpulov.violetnotecore.Processor.PinsDataWriter;
+import com.romanpulov.violetnotecore.Service.PassData2ReaderServiceV2;
+import com.romanpulov.violetnotecore.Service.PassData2WriterServiceV2;
 import com.romanpulov.violetnotefx.FileHelper;
 import com.romanpulov.violetnotefx.model.Document;
 import com.romanpulov.violetnotefx.model.PassCategoryFX;
@@ -183,7 +189,7 @@ public class CategoryNotesModel {
 
     }
 
-    public final class PassDataWriter {
+    public static final class PassDataWriter {
          private final ObservableList<PassNoteFX> passNoteData;
 
         public PassDataWriter(ObservableList<PassNoteFX> passNoteData) {
@@ -317,9 +323,7 @@ public class CategoryNotesModel {
     public boolean loadFile(File f, String masterPass) {
         if (f.exists()) {
             try (InputStream inputStream =new FileInputStream(f)) {
-
-                FilePassDataReaderV2 reader = new FilePassDataReaderV2(inputStream, masterPass);
-                PassData2 passData2 = reader.readFile();
+                PassData2 passData2 = PassData2ReaderServiceV2.fromStream(inputStream, masterPass);
 
                 readPassData(passData2);
 
@@ -360,8 +364,7 @@ public class CategoryNotesModel {
         try (OutputStream outputStream = new FileOutputStream(f)) {
             PassData2 passData2 = writePassData();
 
-            FilePassDataWriterV2 writer = new FilePassDataWriterV2(outputStream, masterPass, passData2);
-            writer.writeFile();
+            PassData2WriterServiceV2.toStream(outputStream, masterPass, passData2);
 
             return true;
         } catch (AESCryptException | IOException | DataReadWriteException e) {

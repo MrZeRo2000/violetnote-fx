@@ -4,13 +4,11 @@ import com.romanpulov.violetnotefx.model.PassCategoryFX;
 import com.romanpulov.violetnotefx.presentation.note.NoteModel;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 /**
  * Created by 4540 on 04.03.2016.
@@ -48,6 +46,4 @@ public class NoteModelTest {
         findCategory =  model.getPassCategoryFXFromPathDisplayValue("Category 888");
         assertNull(findCategory);
     }
-
-
 }

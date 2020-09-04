@@ -1,13 +1,10 @@
 package com.romanpulov.violetnotefx;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.io.FileOutputStream;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by romanpulov on 06.04.2016.

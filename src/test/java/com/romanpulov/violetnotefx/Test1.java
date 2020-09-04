@@ -1,9 +1,9 @@
 package com.romanpulov.violetnotefx;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import com.romanpulov.violetnotefx.presentation.masterpass.MasterPassView;
-import org.junit.Test;
 
 public class Test1 {
 
