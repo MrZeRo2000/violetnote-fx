@@ -215,7 +215,7 @@ public class CategoryNotesModel {
                 passCategory2.getNoteList().add(new PassNote2(
                         passNoteFX.getSystem(),
                         passNoteFX.getUser(),
-                        passNoteFX.getPassword(),
+                        passNoteFX.getRealPassword(),
                         passNoteFX.getUrl(),
                         passNoteFX.getInfo(),
                         null,
