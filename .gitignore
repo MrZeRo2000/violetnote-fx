@@ -2,8 +2,12 @@
 *.iml
 /.idea/
 /classes/
-/data/test*.*
 /shade
 
 .gradle
 build/
+
+# ignore all except files used in tests
+/data/test*.*
+!/data/test1.vnf
+!/data/test1_v2.vnf
